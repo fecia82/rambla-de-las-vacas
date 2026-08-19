@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Romance sonámbulo</title>
+<meta name="description" content="El Romance sonambulo de Federico Garcia Lorca, del Romancero gitano (1928), leido de arriba abajo: el verde satura y se desangra, y las barandas suben mientras tu bajas.">
+<meta property="og:title" content="Romance sonámbulo">
+<meta property="og:description" content="Verde que te quiero verde. Lorca, Romancero gitano, 1928.">
+<meta name="theme-color" content="#081310">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23081310'/><circle cx='16' cy='16' r='7' fill='none' stroke='%235FBE86' stroke-width='2'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap">
+
+<style>
+/* ============================================================
+   ROMANCE SONÁMBULO · Federico García Lorca, 1928
+   dominio público en España desde el 1 de enero de 2017
+
+   dos ideas, las dos del propio poema:
+   1. el verde es el protagonista, no el adorno: satura en los
+      estribillos y se desangra en el trato de los compadres.
+   2. el poema sube mientras el lector baja. las barandas cruzan
+      la pantalla hacia arriba: bajar se lee como trepar.
+   ============================================================ */
+:root{
+  --tinta:#081310;        /* fondo, verdinegro ahogado */
+  --verde:#2E6B4B;        /* el verde en reposo */
+  --verde-alto:#5FBE86;   /* solo en los estribillos */
+  --plata:#DDE7E0;        /* ojos de fría plata */
+  --escarcha:#8AA396;
+  --herida:#A03526;       /* aparece una sola vez: las rosas morenas */
+  --luna:#EFF5EC;
+  --linea:#1B3227;
+  --verso:"Cormorant Garamond","Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+  --titulo:"Bodoni Moda",Didot,"Bodoni MT","Times New Roman",Georgia,serif;
+  --ease:cubic-bezier(.22,.61,.21,1);
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html{background:var(--tinta)}
+body{
+  font-family:var(--verso); background:var(--tinta); color:var(--plata);
+  font-size:19px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+a{color:inherit}
+a:focus-visible{outline:2px solid var(--verde-alto); outline-offset:4px}
+
+/* el lienzo de color, detrás de todo: lo mueve el scroll */
+#tinte{position:fixed; inset:0; z-index:-2; background:var(--tinta); will-change:background}
+#velo{position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:0; will-change:opacity;
+  background:radial-gradient(120% 80% at 50% 30%, rgba(95,190,134,.20), rgba(8,19,16,0) 70%)}
+
+/* ---------- rótulos ---------- */
+.rot{font-family:var(--titulo); font-size:11.5px; font-weight:400; letter-spacing:.36em;
+  text-transform:uppercase; color:var(--escarcha)}
+
+/* ---------- portada ---------- */
+.port{min-height:100vh; min-height:100svh; display:flex; flex-direction:column; justify-content:center;
+  padding:12vh 30px 14vh; position:relative}
+.port-in{max-width:1100px; margin:0 auto; width:100%; will-change:transform,opacity}
+.port h1{font-family:var(--titulo); font-weight:900; font-size:clamp(46px,10.5vw,150px);
+  line-height:.92; letter-spacing:-.025em; text-wrap:balance; margin:5vh 0 0}
+.port h1 em{font-style:italic; font-weight:400; color:var(--verde-alto)}
+.port .autor{margin-top:5vh; font-size:clamp(17px,2vw,22px); color:var(--escarcha); font-style:italic}
+.port .autor b{font-style:normal; font-weight:400; color:var(--plata)}
+.baja{position:absolute; left:50%; bottom:30px; transform:translateX(-50%)}
+.baja span{display:block; width:1px; height:52px; background:var(--escarcha); margin:12px auto 0;
+  animation:baja 2.6s var(--ease) infinite}
+@keyframes baja{0%{transform:scaleY(0); transform-origin:top} 45%{transform:scaleY(1); transform-origin:top}
+  55%{transform:scaleY(1); transform-origin:bottom} 100%{transform:scaleY(0); transform-origin:bottom}}
+
+/* ---------- el verso ---------- */
+.tirada{padding:18vh 30px; position:relative}
+.tirada .col{max-width:540px; margin:0 auto}
+.v{
+  display:block; font-size:clamp(19px,2.5vw,30px); font-weight:300; line-height:1.72;
+  text-indent:-1.15em; padding-left:1.15em;      /* sangría francesa: el verso largo no se corta */
+  opacity:0; will-change:opacity,transform;
+}
+.v.dice{font-style:italic}                        /* lo que hablan los compadres */
+.v.sangra{color:var(--herida)}                    /* el único rojo de la página */
+.hueco{height:5vh}
+
+/* ---------- estribillo a pantalla completa ---------- */
+.estri{position:relative}
+.estri .fija{position:sticky; top:0; height:100vh; height:100svh; display:grid; place-items:center;
+  overflow:hidden; padding:0 26px}
+.estri p{font-family:var(--titulo); font-weight:700; text-align:center; text-wrap:balance;
+  font-size:clamp(38px,8.4vw,120px); line-height:1.02; letter-spacing:-.03em;
+  will-change:transform,opacity}
+.estri em{font-style:italic; font-weight:400}
+.estri .verde{color:var(--verde-alto)}
+
+/* ---------- la subida: barandas que cruzan hacia arriba ---------- */
+.subida{position:relative}
+.subida .fija{position:sticky; top:0; height:100vh; height:100svh; overflow:hidden;
+  display:grid; place-items:center}
+.barandas{position:absolute; inset:0; pointer-events:none}
+.baranda{position:absolute; left:-8%; width:116%; height:38px; will-change:transform,opacity}
+.baranda::before{content:""; position:absolute; left:0; right:0; top:0; height:3px;
+  background:linear-gradient(90deg,rgba(47,95,73,0),#4C8A69 12%,#4C8A69 88%,rgba(47,95,73,0))}
+.baranda::after{content:""; position:absolute; left:0; right:0; top:3px; bottom:0;
+  background:repeating-linear-gradient(90deg,#26523E 0 2px,rgba(0,0,0,0) 2px 38px);
+  background-position-x:var(--fase,0px);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.subida .dentro{position:relative; z-index:2; width:100%; max-width:540px; padding:0 26px}
+.rastro{position:absolute; top:0; bottom:0; left:50%; width:210px; transform:translateX(-50%);
+  background:linear-gradient(180deg,rgba(160,53,38,0),rgba(160,53,38,.42));
+  filter:blur(34px); opacity:0; will-change:opacity}
+
+/* ---------- el aljibe ---------- */
+.aljibe{position:relative}
+.aljibe .fija{position:sticky; top:0; height:100vh; height:100svh; overflow:hidden;
+  display:flex; flex-direction:column; justify-content:center; align-items:center; padding:0 26px}
+.agua{position:absolute; left:0; right:0; bottom:0; height:52%;
+  background:linear-gradient(180deg,#12362A,#081C16 60%,#04100C)}
+.agua::after{content:""; position:absolute; inset:0;
+  background:repeating-linear-gradient(180deg,rgba(221,231,224,.06) 0 1px,rgba(221,231,224,0) 1px 13px)}
+.carambano{position:absolute; left:50%; top:0; width:2px; transform:translateX(-50%);
+  background:linear-gradient(180deg,rgba(239,245,236,0),var(--luna)); will-change:height}
+.gitana{position:relative; z-index:2; text-align:center; width:100%; max-width:540px}
+.reflejo{position:relative; z-index:2; text-align:center; width:100%; max-width:540px; margin-top:26px;
+  color:var(--verde-alto); opacity:.42; transform:scaleY(-1); will-change:transform}
+.reflejo .v{font-size:clamp(17px,2vw,24px)}
+
+/* ---------- los guardias ---------- */
+.guardias{position:relative}
+.guardias .fija{position:sticky; top:0; height:100vh; height:100svh; display:grid; place-items:center;
+  overflow:hidden; padding:0 26px}
+.puerta{position:absolute; inset:0; opacity:0; will-change:opacity; pointer-events:none;
+  background:radial-gradient(125% 95% at 50% 50%, rgba(160,53,38,0) 38%, rgba(160,53,38,.9) 100%)}
+.golpe{position:relative; z-index:2; text-align:center; max-width:880px; will-change:transform}
+.golpe .v{font-size:clamp(24px,4.2vw,52px); font-family:var(--titulo); font-weight:700;
+  line-height:1.14; text-indent:0; padding-left:0}
+
+/* ---------- cierre ---------- */
+.cierre{padding:22vh 30px 12vh}
+.cierre .col{max-width:540px; margin:0 auto; text-align:center}
+.cierre .v{text-indent:0; padding-left:0; font-size:clamp(22px,3.2vw,38px)}
+
+/* ---------- pie ---------- */
+footer{padding:10vh 30px 8vh; border-top:1px solid var(--linea)}
+footer .in{max-width:640px; margin:0 auto}
+footer p{font-size:15px; line-height:1.7; color:var(--escarcha); margin-top:16px}
+footer p:first-of-type{margin-top:22px}
+footer b{color:var(--plata); font-weight:400}
+footer a{text-decoration:none; border-bottom:1px solid var(--linea)}
+footer a:hover{border-bottom-color:var(--verde-alto)}
+
+/* ---------- sin motor: el poema entero, quieto y legible ---------- */
+html:not(.mo) .v{opacity:1; transform:none}
+html:not(.mo) .estri .fija,
+html:not(.mo) .subida .fija,
+html:not(.mo) .aljibe .fija,
+html:not(.mo) .guardias .fija{position:static; height:auto; padding:14vh 26px}
+html:not(.mo) .estri,html:not(.mo) .subida,html:not(.mo) .aljibe,html:not(.mo) .guardias{height:auto!important}
+html:not(.mo) .barandas,html:not(.mo) .rastro,html:not(.mo) .carambano,html:not(.mo) .puerta{display:none}
+html:not(.mo) .reflejo{display:none}
+html:not(.mo) #velo{display:none}
+
+/* ---------- móvil ---------- */
+@media (max-width:640px){
+  body{font-size:18px}
+  .port{padding:11vh 22px 13vh}
+  .tirada{padding:13vh 22px}
+  .cierre{padding:16vh 22px 10vh}
+  footer{padding:9vh 22px 7vh}
+}
+@media (prefers-reduced-motion:reduce){ .baja span{animation:none} }
+</style>
+</head>
+<body>
+<script>document.documentElement.className += " js" + (matchMedia("(prefers-reduced-motion:reduce)").matches ? "" : " mo");</script>
+
+<div id="tinte"></div>
+<div id="velo"></div>
+
+<!-- ================= PORTADA ================= -->
+<header class="port" id="port">
+  <div class="port-in" id="portIn">
+    <p class="rot">Romancero gitano · 1928</p>
+    <h1>Romance<br><em>sonámbulo</em></h1>
+    <p class="autor"><b>Federico García Lorca</b><br>A Gloria Giner y a Fernando de los Ríos</p>
+  </div>
+  <p class="baja rot">Baja<span></span></p>
+</header>
+
+<!-- ================= ESTRIBILLO I ================= -->
+<section class="estri" style="height:200vh" aria-label="Estribillo">
+  <div class="fija">
+    <p id="estri1">Verde que te quiero <em class="verde">verde</em>.</p>
+  </div>
+</section>
+
+<!-- ================= TIRADA I ================= -->
+<section class="tirada">
+  <div class="col">
+    <span class="v">Verde viento. Verdes ramas.</span>
+    <span class="v">El barco sobre la mar</span>
+    <span class="v">y el caballo en la montaña.</span>
+    <span class="v">Con la sombra en la cintura</span>
+    <span class="v">ella sueña en su baranda,</span>
+    <span class="v">verde carne, pelo verde,</span>
+    <span class="v">con ojos de fría plata.</span>
+    <span class="v">Verde que te quiero verde.</span>
+    <span class="v">Bajo la luna gitana,</span>
+    <span class="v">las cosas la están mirando</span>
+    <span class="v">y ella no puede mirarlas.</span>
+  </div>
+</section>
+
+<!-- ================= TIRADA II ================= -->
+<section class="tirada">
+  <div class="col">
+    <span class="v">Verde que te quiero verde.</span>
+    <span class="v">Grandes estrellas de escarcha</span>
+    <span class="v">vienen con el pez de sombra</span>
+    <span class="v">que abre el camino del alba.</span>
+    <span class="v">La higuera frota su viento</span>
+    <span class="v">con la lija de sus ramas,</span>
+    <span class="v">y el monte, gato garduño,</span>
+    <span class="v">eriza sus pitas agrias.</span>
+    <span class="v">¿Pero quién vendrá? ¿Y por dónde...?</span>
+    <span class="v">Ella sigue en su baranda,</span>
+    <span class="v">verde carne, pelo verde,</span>
+    <span class="v">soñando en la mar amarga.</span>
+  </div>
+</section>
+
+<!-- ================= EL TRATO ================= -->
+<section class="tirada" aria-label="El trato de los compadres">
+  <div class="col">
+    <span class="v dice">—Compadre, quiero cambiar</span>
+    <span class="v dice">mi caballo por su casa,</span>
+    <span class="v dice">mi montura por su espejo,</span>
+    <span class="v dice">mi cuchillo por su manta.</span>
+    <span class="v dice">Compadre, vengo sangrando,</span>
+    <span class="v dice">desde los puertos de Cabra.</span>
+    <span class="hueco"></span>
+    <span class="v dice">—Si yo pudiera, mocito,</span>
+    <span class="v dice">ese trato se cerraba.</span>
+    <span class="v dice">Pero yo ya no soy yo,</span>
+    <span class="v dice">ni mi casa es ya mi casa.</span>
+    <span class="hueco"></span>
+    <span class="v dice">—Compadre, quiero morir</span>
+    <span class="v dice">decentemente en mi cama.</span>
+    <span class="v dice">De acero, si puede ser,</span>
+    <span class="v dice">con las sábanas de holanda.</span>
+    <span class="v dice">¿No ves la herida que tengo</span>
+    <span class="v dice">desde el pecho a la garganta?</span>
+    <span class="hueco"></span>
+    <span class="v dice sangra">—Trescientas rosas morenas</span>
+    <span class="v dice sangra">lleva tu pechera blanca.</span>
+    <span class="v dice sangra">Tu sangre rezuma y huele</span>
+    <span class="v dice sangra">alrededor de tu faja.</span>
+    <span class="v dice">Pero yo ya no soy yo,</span>
+    <span class="v dice">ni mi casa es ya mi casa.</span>
+    <span class="hueco"></span>
+    <span class="v dice">—Dejadme subir al menos</span>
+    <span class="v dice">hasta las altas barandas,</span>
+    <span class="v dice">¡dejadme subir!, dejadme,</span>
+    <span class="v dice">hasta las verdes barandas.</span>
+    <span class="v dice">Barandales de la luna</span>
+    <span class="v dice">por donde retumba el agua.</span>
+  </div>
+</section>
+
+<!-- ================= LA SUBIDA ================= -->
+<section class="subida" id="subida" style="height:340vh" aria-label="La subida a las barandas">
+  <div class="fija">
+    <div class="barandas" id="barandas" aria-hidden="true"></div>
+    <div class="rastro" id="rastro" aria-hidden="true"></div>
+    <div class="dentro">
+      <span class="v">Ya suben los dos compadres</span>
+      <span class="v">hacia las altas barandas.</span>
+      <span class="v">Dejando un rastro de sangre.</span>
+      <span class="v">Dejando un rastro de lágrimas.</span>
+      <span class="v">Temblaban en los tejados</span>
+      <span class="v">farolillos de hojalata.</span>
+      <span class="v">Mil panderos de cristal</span>
+      <span class="v">herían la madrugada.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ESTRIBILLO II ================= -->
+<section class="estri" style="height:180vh" aria-label="Estribillo">
+  <div class="fija">
+    <p id="estri2">Verde que te quiero <em class="verde">verde</em>,<br>verde viento, verdes ramas.</p>
+  </div>
+</section>
+
+<!-- ================= TIRADA IV ================= -->
+<section class="tirada">
+  <div class="col">
+    <span class="v">Los dos compadres subieron.</span>
+    <span class="v">El largo viento dejaba</span>
+    <span class="v">en la boca un raro gusto</span>
+    <span class="v">de hiel, de menta y de albahaca.</span>
+    <span class="hueco"></span>
+    <span class="v dice">—¡Compadre! ¿Dónde está, dime?</span>
+    <span class="v dice">¿Dónde está tu niña amarga?</span>
+    <span class="hueco"></span>
+    <span class="v dice">—¡Cuántas veces te esperó!</span>
+    <span class="v dice">¡Cuántas veces te esperara,</span>
+    <span class="v dice">cara fresca, negro pelo,</span>
+    <span class="v dice">en esta verde baranda!</span>
+  </div>
+</section>
+
+<!-- ================= EL ALJIBE ================= -->
+<section class="aljibe" id="aljibe" style="height:300vh" aria-label="El aljibe">
+  <div class="fija">
+    <span class="carambano" id="carambano" aria-hidden="true"></span>
+    <div class="agua" id="agua" aria-hidden="true"></div>
+    <div class="gitana" id="gitana">
+      <span class="v">Sobre el rostro del aljibe</span>
+      <span class="v">se mecía la gitana.</span>
+      <span class="v">Verde carne, pelo verde,</span>
+      <span class="v">con ojos de fría plata.</span>
+      <span class="v">Un carámbano de luna</span>
+      <span class="v">la sostiene sobre el agua.</span>
+    </div>
+    <div class="reflejo" id="reflejo" aria-hidden="true">
+      <span class="v">Verde carne, pelo verde,</span>
+      <span class="v">con ojos de fría plata.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LA NOCHE ================= -->
+<section class="tirada">
+  <div class="col">
+    <span class="v">La noche se puso íntima</span>
+    <span class="v">como una pequeña plaza.</span>
+  </div>
+</section>
+
+<!-- ================= LOS GUARDIAS ================= -->
+<section class="guardias" id="guardias" style="height:260vh" aria-label="Los guardias civiles">
+  <div class="fija">
+    <div class="puerta" id="puerta" aria-hidden="true"></div>
+    <div class="golpe" id="golpeTxt">
+      <span class="v">Guardias civiles borrachos</span>
+      <span class="v">en la puerta golpeaban.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CIERRE ================= -->
+<section class="cierre">
+  <div class="col">
+    <span class="v">Verde que te quiero verde.</span>
+    <span class="v">Verde viento. Verdes ramas.</span>
+    <span class="v">El barco sobre la mar.</span>
+    <span class="v">Y el caballo en la montaña.</span>
+  </div>
+</section>
+
+<!-- ================= PIE ================= -->
+<footer>
+  <div class="in">
+    <p class="rot">Sobre este texto</p>
+    <p><b>Romance sonámbulo</b>, de Federico García Lorca, del <b>Romancero gitano</b> (1928). Lorca murió en 1936 y en España los derechos de los autores fallecidos antes de 1987 caducan a los ochenta años, así que el libro es de <b>dominio público desde el 1 de enero de 2017</b>. El poema se reproduce entero, sin cortes.</p>
+    <p>El texto se ha cotejado con <a href="https://poemas.uned.es/poema/romance-sonambulo-federico-garcia-lorca/" rel="noopener">PoeMAS (UNED)</a> y la <a href="https://www.poetryfoundation.org/poems/161926/romance-sonambulo" rel="noopener">Poetry Foundation</a>. Las versiones que circulan por internet arrastran erratas y saltos de tirada; si vas a citarlo, conviene contrastar contra una edición en papel — sobre todo <em>«desde los puertos de Cabra»</em> y <em>«ese trato se cerraba»</em>, que aparecen alterados en más de un sitio.</p>
+    <p>La página no ilustra el poema: no hay ninguna fotografía. El color, el ascenso de las barandas y el temblor final salen de los propios versos.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var mo = document.documentElement.classList.contains("mo");
+
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  function easeO(t){ return 1-Math.pow(1-t,3); }
+
+  /* ---------- el color del fondo, parada a parada ----------
+     el verde sube en los estribillos y se desangra en el trato */
+  var TINTE = [
+    [0.00, [ 8,19,16]],   /* portada, verdinegro ahogado */
+    [0.09, [14,45,31]],   /* estribillo I */
+    [0.21, [ 9,24,18]],
+    [0.35, [21,15,13]],   /* el trato: el verde se retira */
+    [0.47, [10,26,19]],   /* dejadme subir */
+    [0.59, [17,55,37]],   /* estribillo II, el verde más alto */
+    [0.72, [ 6,23,19]],   /* el aljibe */
+    [0.86, [26,13,11]],   /* los guardias */
+    [1.00, [12,40,28]]    /* cierre: vuelve el verde */
+  ];
+  function tinte(t){
+    var i = 0;
+    while (i < TINTE.length-2 && t > TINTE[i+1][0]) i++;
+    var a = TINTE[i], b = TINTE[i+1];
+    var u = clamp((t-a[0])/(b[0]-a[0]), 0, 1);
+    return "rgb(" + Math.round(lerp(a[1][0],b[1][0],u)) + "," +
+                    Math.round(lerp(a[1][1],b[1][1],u)) + "," +
+                    Math.round(lerp(a[1][2],b[1][2],u)) + ")";
+  }
+  /* el velo verde respira en los estribillos y en el cierre */
+  function velo(t){
+    var picos = [0.09, 0.59, 1.0], o = 0;
+    for (var i=0;i<picos.length;i++) o = Math.max(o, clamp(1 - Math.abs(t-picos[i])/0.07, 0, 1));
+    return Math.pow(o, 1.5);
+  }
+
+  /* ---------- barandas: se generan y trepan en bucle ---------- */
+  (function(){
+    var b = document.getElementById("barandas");
+    if (!b) return;
+    var html = "";
+    for (var i=0;i<6;i++) html += '<span class="baranda" style="--fase:' + (i*11) + 'px"></span>';
+    b.innerHTML = html;
+  })();
+
+  /* ================== MOTOR DE SCRUB ================== */
+  var Y = 0, SY = 0, mods = [], versos = [];
+
+  function medir(){
+    mods = []; versos = [];
+    if (!mo) return;
+
+    var tinteEl = document.getElementById("tinte"), veloEl = document.getElementById("velo");
+    var portIn = document.getElementById("portIn");
+
+    /* color global: progreso del documento entero */
+    mods.push({ global:true, fn:function(t){
+      tinteEl.style.background = tinte(t);
+      veloEl.style.opacity = String(velo(t));
+    }});
+
+    /* portada */
+    mods.push({ el:document.body, top:0, h:innerHeight, fn:function(p){
+      portIn.style.opacity = String(clamp(1 - p*1.3, 0, 1));
+      portIn.style.transform = "translateY(" + (-p*46) + "px)";
+    }});
+
+    /* versos en flujo normal: se encienden al entrar, uno a uno */
+    document.querySelectorAll(".tirada .v, .cierre .v").forEach(function(v){
+      var r = v.getBoundingClientRect();
+      versos.push({ el:v, top:r.top + pageYOffset });
+    });
+
+    /* estribillos */
+    document.querySelectorAll(".estri").forEach(function(sc){
+      var p0 = sc.querySelector("p");
+      mods.push({ el:sc, fn:function(p){
+        var d = (p - 0.5) * 2;                       /* -1 .. 1 */
+        var vis = clamp(1 - Math.abs(d)*1.15, 0, 1);
+        p0.style.opacity = String(Math.pow(vis, 0.9));
+        p0.style.transform = "scale(" + (0.93 + 0.07*vis) + ") translateY(" + (d*-40) + "px)";
+      }});
+    });
+
+    /* la subida: barandas en bucle hacia arriba, rastro de sangre, versos */
+    var sub = document.getElementById("subida");
+    if (sub){
+      var bars = sub.querySelectorAll(".baranda"),
+          rastro = document.getElementById("rastro"),
+          vs = sub.querySelectorAll(".v"), n = bars.length;
+      mods.push({ el:sub, fn:function(p){
+        var h = sub.querySelector(".fija").clientHeight;
+        for (var i=0;i<n;i++){
+          /* el poema sube mientras el lector baja: la baranda cruza hacia arriba */
+          var y = ((i/n - p*1.15) % 1 + 1) % 1;
+          bars[i].style.transform = "translateY(" + (y*h*1.25 - h*0.12) + "px)";
+          bars[i].style.opacity = String(0.25 + 0.75*Math.sin(y*Math.PI));
+        }
+        rastro.style.opacity = String(clamp((p-0.22)*1.9, 0, 0.8));
+        revelaBloque(vs, p, 0.18, 0.78);
+      }});
+    }
+
+    /* el aljibe: el agua, el carámbano y el reflejo que se mece */
+    var alj = document.getElementById("aljibe");
+    if (alj){
+      var agua = document.getElementById("agua"),
+          car = document.getElementById("carambano"),
+          refl = document.getElementById("reflejo"),
+          vs2 = document.getElementById("gitana").querySelectorAll(".v");
+      refl.querySelectorAll(".v").forEach(function(v){ v.style.opacity = "1"; });  /* los manda el contenedor */
+      mods.push({ el:alj, fn:function(p){
+        var h = alj.querySelector(".fija").clientHeight;
+        agua.style.height = (46 + easeO(clamp(p*1.4,0,1))*10) + "%";
+        car.style.height = (easeO(clamp((p-0.18)*2.1,0,1)) * h * 0.48) + "px";
+        var mece = Math.sin(p*Math.PI*4);
+        refl.style.transform = "scaleY(-1) skewX(" + (mece*3.4) + "deg) translateX(" + (mece*9) + "px)";
+        refl.style.opacity = String(clamp((p-0.3)*2, 0, 0.45));
+        revelaBloque(vs2, p, 0.10, 0.62);
+      }});
+    }
+
+    /* los guardias: cinco golpes secos que descolocan la página */
+    var gu = document.getElementById("guardias");
+    if (gu){
+      var txt = document.getElementById("golpeTxt"), puerta = document.getElementById("puerta"),
+          vs3 = gu.querySelectorAll(".v");
+      mods.push({ el:gu, fn:function(p){
+        var q = clamp((p-0.18)/0.7, 0, 1);
+        var golpe = Math.pow(Math.abs(Math.sin(q*Math.PI*5)), 9);
+        var lado = Math.floor(q*5) % 2 ? 1 : -1;
+        txt.style.transform = "translate(" + (golpe*22*lado) + "px," + (golpe*7) + "px) rotate(" + (golpe*0.8*lado) + "deg)";
+        puerta.style.opacity = String(golpe*0.6);
+        revelaBloque(vs3, p, 0.06, 0.4);
+      }});
+    }
+
+    /* medir top/h reales de las secciones fijadas */
+    mods.forEach(function(m){
+      if (m.global || m.el === document.body) return;
+      var r = m.el.getBoundingClientRect();
+      m.top = r.top + pageYOffset; m.h = r.height;
+    });
+  }
+
+  /* enciende una lista de versos repartida dentro del progreso de su sección */
+  function revelaBloque(vs, p, ini, fin){
+    var n = vs.length;
+    for (var i=0;i<n;i++){
+      var a = ini + (fin-ini) * (i/n);
+      var o = clamp((p - a) / ((fin-ini)/n * 1.4), 0, 1);
+      vs[i].style.opacity = String(o);
+      vs[i].style.transform = "translateY(" + ((1-o)*14) + "px)";
+    }
+  }
+
+  /* ---------- bucle ---------- */
+  var corriendo = false;
+  var K = matchMedia("(pointer:coarse)").matches ? 0.22 : 0.14;
+  function frame(){
+    SY += (Y-SY)*K;
+    if (Math.abs(Y-SY) < 0.3) SY = Y;
+    var vh = innerHeight, doc = document.body.scrollHeight - vh;
+    var t = clamp(SY / (doc||1), 0, 1);
+
+    mods.forEach(function(m){
+      if (m.global){ m.fn(t); return; }
+      var p;
+      if (m.el === document.body) p = clamp(SY/(vh*0.95), 0, 1);
+      else p = clamp((SY - m.top)/(m.h - vh || 1), 0, 1);
+      m.fn(p);
+    });
+
+    /* versos en flujo: se encienden justo antes de llegar a la vista */
+    var linea = SY + vh*0.86;
+    for (var i=0;i<versos.length;i++){
+      var o = clamp((linea - versos[i].top)/(vh*0.16), 0, 1);
+      versos[i].el.style.opacity = String(o);
+      versos[i].el.style.transform = "translateY(" + ((1-o)*16) + "px)";
+    }
+
+    if (SY !== Y) requestAnimationFrame(frame);
+    else corriendo = false;
+  }
+  function despierta(){
+    Y = pageYOffset;
+    if (!corriendo){ corriendo = true; requestAnimationFrame(frame); }
+  }
+  addEventListener("scroll", despierta, {passive:true});
+  addEventListener("resize", function(){ medir(); despierta(); }, {passive:true});
+  addEventListener("load", function(){ medir(); despierta(); });   /* las fuentes cambian alturas */
+
+  if (mo){ medir(); despierta(); }
+})();
+</script>
+
+</body>
+</html>
