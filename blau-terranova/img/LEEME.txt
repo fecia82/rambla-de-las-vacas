@@ -1,36 +1,45 @@
 FOTOS DE LA CASA
 ================
 
-Deja aquí los archivos con estos nombres exactos. Cada foto que exista
-entra sola en la página; la que falte se queda con la escena dibujada en
-CSS y no se rompe nada. No hay que tocar el HTML.
+Cada foto que exista entra sola en la página; la que falte se queda con la
+escena dibujada en CSS y no se rompe nada. No hay que tocar el HTML.
 
-PORTADAS
+YA ESTÁN (recortadas de las capturas de la ficha de Booking, fotos 2 a 7
+de las 23; sin la interfaz del navegador):
+
+  casa.jpg  la terraza cubierta, a sangre en la sección grande
+  01.jpg    La galería acristalada      (sale a doble tamaño)
+  02.jpg    Salón comedor
+  03.jpg    El sofá y la chimenea
+  04.jpg    La terraza cubierta
+  05.jpg    Dormitorio principal
+  06.jpg    Segundo dormitorio
+
+FALTAN (cuando las dejes aquí, aparecen sin más):
+
   hero.jpg            se ve dentro de las letras "el mar." del titular
   playa-amanecer.jpg  fondo del primer mensaje  ("La playa no se ve...")
   playa-mar.jpg       fondo del segundo mensaje ("1.750 metros...")
   dunas.jpg           fondo del tercer mensaje  ("un cordón dunar...")
-  casa.jpg            escena grande del edificio, con revelado y parallax
   playa-ancha.jpg     se ve dentro de las letras "TERRANOVA"
   noche.jpg           fondo del mensaje de la noche
   terraza.jpg         fondo del último mensaje
 
-GALERÍA
-  01.jpg  Salón
-  02.jpg  Terraza
-  03.jpg  Dormitorio principal
-  04.jpg  Segundo dormitorio
-  05.jpg  Cocina
-  06.jpg  Baño
-  07.jpg  Piscina de la urbanización
-  08.jpg  Playa de Terranova
+Las siete que faltan son de playa y de exterior: dentro de las letras y a
+pantalla completa, una foto de interior no funciona.
 
-La sección de la galería está oculta mientras no cargue ninguna. Para
-cambiar nombres, orden o pies de foto, edita la lista GALERIA que hay al
-principio del <script> en index.html.
+MÁS FOTOS DE LA GALERÍA
+  07.jpg, 08.jpg, ... Añade el archivo y una línea a la lista GALERIA que
+  hay al principio del <script> en index.html, con su pie de foto. La
+  rejilla es de tres columnas: cuadra exacto con 6, 9, 12... fotos.
 
 FORMATO
   Horizontales, lado largo de 1600 a 2000 px, JPG de calidad ~80.
-  La primera de la galería sale a doble tamaño: que sea la mejor.
   Las portadas se recortan a pantalla completa, así que conviene que lo
   importante no esté pegado al borde.
+
+DE DÓNDE SALEN LAS QUE HAY
+  De las capturas de pantalla de la ficha, recortando la banda de la foto
+  y descartando la interfaz. Son las mismas imágenes que publica el
+  anuncio. Si prefieres subirlas en su resolución original, basta con
+  sobrescribir estos archivos con el mismo nombre.
