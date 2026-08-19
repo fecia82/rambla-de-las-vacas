@@ -4,9 +4,14 @@ FOTOS DE LA CASA
 Cada foto que exista entra sola en la página; la que falte se queda con la
 escena dibujada en CSS y no se rompe nada. No hay que tocar el HTML.
 
-YA ESTÁN (recortadas de las capturas de la ficha de Booking, fotos 2 a 7
+YA ESTÁN (recortadas de las capturas de la ficha de Booking, fotos 1 a 7
 de las 23; sin la interfaz del navegador):
 
+  hero.jpg            la pasarela sobre las dunas, dentro de las letras
+                      "el mar." del titular
+  playa-amanecer.jpg  la misma, a pantalla completa detrás del primer
+                      mensaje. Son dos encuadres tan distintos que no se
+                      leen como repetida.
   casa.jpg  la terraza cubierta, a sangre en la sección grande
   01.jpg    La galería acristalada      (sale a doble tamaño)
   02.jpg    Salón comedor
@@ -17,15 +22,13 @@ de las 23; sin la interfaz del navegador):
 
 FALTAN (cuando las dejes aquí, aparecen sin más):
 
-  hero.jpg            se ve dentro de las letras "el mar." del titular
-  playa-amanecer.jpg  fondo del primer mensaje  ("La playa no se ve...")
   playa-mar.jpg       fondo del segundo mensaje ("1.750 metros...")
   dunas.jpg           fondo del tercer mensaje  ("un cordón dunar...")
   playa-ancha.jpg     se ve dentro de las letras "TERRANOVA"
   noche.jpg           fondo del mensaje de la noche
   terraza.jpg         fondo del último mensaje
 
-Las siete que faltan son de playa y de exterior: dentro de las letras y a
+Las cinco que faltan son de playa y de exterior: dentro de las letras y a
 pantalla completa, una foto de interior no funciona.
 
 MÁS FOTOS DE LA GALERÍA

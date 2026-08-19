@@ -5,7 +5,7 @@ Playa de Terranova, Oliva (Valencia).
 
 - Publicada en: https://fecia82.github.io/rambla-de-las-vacas/blau-terranova/
 - Un solo archivo (`index.html`): CSS y JS en línea, sin dependencias, sin build.
-- Seis fotos reales del piso más la portada de la sección grande; el resto de la
+- Siete fotos reales del anuncio —seis del piso y la pasarela de las dunas—; el resto de la
   dirección de arte es CSS/SVG generado, así que la página funciona entera
   aunque falte cualquier imagen. Ver «Fotos» y `img/LEEME.txt`.
 
@@ -30,13 +30,15 @@ y todas las piezas caen a un estado final estático y legible.
 
 ## Datos de la ficha
 
-De la propia ficha (título y fotos 2–7 de 23):
+De la propia ficha (título y fotos 1–7 de 23):
 
 - **Apartamento de 3 dormitorios**, con cabeceros y armarios de caña.
 - Salón con chimenea de leña y televisión; suelo de terrazo en toda la casa.
 - Terraza cubierta con mesa larga de madera y sillas de enea.
 - Galería acristalada con butacas, abierta a un balcón.
 - Aire acondicionado, ventilador de techo, lavadero con lavadora, Wi-Fi.
+- La primera foto del anuncio es la pasarela de madera que cruza el cordón dunar
+  hasta la orilla: es la que confirma el acceso a pie que cuenta la página.
 
 De fuentes públicas:
 
@@ -71,8 +73,8 @@ permanece `hidden` mientras no cargue ninguna foto.
 Es decir: se dejan los JPG en `img/` con los nombres de `img/LEEME.txt` y la
 página los recoge sola. Lo que falte se queda con su escena dibujada.
 
-Las seis fotos del piso que hay en `img/` están recortadas de capturas de
-pantalla de la ficha (fotos 2–7 de 23), quitando la interfaz del navegador. No se
+Las fotos que hay en `img/` están recortadas de capturas de pantalla de la ficha
+(fotos 1–7 de 23), quitando la interfaz del navegador. No se
 pudieron descargar del original: `www.booking.com` y su CDN `cf.bstatic.com`
 están bloqueados por la política de red del entorno donde se generó esta página
 (403 en el túnel CONNECT del proxy). Sustituirlas por las originales es
