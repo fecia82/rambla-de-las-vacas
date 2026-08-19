@@ -7,9 +7,17 @@ gitano** (1928).
 - Un solo archivo (`index.html`): CSS y JS en línea, sin build. La única
   dependencia externa son dos familias de Google Fonts, con pila de reserva
   declarada.
-- No hay ni una fotografía. Todo el color y el movimiento sale de los versos.
+- Doce ilustraciones aportadas por el autor de la página, en `img/`. Ninguna
+  fotografía.
 
-## Las dos ideas
+## Las tres ideas
+
+**El scroll es la voz.** Las palabras no aparecen por versos sino de una en una,
+y la que se está diciendo brilla mientras las ya dichas se retiran a un tono
+menor. Las marcadas con `<em>` en el HTML son las que un actor sostendría:
+cuestan 2,4 golpes de voz en vez de 1, y se van al verde mientras se dicen. En
+las tiradas de sangre el foco es rojo. El presupuesto es de unos 24 px de scroll
+por golpe, que es lo que separa un recitado de un parpadeo.
 
 **El verde es el protagonista, no el adorno.** El fondo de la página se
 interpola con el scroll: sube a verde en los tres estribillos y se desangra
@@ -25,11 +33,14 @@ altas barandas». En la sección de la subida las barandas cruzan la pantalla
 
 | Sección | Qué hace el scroll |
 |---|---|
-| Portada | desplaza y funde el título |
-| Estribillos (×2) | el verso se fija a pantalla completa, entra y sale con el verde en su punto más alto |
-| Tiradas | cada verso se enciende justo antes de entrar en cuadro, uno a uno |
+| Portada | desplaza y funde el título sobre una plancha que se aleja |
+| Láminas | se abren por una banda que crece, sostienen con un zoom lento y se cierran |
+| Estribillo I | el verso se fija a pantalla completa con el verde en su punto más alto |
+| Estribillo II | lo mismo, con la tipografía **calada sobre la lámina crema**, que se recorre |
+| Tiradas | el verso se fija y la voz lo recorre palabra a palabra |
 | La subida | barandas en bucle hacia arriba y una mancha de sangre que crece |
-| El aljibe | el agua sube, el carámbano de luna baja y el reflejo se mece |
+| Díptico | las dos láminas del rastro se abren desfasadas, una detrás de otra |
+| El aljibe | el agua sube, el carámbano de luna baja y el reflejo se mece invertido |
 | Los guardias | cinco golpes secos que descolocan el verso y meten un rojo desde los bordes |
 
 Sin JavaScript o con `prefers-reduced-motion`, `<html>` no recibe la clase `mo`
@@ -63,9 +74,23 @@ una edición en papel**, en particular:
 - «desde los **puertos** de Cabra» (aparece también como «montes»)
 - «**ese** trato se cerraba» (aparece también como «este»)
 
-## Si algún día hay imágenes
+## Las láminas
 
-No hay ninguna a propósito, pero el mecanismo de la otra página de este
-repositorio (`blau-terranova/`) es trasplantable: elementos con `data-foto` que
-prueban el archivo con un `new Image()` y solo lo superponen si carga. Aquí no
-se ha puesto porque una fotografía sobre estos versos los aplanaría.
+Doce ilustraciones, troceadas de dos hojas de contacto 3×2 aportadas por el autor
+de la página. Se reparten en dos oficios:
+
+- **`l1`–`l6`** llevan el verso impreso. Van solas, a pantalla completa, como
+  láminas de un libro ilustrado. Su `alt` describe la imagen y recoge el verso.
+- **`f1`–`f6`** van limpias. Se usan de fondo, atenuadas y con parallax, detrás
+  del verso recitado — y una de ellas rellena la tipografía calada del segundo
+  estribillo.
+
+Que una lámina repita el verso que la voz dice a continuación no es un descuido:
+el romance vive de la repetición y del eco. «Verde que te quiero verde» aparece
+cuatro veces en el propio poema, y «Pero yo ya no soy yo» y «Dejando un rastro
+de…» dos cada uno.
+
+Para el calado hace falta una imagen de brillo parejo: con una plancha oscura las
+letras desaparecen sobre el fondo negro. Por eso el segundo estribillo se rellena
+con `l1`, que es la única con un campo crema grande, y el recorrido se queda por
+encima de su texto impreso.
