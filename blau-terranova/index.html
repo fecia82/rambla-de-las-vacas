@@ -228,6 +228,38 @@ footer .meta{margin-top:8vh; padding-top:26px; border-top:1px solid var(--line);
 footer .meta a{text-decoration:none; border-bottom:1px solid var(--line)}
 footer .meta a:hover{color:var(--ink)}
 
+/* ---------- fotos: capa opcional encima de las escenas ----------
+   cada elemento con data-foto se queda como esta hasta que el archivo
+   existe; entonces la foto entra por encima. sin fotos no se rompe nada. */
+.foto{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  opacity:0; transition:opacity .9s var(--ease)}
+.foto.on{opacity:1}
+.ko.confoto{background-size:cover}
+
+/* ---------- galeria ---------- */
+.galeria[hidden]{display:none}
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:14px; margin-top:10vh}
+.tile{position:relative; display:block; padding:0; border:0; cursor:zoom-in; background:var(--line);
+  border-radius:14px; overflow:hidden; aspect-ratio:4/3; font:inherit; color:inherit}
+.tile:first-child{grid-column:span 2; grid-row:span 2; aspect-ratio:auto}
+@media (max-width:640px){ .tile:first-child{grid-column:span 2; grid-row:auto; aspect-ratio:4/3} }
+.tile img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  transition:transform 1.1s var(--ease)}
+.tile:hover img,.tile:focus-visible img{transform:scale(1.05)}
+.tile figcaption{position:absolute; left:0; right:0; bottom:0; z-index:2; text-align:left;
+  padding:34px 16px 13px; font-size:13px; font-weight:600; color:#fff;
+  background:linear-gradient(180deg,rgba(11,19,25,0),rgba(11,19,25,.72))}
+
+/* ---------- lightbox ---------- */
+.lb[hidden]{display:none}
+.lb{position:fixed; inset:0; z-index:100; background:rgba(9,16,21,.95); display:grid; place-items:center;
+  padding:clamp(16px,4vw,60px)}
+.lb img{max-width:100%; max-height:82vh; object-fit:contain; border-radius:10px}
+.lb .cap{position:absolute; left:0; right:0; bottom:26px; text-align:center; color:#C9D2D6; font-size:14px; padding:0 24px}
+.lb .x{position:absolute; top:18px; right:20px; width:44px; height:44px; border:0; border-radius:50%; cursor:pointer;
+  background:rgba(255,255,255,.12); color:#fff; font-size:26px; line-height:1}
+.lb .x:hover{background:rgba(255,255,255,.22)}
+
 /* ---------- reveal (respaldo IO, suave) ---------- */
 html.js .rv{opacity:0; transform:translateY(34px); transition:opacity 1s var(--ease), transform 1s var(--ease)}
 html.js .rv.on{opacity:1; transform:none}
@@ -243,6 +275,7 @@ html:not(.mo) .day-cap{height:auto}
 html:not(.mo) .day-cap p{position:static; opacity:1; margin-bottom:18px}
 html:not(.mo) .astro{display:none}
 html:not(.mo) .day-title{position:static; padding:96px 30px 4vh}
+html:not(.mo) .foto{opacity:1}
 
 /* ---------- movil ---------- */
 @media (max-width:640px){
@@ -288,7 +321,7 @@ html:not(.mo) .day-title{position:static; padding:96px 30px 4vh}
     <h1>
       Sales de casa.<br>
       Y ya hueles<br>
-      <span class="ko mar" id="heroKo">el mar.</span>
+      <span class="ko mar" id="heroKo" data-foto-ko="img/hero.jpg">el mar.</span>
     </h1>
     <p class="sub">Apartamento en la urbanización <b>Garbí</b>, primera línea de dunas de Oliva. Cuatro plazas, dos dormitorios, piscina entre jardines — y <b>1.750 metros de arena dorada</b> a cuatro minutos andando.</p>
   </div>
@@ -298,9 +331,9 @@ html:not(.mo) .day-title{position:static; padding:96px 30px 4vh}
 <!-- ================= SCROLLY 1: la playa ================= -->
 <section class="scrolly lite" style="height:320vh" aria-label="La playa de Terranova">
   <div class="stick">
-    <div class="bg sc-amanecer"></div>
-    <div class="bg sc-mar"></div>
-    <div class="bg sc-duna"></div>
+    <div class="bg sc-amanecer" data-foto="img/playa-amanecer.jpg"></div>
+    <div class="bg sc-mar" data-foto="img/playa-mar.jpg"></div>
+    <div class="bg sc-duna" data-foto="img/dunas.jpg"></div>
     <p class="msg">La playa no se ve desde el salón. Se <em>oye</em>.<small>280 m · 4 minutos andando</small></p>
     <p class="msg">1.750 metros de arena <em>fina y dorada</em>.<small>Terranova–Burguera · Bandera Azul</small></p>
     <p class="msg">Y detrás, un <em>cordón dunar</em> que sigue vivo.<small>Nidos de chorlitejo patinegro</small></p>
@@ -310,7 +343,7 @@ html:not(.mo) .day-title{position:static; padding:96px 30px 4vh}
 <!-- ================= FULL: la casa ================= -->
 <section class="full" aria-label="La urbanización Garbí">
   <div class="frame">
-    <div class="plx">
+    <div class="plx" data-foto="img/casa.jpg">
       <div class="esc-casa">
         <span class="sol"></span>
         <span class="arena"></span>
@@ -336,6 +369,14 @@ html:not(.mo) .day-title{position:static; padding:96px 30px 4vh}
       <div class="it rv"><p class="n"><span class="cnt" data-to="280">0</span> <small>m a la orilla</small></p><p>Distancia real hasta la arena de Terranova. Cuatro minutos, sin prisa.</p></div>
       <div class="it rv"><p class="n"><span class="cnt" data-to="1750">0</span> <small>m de playa</small></p><p>Lo que mide Terranova–Burguera. Siempre hay un hueco donde no hay nadie.</p></div>
     </div>
+  </div>
+</section>
+
+<!-- ================= GALERIA (aparece sola cuando hay fotos) ================= -->
+<section class="sect galeria" id="galeria" hidden aria-label="Fotos de la casa">
+  <div class="in">
+    <h2 class="state rv">Así es <em>por dentro</em>.</h2>
+    <div class="grid" id="grid"></div>
   </div>
 </section>
 
@@ -366,7 +407,7 @@ html:not(.mo) .day-title{position:static; padding:96px 30px 4vh}
 <section class="sect darkp" aria-label="Terranova">
   <div class="in">
     <p class="tagline">La playa</p>
-    <p><span class="ko arena kobig" id="bigKo">TERRANOVA</span></p>
+    <p><span class="ko arena kobig" id="bigKo" data-foto-ko="img/playa-ancha.jpg">TERRANOVA</span></p>
     <p class="after rv" style="margin-top:6vh">Una de las pocas playas del Mediterráneo español que sigue sin urbanizar de punta a punta. <b>Arena fina, dorada, con Bandera Azul</b>, un cordón de dunas detrás y un manantial de agua dulce — <b>El Tou</b> — que sale en la propia orilla. Es refugio del chorlitejo patinegro, que anida ahí mismo, así que las dunas se cruzan por las pasarelas y no por encima.</p>
     <p class="after rv">Los vientos de la zona la han convertido además en clásico del windsurf. Y es accesible para personas con movilidad reducida.</p>
   </div>
@@ -375,8 +416,8 @@ html:not(.mo) .day-title{position:static; padding:96px 30px 4vh}
 <!-- ================= SCROLLY 2: la noche ================= -->
 <section class="scrolly deep" style="height:220vh" aria-label="La noche">
   <div class="stick">
-    <div class="bg sc-noche"></div>
-    <div class="bg sc-amanecer"></div>
+    <div class="bg sc-noche" data-foto="img/noche.jpg"></div>
+    <div class="bg sc-amanecer" data-foto="img/terraza.jpg"></div>
     <p class="msg">De noche, aquí, <em>no pasa nada</em>.<small>Y eso es exactamente el motivo</small></p>
     <p class="msg">Hasta que a las siete vuelve <em>a empezar</em>.<small>Playa de Terranova · Oliva</small></p>
   </div>
@@ -467,6 +508,12 @@ html:not(.mo) .day-title{position:static; padding:96px 30px 4vh}
   </div>
 </footer>
 
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Foto ampliada">
+  <button class="x" id="lbX" aria-label="Cerrar">&times;</button>
+  <img id="lbImg" alt="">
+  <p class="cap" id="lbCap"></p>
+</div>
+
 <script>
 (function(){
   var mo = document.documentElement.classList.contains("mo");
@@ -475,6 +522,128 @@ html:not(.mo) .day-title{position:static; padding:96px 30px 4vh}
   function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
   function lerp(a,b,t){ return a+(b-a)*t; }
   function easeO(t){ return 1-Math.pow(1-t,3); }
+
+  /* ============================================================
+     FOTOS  ·  lo unico que hay que tocar para poner las de verdad
+     ------------------------------------------------------------
+     1. Deja los archivos en blau-terranova/img/ con estos nombres.
+     2. Ya esta. Cada foto que exista entra sola; la que falte se
+        queda con la escena dibujada y la pagina no se rompe.
+
+     Portadas (se enganchan con data-foto en el HTML):
+       img/hero.jpg           dentro de las letras "el mar."
+       img/playa-amanecer.jpg  \
+       img/playa-mar.jpg        > fondos del primer scrolly
+       img/dunas.jpg           /
+       img/casa.jpg           escena grande del edificio
+       img/playa-ancha.jpg    dentro de las letras "TERRANOVA"
+       img/noche.jpg          \ fondos del segundo scrolly
+       img/terraza.jpg        /
+
+     Galeria: anade o quita lineas de esta lista. La seccion aparece
+     sola en cuanto carga al menos una, y se ordena como esta escrita.
+
+     Para no pedir 16 archivos que no existen en cada carga, primero se
+     sondean solo los tres de CENTINELA. Si no responde ninguno, la pagina
+     se queda con sus escenas dibujadas y ya no pide nada mas. Con que
+     este uno de los tres, busca el resto. Asi que hay que dejar al menos
+     una de estas: hero.jpg, casa.jpg o 01.jpg.
+     ============================================================ */
+  var CENTINELA = ["img/hero.jpg", "img/casa.jpg", "img/01.jpg"];
+  var GALERIA = [
+    ["img/01.jpg", "Salón"],
+    ["img/02.jpg", "Terraza"],
+    ["img/03.jpg", "Dormitorio principal"],
+    ["img/04.jpg", "Segundo dormitorio"],
+    ["img/05.jpg", "Cocina"],
+    ["img/06.jpg", "Baño"],
+    ["img/07.jpg", "Piscina de la urbanización"],
+    ["img/08.jpg", "Playa de Terranova"]
+  ];
+
+  /* remedida diferida: cada foto que entra cambia alturas */
+  var remT = null;
+  function remedir(){
+    clearTimeout(remT);
+    remT = setTimeout(function(){ if (mo){ medir(); wake(); } }, 120);
+  }
+
+  /* ---------- portadas: probamos el archivo antes de pintarlo ---------- */
+  function ponFoto(el, src){
+    var probe = new Image();
+    probe.onload = function(){
+      var im = document.createElement("img");
+      im.className = "foto"; im.src = src; im.alt = ""; im.setAttribute("aria-hidden","true");
+      el.appendChild(im);
+      requestAnimationFrame(function(){ im.classList.add("on"); });
+      remedir();
+    };
+    probe.src = src;
+  }
+
+  function buscaFotos(){
+    document.querySelectorAll("[data-foto]").forEach(function(el){ ponFoto(el, el.dataset.foto); });
+
+    /* tipografia inversa sobre foto */
+    document.querySelectorAll("[data-foto-ko]").forEach(function(el){
+      var src = el.dataset.fotoKo, pr = new Image();
+      pr.onload = function(){
+        el.classList.add("confoto");
+        el.style.backgroundImage = "url('" + src + "')";
+      };
+      pr.src = src;
+    });
+
+    montaGaleria();
+  }
+
+  /* ---------- centinela: si no hay fotos, esto es todo lo que se pide ---------- */
+  (function(){
+    var vivo = false;
+    CENTINELA.forEach(function(src){
+      var pr = new Image();
+      pr.onload = function(){ if (!vivo){ vivo = true; buscaFotos(); } };
+      pr.src = src;
+    });
+  })();
+
+  /* ---------- galeria + lightbox ---------- */
+  function montaGaleria(){
+    var grid = document.getElementById("grid"), sec = document.getElementById("galeria");
+    if (!grid) return;
+    var lb = document.getElementById("lb"), lbImg = document.getElementById("lbImg"),
+        lbCap = document.getElementById("lbCap"), lbX = document.getElementById("lbX");
+    var previo = null;
+
+    function abre(src, cap){
+      previo = document.activeElement;
+      lbImg.src = src; lbImg.alt = cap; lbCap.textContent = cap;
+      lb.hidden = false; lbX.focus();
+    }
+    function cierra(){
+      lb.hidden = true; lbImg.src = "";
+      if (previo) previo.focus();
+    }
+    lbX.addEventListener("click", cierra);
+    lb.addEventListener("click", function(e){ if (e.target === lb) cierra(); });
+    addEventListener("keydown", function(e){ if (e.key === "Escape" && !lb.hidden) cierra(); });
+
+    GALERIA.forEach(function(f){
+      var src = f[0], cap = f[1] || "", probe = new Image();
+      probe.onload = function(){
+        var b = document.createElement("button");
+        b.className = "tile"; b.type = "button";
+        b.setAttribute("aria-label", "Ampliar: " + cap);
+        b.innerHTML = '<img src="' + src + '" alt="' + cap + '" loading="lazy">' +
+                      (cap ? '<figcaption>' + cap + '</figcaption>' : '');
+        b.addEventListener("click", function(){ abre(src, cap); });
+        grid.appendChild(b);
+        sec.hidden = false;
+        remedir();
+      };
+      probe.src = src;
+    });
+  }
 
   /* ---------- ventanas del bloque, generadas ---------- */
   (function(){
