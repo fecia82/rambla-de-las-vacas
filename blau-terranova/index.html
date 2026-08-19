@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Blau Terranova Garbí — Oliva, a tres minutos descalzo</title>
+<meta name="description" content="Apartamento Blau Terranova Garbi. Calle Faig 16, Playa de Terranova, Oliva (Valencia). Cuatro plazas, piscina en la urbanizacion y 1.750 metros de arena fina a cuatro minutos andando.">
+<meta property="og:title" content="Blau Terranova Garbí — Oliva">
+<meta property="og:description" content="Sales de casa y ya hueles el mar. Playa de Terranova, Oliva.">
+<meta name="theme-color" content="#FBF7F1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🌊</text></svg>">
+
+<style>
+/* ============================================================
+   BLAU TERRANOVA GARBI · scroll-scrubbed
+   mismo motor que rambla-de-las-vacas: todo ligado al dedo.
+   sin fotos: la direccion de arte es CSS/SVG (cielo, mar, duna)
+   ============================================================ */
+:root{
+  --paper:#FBF7F1; --ink:#101820; --ink-2:#4E5A62; --ink-3:#98A2A8;
+  --line:#EAE3D8; --sun:#E9762B; --shell:#F6D9C4;
+  --sea:#0E7C8C; --sea-2:#0A5966; --foam:#CDE7E4;
+  --dark:#0B1319; --dark-2:#12202A; --dark-line:#1E2E38;
+  --sans:"Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --mono:"Cascadia Mono",Consolas,ui-monospace,Menlo,monospace;
+  --ease:cubic-bezier(.22,.61,.21,1);
+}
+*{box-sizing:border-box; margin:0; padding:0}
+body{
+  font-family:var(--sans); background:var(--paper); color:var(--ink);
+  font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+img{max-width:100%; display:block}
+a{color:inherit}
+a:focus-visible{outline:2px solid var(--sun); outline-offset:4px}
+.mono{font-family:var(--mono)}
+
+/* ---------- nav ---------- */
+nav{position:fixed; inset:0 0 auto; z-index:50; transition:background .5s var(--ease), box-shadow .5s var(--ease)}
+nav.scrolled{background:rgba(251,247,241,.9); backdrop-filter:blur(12px); box-shadow:0 1px 0 var(--line)}
+.nav-in{max-width:1280px; margin:0 auto; padding:0 30px; height:66px; display:flex; align-items:center; justify-content:space-between}
+.brand{font-weight:800; font-size:15px; text-decoration:none; letter-spacing:.02em}
+.brand span{color:var(--sun)}
+.nav-cta{font-size:13.5px; font-weight:700; text-decoration:none; border-bottom:2px solid var(--sun); padding-bottom:2px}
+
+/* ---------- tipografia inversa ---------- */
+.ko{
+  font-weight:900; letter-spacing:-.045em; line-height:.88;
+  background-size:220% 220%; background-position:center 40%;
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.ko.mar{background-image:linear-gradient(155deg,#0E7C8C,#12A0A6 34%,#57C6C0 58%,#0A5966)}
+.ko.arena{background-image:linear-gradient(150deg,#E9762B,#F0A968 40%,#F6D9C4 62%,#C9541A)}
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){
+  .ko{color:var(--sea); background:none}
+}
+
+/* ---------- hero ---------- */
+.hero{min-height:100vh; min-height:100svh; display:flex; flex-direction:column; justify-content:center; position:relative; padding:90px 30px 60px; overflow:hidden}
+.hero-in{max-width:1280px; margin:0 auto; width:100%; position:relative; z-index:2; will-change:transform,opacity}
+.hero .kick{font-family:var(--mono); font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:var(--ink-3); margin-bottom:4vh}
+.hero h1{font-size:clamp(58px,13.5vw,210px); font-weight:900; letter-spacing:-.045em; line-height:.88}
+.hero h1 .ko{display:block; will-change:background-position}
+.hero .sub{margin-top:5vh; font-size:clamp(16px,1.8vw,20px); color:var(--ink-2); max-width:46ch}
+.hero .sub b{color:var(--ink)}
+.hero .cue{position:absolute; bottom:34px; left:50%; transform:translateX(-50%); z-index:2;
+  font-family:var(--mono); font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--ink-3)}
+.hero .cue::after{content:""; display:block; width:1px; height:44px; background:var(--ink-3); margin:12px auto 0;
+  animation:cue 2.2s var(--ease) infinite}
+@keyframes cue{0%{transform:scaleY(0); transform-origin:top} 45%{transform:scaleY(1); transform-origin:top}
+  55%{transform:scaleY(1); transform-origin:bottom} 100%{transform:scaleY(0); transform-origin:bottom}}
+/* olas de fondo del hero, puro svg */
+.hero-sea{position:absolute; inset:auto 0 0; height:34vh; z-index:1; opacity:.5; pointer-events:none; will-change:transform}
+.hero-sea svg{width:130%; height:100%; display:block}
+
+/* ---------- scrolly scrubbed ---------- */
+.scrolly{position:relative}
+.scrolly .stick{position:sticky; top:0; height:100vh; height:100svh; display:grid; place-items:center; overflow:hidden}
+.scrolly .bg{position:absolute; inset:-4%; opacity:0; will-change:transform,opacity; pointer-events:none}
+.scrolly .bg::after{content:""; position:absolute; inset:0}
+.scrolly.lite .bg::after{background:linear-gradient(180deg, rgba(251,247,241,.74), rgba(251,247,241,.52) 45%, rgba(251,247,241,.8))}
+.scrolly.deep .bg::after{background:linear-gradient(180deg, rgba(11,19,25,.7), rgba(11,19,25,.48) 45%, rgba(11,19,25,.82))}
+.scrolly.deep .msg{color:#fff}
+.scrolly .msg{
+  position:absolute; z-index:2; text-align:center; padding:0 30px; max-width:26ch;
+  font-size:clamp(32px,6.2vw,86px); font-weight:900; letter-spacing:-.04em; line-height:1.02;
+  opacity:0; will-change:transform,opacity; text-wrap:balance;
+}
+.scrolly .msg em{font-style:normal; color:var(--sun)}
+.scrolly.deep .msg em{color:var(--shell)}
+.scrolly .msg small{display:block; font-family:var(--mono); font-weight:400; font-size:13px;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--ink-3); margin-top:26px}
+/* escenas de fondo, sin fotografia */
+.sc-amanecer{background:linear-gradient(180deg,#2B4A6B 0%,#7E6E86 38%,#E3A470 66%,#F2CFA6 100%)}
+.sc-mar{background:linear-gradient(180deg,#0A5966 0%,#0E7C8C 46%,#39A8A8 78%,#CDE7E4 100%)}
+.sc-duna{background:linear-gradient(180deg,#BFE0E6 0%,#E7D9BC 46%,#D9C199 74%,#B8985F 100%)}
+.sc-noche{background:linear-gradient(180deg,#070E16 0%,#0F2233 52%,#1C3B48 100%)}
+
+/* ---------- full bleed con revelado ---------- */
+.full{position:relative; height:112vh; overflow:hidden}
+.full .frame{position:absolute; inset:0; will-change:clip-path; overflow:hidden}
+.full .plx{position:absolute; inset:-9% 0; will-change:transform}
+.full .chip{
+  position:absolute; left:30px; bottom:36px; z-index:3;
+  background:rgba(11,19,25,.84); color:#EDEDE8; backdrop-filter:blur(6px);
+  border-radius:12px; padding:15px 20px; max-width:44ch; font-size:14px; line-height:1.5;
+}
+.full .chip b{color:#fff}
+
+/* escena piscina/edificio, geometria css */
+.esc-casa{position:absolute; inset:0; background:linear-gradient(180deg,#79C0DD,#B7DEEA 44%,#DFEFF1 68%)}
+.esc-casa .sol{position:absolute; top:11%; right:13%; width:min(15vw,132px); aspect-ratio:1; border-radius:50%;
+  background:radial-gradient(circle,#FFF0C9,#F5B24E 60%,rgba(245,178,78,0) 70%)}
+.esc-casa .arena{position:absolute; left:0; right:0; bottom:0; height:44%;
+  background:linear-gradient(180deg,#F2E7CE,#D9C295)}
+.esc-casa .agua{position:absolute; left:0; right:0; bottom:0; height:21%;
+  background:linear-gradient(180deg,#4CB6BF,#0E7C8C 52%,#0A5966)}
+.esc-casa .agua::before{content:""; position:absolute; left:0; right:0; top:-6px; height:12px;
+  background:rgba(255,255,255,.75); filter:blur(4px)}
+.esc-casa .agua::after{content:""; position:absolute; inset:0;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.14) 0 1px,rgba(255,255,255,0) 1px 15px)}
+.esc-casa .bloque{position:absolute; left:6%; bottom:30%; width:min(31vw,390px); height:44%; overflow:hidden;
+  background:linear-gradient(100deg,#FFFDF8,#EDE4D4); box-shadow:0 40px 90px -50px rgba(10,40,50,.65)}
+.esc-casa .bloque i{position:absolute; display:block; background:linear-gradient(180deg,#2E8494,#0A5966)}
+.esc-casa .bloque b{position:absolute; left:0; right:0; height:2.4%; background:rgba(16,32,40,.13)}
+.esc-casa .som{position:absolute; width:min(9vw,88px); aspect-ratio:2/1; border-radius:100% 100% 0 0}
+.esc-casa .som::after{content:""; position:absolute; left:50%; top:100%; width:2px; height:34px;
+  background:#9C8560; transform:translateX(-50%)}
+
+/* ---------- secciones ---------- */
+.sect{padding:20vh 30px}
+.sect .in{max-width:1280px; margin:0 auto}
+.state{font-size:clamp(32px,5.4vw,74px); font-weight:900; letter-spacing:-.04em; line-height:1.02; max-width:18ch; text-wrap:balance}
+.state em{font-style:normal; color:var(--sun)}
+.after{margin-top:4vh; font-size:clamp(16px,1.7vw,19px); color:var(--ink-2); max-width:52ch}
+.after b{color:var(--ink)}
+
+.loose{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:7vh 40px; margin-top:11vh}
+.loose .it .n{font-size:clamp(38px,4.6vw,64px); font-weight:900; letter-spacing:-.04em; line-height:1; font-variant-numeric:tabular-nums}
+.loose .it .n small{display:block; font-size:.4em; font-weight:700; color:var(--ink-3); margin-top:8px; letter-spacing:-.01em}
+.loose .it p{margin-top:10px; font-size:14px; color:var(--ink-2); max-width:26ch}
+
+/* ---------- panel oscuro ---------- */
+.darkp{background:var(--dark); color:#EDEDE8}
+.darkp .after{color:#B4BEC4}
+.darkp .after b{color:#fff}
+.darkp .state{color:#fff}
+.darkp .state em{color:var(--shell)}
+.kobig{font-size:min(13.4vw,210px); display:inline-block; will-change:background-position}
+.tagline{font-family:var(--mono); font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:#83909A; margin-bottom:3vh}
+
+/* ---------- EL DIA: sol arrastrado por el scroll ---------- */
+.daypin{position:relative}
+.daypin .stick{position:sticky; top:0; height:100vh; height:100svh; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end}
+#cielo{position:absolute; inset:0; background:linear-gradient(180deg,#2B4A6B,#E3A470)}
+#marfondo{position:absolute; left:0; right:0; bottom:0; height:34%; background:#0E7C8C}
+#marfondo::after{content:""; position:absolute; inset:0;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.13) 0 1px,rgba(255,255,255,0) 1px 16px)}
+.astro{position:absolute; top:0; left:0; width:min(13vw,110px); aspect-ratio:1; border-radius:50%; will-change:transform; transform:translate(-50%,-50%)}
+#sol{background:radial-gradient(circle,#FFF3D2,#FFC85E 58%,rgba(255,200,94,0) 72%)}
+#luna{background:radial-gradient(circle at 38% 38%,#F4F6FF,#C3CEE4 58%,rgba(195,206,228,0) 72%); opacity:0}
+.day-hud{position:relative; z-index:3; padding:0 30px 8vh; max-width:1280px; margin:0 auto; width:100%}
+.day-hud .reloj{font-family:var(--mono); font-size:clamp(38px,7vw,86px); font-weight:700; letter-spacing:-.03em;
+  color:#fff; font-variant-numeric:tabular-nums; text-shadow:0 4px 30px rgba(0,0,0,.35)}
+.day-cap{position:relative; height:11em; margin-top:2vh}
+@media (min-width:700px){ .day-cap{height:5.4em} }
+.day-cap p{position:absolute; inset:0; opacity:0; will-change:opacity,transform;
+  font-size:clamp(20px,2.9vw,34px); font-weight:800; letter-spacing:-.025em; line-height:1.18; color:#fff;
+  max-width:24ch; text-shadow:0 2px 24px rgba(0,0,0,.45)}
+.day-cap p em{font-style:normal; color:var(--shell)}
+.day-title{position:absolute; top:0; left:0; right:0; z-index:3; padding:96px 30px 0; max-width:1280px; margin:0 auto}
+.day-title h2{font-size:clamp(24px,3.4vw,44px); font-weight:900; letter-spacing:-.035em; color:#fff; max-width:22ch;
+  text-shadow:0 2px 24px rgba(0,0,0,.4)}
+
+/* ---------- equipamiento ---------- */
+.plain{list-style:none; margin-top:9vh; max-width:960px}
+.plain li{display:grid; grid-template-columns:auto 1fr auto; gap:26px; align-items:baseline;
+  padding:28px 0; border-bottom:1px solid var(--line); font-size:clamp(17px,2.1vw,23px); font-weight:700; letter-spacing:-.015em}
+.plain li:first-child{border-top:1px solid var(--line)}
+.plain .k{font-family:var(--mono); font-size:12px; color:var(--sun); font-weight:700}
+.plain .fix{font-size:13px; font-weight:600; color:var(--ink-3); font-family:var(--mono); text-align:right; white-space:nowrap}
+@media (max-width:640px){ .plain li{grid-template-columns:auto 1fr} .plain .fix{grid-column:2; text-align:left} }
+
+/* ---------- distancias ---------- */
+.dist{list-style:none; margin-top:10vh; max-width:900px}
+.dist li{display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center; padding:22px 0; border-bottom:1px solid var(--dark-line)}
+.dist li:first-child{border-top:1px solid var(--dark-line)}
+.dist .q{font-size:clamp(17px,2.2vw,24px); font-weight:700; letter-spacing:-.02em; color:#fff}
+.dist .q small{display:block; font-family:var(--mono); font-size:12px; font-weight:400; letter-spacing:.16em;
+  text-transform:uppercase; color:#83909A; margin-top:6px}
+.dist .m{font-family:var(--mono); font-size:clamp(16px,2vw,22px); font-weight:700; color:var(--shell);
+  font-variant-numeric:tabular-nums; white-space:nowrap}
+
+/* ---------- mapa dibujado ---------- */
+.mapa{margin-top:10vh; border-radius:18px; overflow:hidden; background:#EFEADF; border:1px solid var(--line)}
+.mapa svg{width:100%; height:auto; display:block}
+.mp-agua{fill:#9FD3E4}
+.mp-arena{fill:#EFE2C5}
+.mp-duna{fill:#D8C79C}
+.mp-suelo{fill:#F7F3EA}
+.mp-via{stroke:#D6CDBC; stroke-width:7; fill:none; stroke-linecap:round}
+.mp-faig{stroke:var(--sun); stroke-width:7; fill:none; stroke-linecap:round}
+.mp-lab{font-family:var(--mono); font-size:15px; fill:#6E7A80; letter-spacing:.08em}
+.mp-lab.big{font-size:19px; font-weight:700; fill:#101820}
+.mp-pin{fill:var(--sun); stroke:#fff; stroke-width:4}
+.mp-ruta{stroke:#101820; stroke-width:3; stroke-dasharray:2 10; stroke-linecap:round; fill:none}
+
+/* ---------- reserva ---------- */
+.cta{display:inline-flex; align-items:center; gap:12px; margin-top:6vh; text-decoration:none;
+  background:var(--sun); color:#fff; font-weight:800; font-size:16px; letter-spacing:-.01em;
+  padding:18px 28px; border-radius:999px; transition:transform .4s var(--ease), box-shadow .4s var(--ease);
+  box-shadow:0 20px 40px -22px rgba(233,118,43,.9)}
+.cta:hover{transform:translateY(-2px); box-shadow:0 26px 50px -22px rgba(233,118,43,.95)}
+.cta span{font-family:var(--mono); font-size:13px; opacity:.85}
+.ficha{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:30px 40px; margin-top:10vh}
+.ficha dt{font-family:var(--mono); font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-3)}
+.ficha dd{margin-top:8px; font-size:17px; font-weight:700; letter-spacing:-.01em}
+.ficha dd a{text-decoration:none; border-bottom:2px solid var(--sun)}
+.ficha dd small{display:block; font-weight:400; font-size:14px; color:var(--ink-2); margin-top:6px; letter-spacing:0}
+
+/* ---------- footer ---------- */
+footer{padding:14vh 30px 60px}
+footer .in{max-width:1280px; margin:0 auto}
+footer .mantra{font-size:clamp(28px,4.4vw,56px); font-weight:900; letter-spacing:-.04em; line-height:1.02}
+footer .mantra em{font-style:normal; color:var(--sun)}
+footer .meta{margin-top:8vh; padding-top:26px; border-top:1px solid var(--line);
+  display:flex; flex-wrap:wrap; gap:14px 40px; font-size:12.5px; color:var(--ink-3)}
+footer .meta a{text-decoration:none; border-bottom:1px solid var(--line)}
+footer .meta a:hover{color:var(--ink)}
+
+/* ---------- reveal (respaldo IO, suave) ---------- */
+html.js .rv{opacity:0; transform:translateY(34px); transition:opacity 1s var(--ease), transform 1s var(--ease)}
+html.js .rv.on{opacity:1; transform:none}
+
+/* ---------- sin motor: estados finales ---------- */
+html:not(.mo) .scrolly .msg{position:static; opacity:1; transform:none; margin:8vh auto}
+html:not(.mo) .scrolly .bg{display:none}
+html:not(.mo) .scrolly .stick{position:static; height:auto; display:block; padding:10vh 0}
+html:not(.mo) .scrolly{height:auto!important}
+html:not(.mo) .daypin{height:auto!important}
+html:not(.mo) .daypin .stick{position:static; height:auto; min-height:70vh}
+html:not(.mo) .day-cap{height:auto}
+html:not(.mo) .day-cap p{position:static; opacity:1; margin-bottom:18px}
+html:not(.mo) .astro{display:none}
+html:not(.mo) .day-title{position:static; padding:96px 30px 4vh}
+
+/* ---------- movil ---------- */
+@media (max-width:640px){
+  body{font-size:16px}
+  .nav-in{height:58px; padding:0 18px; padding-left:max(18px, env(safe-area-inset-left)); padding-right:max(18px, env(safe-area-inset-right))}
+  nav.scrolled{backdrop-filter:none; background:rgba(251,247,241,.97)}
+  .hero{padding:80px 22px 50px}
+  .sect{padding:14vh 22px}
+  .full{height:96vh}
+  .full .chip{left:18px; right:18px; bottom:22px; max-width:none; font-size:13px}
+  .day-hud{padding:0 22px 7vh}
+  .day-title{padding:84px 22px 0}
+  footer{padding:12vh 22px 46px}
+  .loose{gap:5.5vh 26px; margin-top:8vh}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero .cue::after{animation:none}
+  html.js .rv{transition:none}
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.className += " js" + (matchMedia("(prefers-reduced-motion:reduce)").matches ? "" : " mo");</script>
+
+<nav id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top">Blau Terranova <span>Garbí</span></a>
+    <a class="nav-cta" href="https://www.booking.com/hotel/es/apartamento-blau-terranova-garbi.es.html" target="_blank" rel="noopener">Ver disponibilidad</a>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="hero-sea" id="heroSea">
+    <svg viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 160 C 150 120, 260 200, 420 160 S 720 110, 900 165 S 1120 200, 1200 150 L1200 300 L0 300 Z" fill="#CDE7E4"/>
+      <path d="M0 205 C 170 175, 300 240, 470 205 S 780 160, 960 210 S 1130 240, 1200 200 L1200 300 L0 300 Z" fill="#7FC6C8"/>
+      <path d="M0 250 C 190 225, 320 275, 500 250 S 820 215, 1010 255 S 1140 275, 1200 248 L1200 300 L0 300 Z" fill="#39A8A8"/>
+    </svg>
+  </div>
+  <div class="hero-in" id="heroIn">
+    <p class="kick">Oliva · Playa de Terranova · Calle Faig 16</p>
+    <h1>
+      Sales de casa.<br>
+      Y ya hueles<br>
+      <span class="ko mar" id="heroKo">el mar.</span>
+    </h1>
+    <p class="sub">Apartamento en la urbanización <b>Garbí</b>, primera línea de dunas de Oliva. Cuatro plazas, dos dormitorios, piscina entre jardines — y <b>1.750 metros de arena dorada</b> a cuatro minutos andando.</p>
+  </div>
+  <p class="cue">Baja</p>
+</header>
+
+<!-- ================= SCROLLY 1: la playa ================= -->
+<section class="scrolly lite" style="height:320vh" aria-label="La playa de Terranova">
+  <div class="stick">
+    <div class="bg sc-amanecer"></div>
+    <div class="bg sc-mar"></div>
+    <div class="bg sc-duna"></div>
+    <p class="msg">La playa no se ve desde el salón. Se <em>oye</em>.<small>280 m · 4 minutos andando</small></p>
+    <p class="msg">1.750 metros de arena <em>fina y dorada</em>.<small>Terranova–Burguera · Bandera Azul</small></p>
+    <p class="msg">Y detrás, un <em>cordón dunar</em> que sigue vivo.<small>Nidos de chorlitejo patinegro</small></p>
+  </div>
+</section>
+
+<!-- ================= FULL: la casa ================= -->
+<section class="full" aria-label="La urbanización Garbí">
+  <div class="frame">
+    <div class="plx">
+      <div class="esc-casa">
+        <span class="sol"></span>
+        <span class="arena"></span>
+        <span class="bloque" id="bloque"></span>
+        <span class="som" style="left:47%; bottom:25%; background:linear-gradient(90deg,#E9762B,#F3A468)"></span>
+        <span class="som" style="left:63%; bottom:30%; background:linear-gradient(90deg,#F6D9C4,#E7BFA2); width:min(7vw,68px)"></span>
+        <span class="som" style="left:78%; bottom:24%; background:linear-gradient(90deg,#1E90A0,#57C0C4)"></span>
+        <span class="agua"></span>
+      </div>
+    </div>
+  </div>
+  <p class="chip"><b>Urbanización Garbí, calle Faig 16.</b> Un residencial tranquilo de Playa de Terranova, con zonas ajardinadas, piscina comunitaria y pista de pádel. Aparcas, subes la bolsa y ya no vuelves a coger el coche.</p>
+</section>
+
+<!-- ================= LA CASA EN NUMEROS ================= -->
+<section class="sect">
+  <div class="in">
+    <h2 class="state rv">Una casa que <em>no pide nada</em> a cambio.</h2>
+    <p class="after rv">Ni traslados, ni horarios, ni buscar sitio donde dejar la sombrilla. Sales por la puerta con las chanclas en la mano y en cuatro minutos estás con los pies dentro del agua. Lo demás — la siesta, la ducha con arena, la cena tarde — se organiza solo.</p>
+    <div class="loose">
+      <div class="it rv"><p class="n"><span class="cnt" data-to="4">0</span> <small>plazas</small></p><p>Cuatro adultos, o dos y dos, sin que nadie duerma en el sofá por obligación.</p></div>
+      <div class="it rv"><p class="n"><span class="cnt" data-to="2">0</span> <small>dormitorios</small></p><p>Dos habitaciones independientes. La casa se reparte sola.</p></div>
+      <div class="it rv"><p class="n"><span class="cnt" data-to="280">0</span> <small>m a la orilla</small></p><p>Distancia real hasta la arena de Terranova. Cuatro minutos, sin prisa.</p></div>
+      <div class="it rv"><p class="n"><span class="cnt" data-to="1750">0</span> <small>m de playa</small></p><p>Lo que mide Terranova–Burguera. Siempre hay un hueco donde no hay nadie.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EL DIA: sol arrastrado por el scroll ================= -->
+<section class="daypin" id="daypin" style="height:420vh" aria-label="Un día en la casa">
+  <div class="stick">
+    <div id="cielo"></div>
+    <div id="marfondo"></div>
+    <span class="astro" id="sol"></span>
+    <span class="astro" id="luna"></span>
+    <div class="day-title"><h2>Un día aquí, de la primera luz a la última.</h2></div>
+    <div class="day-hud">
+      <p class="reloj mono" id="reloj">07:30</p>
+      <div class="day-cap" id="dayCap">
+        <p data-t="0.00">El levante entra por la terraza antes que el ruido. <em>Todavía no hay nadie</em> en la arena.</p>
+        <p data-t="0.18">Desayuno fuera. A esta hora la playa es un pasillo largo y vacío para <em>andar sin rumbo</em>.</p>
+        <p data-t="0.38">Sombrilla clavada, nevera fría. <em>El agua está en calma</em> hasta que se levanta la térmica.</p>
+        <p data-t="0.56">Se sube a comer y a dormir la siesta. La piscina de la urbanización, <em>a treinta pasos</em>.</p>
+        <p data-t="0.74">Vuelta al agua cuando el sol afloja. El Montgó se pone <em>violeta</em> al fondo.</p>
+        <p data-t="0.88">Ducha, mesa fuera, cena que no acaba. <em>Se oye el mar</em> otra vez porque ya no se oye nada más.</p>
+        <p data-t="1.00">Y mañana, exactamente lo mismo. <em>Eso es el plan.</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PANEL OSCURO: TERRANOVA ================= -->
+<section class="sect darkp" aria-label="Terranova">
+  <div class="in">
+    <p class="tagline">La playa</p>
+    <p><span class="ko arena kobig" id="bigKo">TERRANOVA</span></p>
+    <p class="after rv" style="margin-top:6vh">Una de las pocas playas del Mediterráneo español que sigue sin urbanizar de punta a punta. <b>Arena fina, dorada, con Bandera Azul</b>, un cordón de dunas detrás y un manantial de agua dulce — <b>El Tou</b> — que sale en la propia orilla. Es refugio del chorlitejo patinegro, que anida ahí mismo, así que las dunas se cruzan por las pasarelas y no por encima.</p>
+    <p class="after rv">Los vientos de la zona la han convertido además en clásico del windsurf. Y es accesible para personas con movilidad reducida.</p>
+  </div>
+</section>
+
+<!-- ================= SCROLLY 2: la noche ================= -->
+<section class="scrolly deep" style="height:220vh" aria-label="La noche">
+  <div class="stick">
+    <div class="bg sc-noche"></div>
+    <div class="bg sc-amanecer"></div>
+    <p class="msg">De noche, aquí, <em>no pasa nada</em>.<small>Y eso es exactamente el motivo</small></p>
+    <p class="msg">Hasta que a las siete vuelve <em>a empezar</em>.<small>Playa de Terranova · Oliva</small></p>
+  </div>
+</section>
+
+<!-- ================= EQUIPAMIENTO ================= -->
+<section class="sect">
+  <div class="in">
+    <h2 class="state rv">Lo que hay dentro, <em>y en el bloque</em>.</h2>
+    <p class="after rv">Sin lista infinita de amenities. Lo que de verdad se usa en una semana de playa.</p>
+    <ul class="plain">
+      <li class="rv"><span class="k">01</span><span>Dos dormitorios y salón con salida a terraza</span><span class="fix">4 plazas</span></li>
+      <li class="rv"><span class="k">02</span><span>Cocina equipada para cocinar de verdad</span><span class="fix">nevera · lavadora</span></li>
+      <li class="rv"><span class="k">03</span><span>Aire acondicionado para las noches de agosto</span><span class="fix">A/A</span></li>
+      <li class="rv"><span class="k">04</span><span>Wi-Fi, por si alguien tiene que fingir que trabaja</span><span class="fix">incluido</span></li>
+      <li class="rv"><span class="k">05</span><span>Piscina comunitaria entre zonas ajardinadas</span><span class="fix">urbanización</span></li>
+      <li class="rv"><span class="k">06</span><span>Pista de pádel dentro del residencial</span><span class="fix">urbanización</span></li>
+      <li class="rv"><span class="k">07</span><span>Aparcamiento en la propia calle Faig</span><span class="fix">a pie de puerta</span></li>
+    </ul>
+    <p class="after rv" style="margin-top:6vh">El detalle exacto de camas, baños y superficie —y el precio de tus fechas— está siempre actualizado en la ficha de Booking.</p>
+    <a class="cta" href="https://www.booking.com/hotel/es/apartamento-blau-terranova-garbi.es.html" target="_blank" rel="noopener">Ver fechas y precio <span>↗ Booking</span></a>
+  </div>
+</section>
+
+<!-- ================= ALREDEDORES ================= -->
+<section class="sect darkp" aria-label="Alrededores">
+  <div class="in">
+    <h2 class="state rv">A un cuarto de hora, <em>otro plan distinto</em>.</h2>
+    <p class="after rv">La casa está en la playa, pero Oliva tiene detrás una comarca entera. Todo esto se hace en una mañana y se vuelve a comer a casa.</p>
+    <ul class="dist">
+      <li class="rv"><span class="q">Font Salada<small>Manantial termal natural, 21–23 °C todo el año</small></span><span class="m">≈10 min</span></li>
+      <li class="rv"><span class="q">Marjal de Pego-Oliva<small>Parque natural · arrozales y aves acuáticas</small></span><span class="m">≈12 min</span></li>
+      <li class="rv"><span class="q">Casco antiguo de Oliva<small>Calles empedradas, herencia árabe y medieval</small></span><span class="m">≈8 min</span></li>
+      <li class="rv"><span class="q">Gandía<small>Puerto, restaurantes y tren a Valencia</small></span><span class="m">≈25 min</span></li>
+      <li class="rv"><span class="q">Dénia y el Montgó<small>Castillo, cala y la carretera de la Marina Alta</small></span><span class="m">≈25 min</span></li>
+      <li class="rv"><span class="q">Valencia<small>Por la AP-7 / N-332</small></span><span class="m">≈1 h 10</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= MAPA ================= -->
+<section class="sect">
+  <div class="in">
+    <h2 class="state rv">Calle Faig 16. <em>La segunda línea buena</em>.</h2>
+    <p class="after rv">Lo bastante cerca para ir descalzo, lo bastante dentro para dormir con la ventana abierta.</p>
+    <div class="mapa rv">
+      <svg viewBox="0 0 1000 520" role="img" aria-label="Croquis: calle Faig 16 respecto a la playa de Terranova">
+        <rect class="mp-suelo" x="0" y="0" width="1000" height="520"/>
+        <path class="mp-agua" d="M1000 0 L1000 520 L720 520 C 690 420, 760 300, 726 200 C 700 120, 760 60, 742 0 Z"/>
+        <path class="mp-arena" d="M742 0 C 760 60, 700 120, 726 200 C 760 300, 690 420, 720 520 L640 520 C 612 420, 676 300, 646 200 C 622 120, 678 60, 662 0 Z"/>
+        <path class="mp-duna" d="M662 0 C 678 60, 622 120, 646 200 C 676 300, 612 420, 640 520 L596 520 C 570 420, 630 300, 602 200 C 580 120, 632 60, 618 0 Z"/>
+        <path class="mp-via" d="M96 60 L96 470"/>
+        <path class="mp-via" d="M300 40 L300 490"/>
+        <path class="mp-via" d="M60 168 L580 168"/>
+        <path class="mp-via" d="M60 386 L590 386"/>
+        <path class="mp-faig" d="M300 276 L586 276"/>
+        <path class="mp-ruta" d="M420 276 C 500 276, 560 250, 610 214 C 650 186, 672 160, 700 140"/>
+        <circle class="mp-pin" cx="420" cy="276" r="15"/>
+        <text class="mp-lab big" x="420" y="240" text-anchor="middle">Calle Faig 16</text>
+        <text class="mp-lab" x="596" y="300" text-anchor="end">c/ Faig</text>
+        <text class="mp-lab big" x="836" y="272" text-anchor="middle" transform="rotate(90 836 272)">Mar Mediterráneo</text>
+        <text class="mp-lab" x="678" y="472" text-anchor="middle" transform="rotate(90 678 472)">arena</text>
+        <text class="mp-lab" x="620" y="472" text-anchor="middle" transform="rotate(90 620 472)">dunas</text>
+        <text class="mp-lab" x="706" y="120" text-anchor="middle">280 m · 4 min</text>
+        <text class="mp-lab" x="70" y="150" >a Oliva pueblo →</text>
+      </svg>
+    </div>
+    <dl class="ficha">
+      <div><dt>Dirección</dt><dd><a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Faig+16%2C+Oliva%2C+Valencia" target="_blank" rel="noopener">Calle Faig 16, Oliva</a><small>Playa de Terranova · 46780 Valencia</small></dd></div>
+      <div><dt>Capacidad</dt><dd>4 personas<small>2 dormitorios independientes</small></dd></div>
+      <div><dt>Urbanización</dt><dd>Garbí<small>Piscina comunitaria, jardines y pádel</small></dd></div>
+      <div><dt>Reserva</dt><dd><a href="https://www.booking.com/hotel/es/apartamento-blau-terranova-garbi.es.html" target="_blank" rel="noopener">Apartamento Blau Terranova Garbi</a><small>Disponibilidad y precio en tiempo real</small></dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="in">
+    <p class="mantra">Se llega en coche.<br>Se vuelve <em>descalzo</em>.</p>
+    <a class="cta" href="https://www.booking.com/hotel/es/apartamento-blau-terranova-garbi.es.html" target="_blank" rel="noopener">Reservar en Booking <span>↗</span></a>
+    <div class="meta">
+      <span>Blau Terranova Garbí · Calle Faig 16, Oliva (Valencia)</span>
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Faig+16%2C+Oliva%2C+Valencia" target="_blank" rel="noopener">Cómo llegar</a>
+      <a href="https://www.booking.com/hotel/es/apartamento-blau-terranova-garbi.es.html" target="_blank" rel="noopener">Ficha y disponibilidad</a>
+      <span>Página informativa no oficial. Las reservas se gestionan en Booking.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var mo = document.documentElement.classList.contains("mo");
+  var nav = document.getElementById("nav");
+
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  function easeO(t){ return 1-Math.pow(1-t,3); }
+
+  /* ---------- ventanas del bloque, generadas ---------- */
+  (function(){
+    var b = document.getElementById("bloque");
+    if (!b) return;
+    var html = "";
+    for (var f=0; f<5; f++){
+      html += '<b style="bottom:' + (7 + f*18) + '%"></b>';
+      for (var c=0; c<4; c++){
+        var op = 0.62 + ((f*4+c) % 4) * 0.11;
+        html += '<i style="left:' + (11 + c*21) + '%; bottom:' + (11 + f*18) + '%; width:12%; height:10%; opacity:' + op.toFixed(2) + '"></i>';
+      }
+    }
+    b.innerHTML = html;
+  })();
+
+  /* ---------- reveal de respaldo ---------- */
+  var rvs = [].slice.call(document.querySelectorAll(".rv"));
+  if ("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add("on"); io.unobserve(e.target); } });
+    }, {rootMargin:"0px 0px -12% 0px"});
+    rvs.forEach(function(el){ io.observe(el); });
+  } else {
+    rvs.forEach(function(el){ el.classList.add("on"); });
+  }
+
+  /* ---------- contadores ---------- */
+  function setCnt(c, t){
+    var to = parseFloat(c.dataset.to);
+    c.textContent = String(Math.round(to*t)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  /* ---------- paleta del dia ---------- */
+  /* cada parada: [t, cieloArriba, cieloAbajo, mar] */
+  var DIA = [
+    [0.00, [30,58,95],  [232,160,107], [20,83,106]],
+    [0.20, [46,134,200],[207,233,244], [14,124,140]],
+    [0.45, [44,147,216],[217,240,247], [17,148,162]],
+    [0.68, [78,143,192],[246,221,174], [20,128,142]],
+    [0.85, [122,79,124],[238,139,60],  [90,95,122]],
+    [1.00, [6,12,21],   [22,48,63],    [10,34,48]]
+  ];
+  function mezcla(t){
+    var i = 0;
+    while (i < DIA.length-2 && t > DIA[i+1][0]) i++;
+    var a = DIA[i], b = DIA[i+1];
+    var u = clamp((t-a[0])/(b[0]-a[0]), 0, 1);
+    function c(ia){
+      return "rgb(" + Math.round(lerp(a[ia][0],b[ia][0],u)) + "," +
+                      Math.round(lerp(a[ia][1],b[ia][1],u)) + "," +
+                      Math.round(lerp(a[ia][2],b[ia][2],u)) + ")";
+    }
+    return {arriba:c(1), abajo:c(2), mar:c(3)};
+  }
+  function reloj(t){
+    var m = Math.round(450 + t*960);                  /* 07:30 -> 23:30 */
+    var h = Math.floor(m/60) % 24, mm = m % 60;
+    return (h<10?"0":"") + h + ":" + (mm<10?"0":"") + mm;
+  }
+
+  var stickH = 0;
+  var caps = [].slice.call(document.querySelectorAll("#dayCap p"));
+  var capT = caps.map(function(p){ return parseFloat(p.dataset.t); });
+
+  function pintaDia(t){
+    var col = mezcla(t);
+    var cielo = document.getElementById("cielo"), mar = document.getElementById("marfondo");
+    cielo.style.background = "linear-gradient(180deg," + col.arriba + "," + col.abajo + ")";
+    mar.style.background = col.mar;
+
+    var h = stickH || innerHeight;
+    var horiz = h*0.66;
+    var su = clamp(t/0.86, 0, 1);
+    var sol = document.getElementById("sol"), luna = document.getElementById("luna");
+    sol.style.transform = "translate(-50%,-50%) translate(" + (6+t*88) + "vw," +
+                          (horiz - Math.sin(su*Math.PI)*h*0.40) + "px)";
+    sol.style.opacity = String(clamp((0.90-t)/0.06, 0, 1));
+    var lt = clamp((t-0.82)/0.18, 0, 1);
+    luna.style.transform = "translate(-50%,-50%) translate(" + (12+lt*34) + "vw," +
+                           (horiz*0.62 - Math.sin(lt*1.1)*h*0.16) + "px)";
+    luna.style.opacity = String(clamp((t-0.84)/0.08, 0, 1));
+
+    document.getElementById("reloj").textContent = reloj(t);
+    for (var i=0;i<caps.length;i++){
+      /* cada frase manda hasta el punto medio con su vecina; solo se cruzan en la banda */
+      var lo = i === 0 ? -1 : (capT[i-1]+capT[i])/2;
+      var hi = i === caps.length-1 ? 2 : (capT[i]+capT[i+1])/2;
+      var banda = 0.016;   /* relevo corto: dos frases nunca se leen a la vez */
+      var o = Math.min(clamp((t-lo+banda)/(2*banda), 0, 1), clamp((hi+banda-t)/(2*banda), 0, 1));
+      caps[i].style.opacity = String(o);
+      caps[i].style.transform = "translateY(" + clamp((t-capT[i])*-300, -44, 44) + "px)";
+    }
+  }
+
+  /* ================== MOTOR DE SCRUB ================== */
+  var Y = 0, SY = 0;
+  var mods = [];
+
+  function medir(){
+    mods = [];
+    if (!mo) return;
+
+    /* hero */
+    var heroIn = document.getElementById("heroIn"),
+        heroKo = document.getElementById("heroKo"),
+        heroSea = document.getElementById("heroSea");
+    mods.push({ el:document.body, top:0, h:innerHeight, fn:function(p){
+      heroIn.style.opacity = String(clamp(1 - p*1.25, 0, 1));
+      heroIn.style.transform = "translateY(" + (-p*52) + "px)";
+      heroKo.style.backgroundPosition = (40 + p*34) + "% " + (40 + p*30) + "%";
+      heroSea.style.transform = "translate3d(" + (-p*14) + "%," + (p*40) + "px,0)";
+    }});
+
+    /* scrollys: mensajes y fondos fundidos en continuo */
+    document.querySelectorAll(".scrolly").forEach(function(sc){
+      var msgs = sc.querySelectorAll(".msg"), bgs = sc.querySelectorAll(".bg"), n = msgs.length;
+      mods.push({ el:sc, fn:function(p){
+        for (var i=0;i<n;i++){
+          var c = (i+0.5)/n, w = 0.5/n;
+          var d = (p-c)/w;
+          if (i === 0) d = Math.max(d, 0);            /* el primero no entra desde la nada */
+          if (i === n-1) d = Math.min(d, 0);          /* el ultimo no se va antes de tiempo */
+          var vis = clamp(1-Math.abs(d),0,1);
+          var o = Math.pow(vis,1.5);
+          msgs[i].style.opacity = String(o);
+          msgs[i].style.transform = "translateY(" + (-d*72) + "px) scale(" + (0.965+0.035*o) + ")";
+          if (bgs[i]){
+            var db = (p-c)/(w*1.6);
+            if (i === 0) db = Math.max(db, 0);
+            if (i === n-1) db = Math.min(db, 0);
+            var vb = clamp(1-Math.abs(db),0,1);
+            bgs[i].style.opacity = String(Math.pow(vb,1.2));
+            bgs[i].style.transform = "translate3d(0," + (db*34) + "px,0) scale(" + (1.07-0.05*vb) + ")";
+          }
+        }
+      }});
+    });
+
+    /* full-bleed: revelado por clip + parallax */
+    document.querySelectorAll(".full").forEach(function(f){
+      var frame = f.querySelector(".frame"), plx = f.querySelector(".plx");
+      mods.push({ el:f, entra:true, fn:function(p){
+        var rev = easeO(clamp(p*1.6,0,1));
+        var ins = (1-rev)*10;
+        frame.style.clipPath = "inset(" + ins + "% " + ins*0.7 + "% round " + (1-rev)*26 + "px)";
+        plx.style.transform = "translate3d(0," + ((p-0.5)*-84) + "px,0)";
+      }});
+    });
+
+    /* el dia */
+    var dp = document.getElementById("daypin");
+    if (dp) stickH = dp.querySelector(".stick").clientHeight;
+    if (dp) mods.push({ el:dp, fn:function(p){ pintaDia(clamp(p*1.04,0,1)); }});
+
+    /* kobig */
+    var bk = document.getElementById("bigKo");
+    if (bk) mods.push({ el:bk.closest("section"), entra:true, fn:function(p){
+      bk.style.backgroundPosition = (30 + p*44) + "% " + (60 - p*30) + "%";
+    }});
+
+    /* contadores */
+    document.querySelectorAll(".cnt").forEach(function(c){
+      mods.push({ el:c.closest("section")||c, entra:true, fn:function(p){ setCnt(c, easeO(clamp(p*1.9,0,1))); }});
+    });
+
+    /* medir top/h reales */
+    mods.forEach(function(m){
+      if (m.el === document.body) return;
+      var r = m.el.getBoundingClientRect();
+      m.top = r.top + pageYOffset; m.h = r.height;
+    });
+  }
+
+  /* ---------- bucle ---------- */
+  var running = false;
+  var K = matchMedia("(pointer:coarse)").matches ? 0.22 : 0.14;
+  function frame(){
+    SY += (Y-SY)*K;
+    if (Math.abs(Y-SY) < 0.3) SY = Y;
+    var vh = innerHeight;
+    nav.classList.toggle("scrolled", SY > vh*0.6);
+    mods.forEach(function(m){
+      var p;
+      if (m.el === document.body){ p = clamp(SY/(vh*0.95),0,1); }
+      else if (m.entra){ p = clamp((SY+vh - m.top)/(vh + m.h*0.6), 0, 1); }
+      else { p = clamp((SY - m.top)/(m.h - vh), 0, 1); }
+      m.fn(p);
+    });
+    if (SY !== Y){ requestAnimationFrame(frame); }
+    else { running = false; }
+  }
+  function wake(){
+    Y = pageYOffset;
+    if (!running){ running = true; requestAnimationFrame(frame); }
+  }
+  addEventListener("scroll", wake, {passive:true});
+  addEventListener("resize", function(){ medir(); wake(); }, {passive:true});
+  addEventListener("load", function(){ medir(); wake(); });
+
+  if (!mo){
+    /* sin motor: estado legible y quieto */
+    document.querySelectorAll(".cnt").forEach(function(c){ setCnt(c,1); });
+    nav.classList.add("scrolled");
+  } else {
+    pintaDia(0);
+    medir();
+    wake();
+  }
+})();
+</script>
+
+</body>
+</html>
