@@ -48,7 +48,8 @@ a{color:inherit}
 a:focus-visible{outline:2px solid var(--verde-alto); outline-offset:4px}
 
 #tinte{position:fixed; inset:0; z-index:-2; background:var(--tinta); will-change:background}
-#velo{position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:0; will-change:opacity;
+#agua{position:fixed; inset:0; z-index:1; pointer-events:none}
+#velo{position:fixed; inset:0; z-index:3; pointer-events:none; opacity:0; will-change:opacity;
   background:radial-gradient(120% 80% at 50% 30%, rgba(95,190,134,.20), rgba(8,19,16,0) 70%)}
 
 .rot{font-family:var(--titulo); font-size:11.5px; font-weight:400; letter-spacing:.36em;
@@ -140,7 +141,7 @@ a:focus-visible{outline:2px solid var(--verde-alto); outline-offset:4px}
 .subida{position:relative}
 .subida .fija{position:sticky; top:0; height:100vh; height:100svh; overflow:hidden;
   display:grid; place-items:center}
-.barandas{position:absolute; inset:0; pointer-events:none; z-index:1}
+.barandas{position:absolute; inset:0; pointer-events:none; z-index:0}  /* que el agua las cubra al subir */
 .baranda{position:absolute; left:-8%; width:116%; height:38px; will-change:transform,opacity}
 .baranda::before{content:""; position:absolute; left:0; right:0; top:0; height:3px;
   background:linear-gradient(90deg,rgba(47,95,73,0),#4C8A69 12%,#4C8A69 88%,rgba(47,95,73,0))}
@@ -157,11 +158,8 @@ a:focus-visible{outline:2px solid var(--verde-alto); outline-offset:4px}
 /* ---------- el aljibe ---------- */
 .aljibe{position:relative}
 .aljibe .fija{position:sticky; top:0; height:100vh; height:100svh; overflow:hidden;
-  display:flex; flex-direction:column; justify-content:center; align-items:center; padding:0 26px}
-.agua{position:absolute; left:0; right:0; bottom:0; height:52%; z-index:1;
-  background:linear-gradient(180deg,#12362A,#081C16 60%,#04100C)}
-.agua::after{content:""; position:absolute; inset:0;
-  background:repeating-linear-gradient(180deg,rgba(221,231,224,.06) 0 1px,rgba(221,231,224,0) 1px 13px)}
+  display:flex; flex-direction:column; justify-content:flex-start; align-items:center;
+  padding:12vh 26px 0}   /* el verso queda sobre la línea de flotación, el reflejo debajo */
 .carambano{position:absolute; left:50%; top:0; width:2px; transform:translateX(-50%); z-index:2;
   background:linear-gradient(180deg,rgba(239,245,236,0),var(--luna)); will-change:height}
 .gitana{position:relative; z-index:3; text-align:center; width:100%; max-width:540px}
@@ -186,6 +184,11 @@ a:focus-visible{outline:2px solid var(--verde-alto); outline-offset:4px}
 .cierre .v{text-indent:0; padding-left:0; font-size:clamp(22px,3.2vw,38px)}
 
 /* ---------- pie ---------- */
+.vuelta{text-align:center; padding:2vh 30px 16vh; position:relative; z-index:2}
+.vuelta a{font-family:var(--titulo); font-size:12px; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--escarcha); text-decoration:none; border-bottom:1px solid var(--linea); padding-bottom:6px;
+  transition:color .5s var(--ease), border-color .5s var(--ease)}
+.vuelta a:hover{color:var(--verde-alto); border-bottom-color:var(--verde-alto)}
 footer{padding:10vh 30px 8vh; border-top:1px solid var(--linea); position:relative; z-index:2}
 footer .in{max-width:640px; margin:0 auto}
 footer p{font-size:15px; line-height:1.7; color:var(--escarcha); margin-top:16px}
@@ -205,7 +208,8 @@ html:not(.mo) .estri,html:not(.mo) .subida,html:not(.mo) .aljibe,
 html:not(.mo) .guardias,html:not(.mo) .lamina{height:auto!important}
 html:not(.mo) .marco{height:auto; clip-path:none!important; max-width:min(520px,88vw)}
 html:not(.mo) .barandas,html:not(.mo) .rastro,html:not(.mo) .carambano,
-html:not(.mo) .puerta,html:not(.mo) .reflejo,html:not(.mo) #velo{display:none}
+html:not(.mo) .puerta,html:not(.mo) .reflejo,html:not(.mo) #velo,
+html:not(.mo) #agua{display:none}
 
 /* ---------- móvil ---------- */
 @media (max-width:640px){
@@ -223,6 +227,7 @@ html:not(.mo) .puerta,html:not(.mo) .reflejo,html:not(.mo) #velo{display:none}
 <script>document.documentElement.className += " js" + (matchMedia("(prefers-reduced-motion:reduce)").matches ? "" : " mo");</script>
 
 <div id="tinte"></div>
+<canvas id="agua" aria-hidden="true"></canvas>
 <div id="velo"></div>
 
 <!-- ================= PORTADA ================= -->
@@ -395,7 +400,6 @@ html:not(.mo) .puerta,html:not(.mo) .reflejo,html:not(.mo) #velo{display:none}
   <div class="fija">
     <div class="fondo" aria-hidden="true"><img src="img/f2.jpg" alt=""></div>
     <span class="carambano" id="carambano" aria-hidden="true"></span>
-    <div class="agua" id="agua" aria-hidden="true"></div>
     <div class="gitana" id="gitana">
       <span class="v">Sobre el rostro del <em>aljibe</em></span>
       <span class="v">se <em>mecía</em> la gitana.</span>
@@ -445,6 +449,8 @@ html:not(.mo) .puerta,html:not(.mo) .reflejo,html:not(.mo) #velo{display:none}
     <span class="v">Y el caballo en la <em>montaña</em>.</span>
   </div>
 </section>
+
+<p class="vuelta"><a href="#port" id="vuelta">Volver a empezar</a></p>
 
 <!-- ================= PIE ================= -->
 <footer>
@@ -541,6 +547,127 @@ html:not(.mo) .puerta,html:not(.mo) .reflejo,html:not(.mo) #velo{display:none}
     }
   }
 
+  /* ============================================================
+     EL AGUA
+     la muchacha lleva ahogada en el aljibe desde el primer verso:
+     por eso es verde. así que el agua está en toda la página, no
+     solo en su sección. su rostro va reflejado boca abajo bajo la
+     superficie desde la portada, ilegible, y solo se endereza
+     cuando el nivel alcanza el aljibe.
+
+     la agitación la pone el propio lector: cuanto más rápido baja,
+     más se riza el agua. hay que ir despacio para verla.
+     ============================================================ */
+  var cv = document.getElementById("agua"), cx2 = cv ? cv.getContext("2d") : null;
+  var W = 0, H = 0, DPR = 1, espejo = null, imgLista = false;
+  var estado = { nivel:0.085, agit:0, anillos:[], claridad:0.18, fase:0 };
+
+  (function(){
+    if (!cx2) return;
+    var im = new Image();
+    im.onload = function(){
+      var c = document.createElement("canvas");
+      c.width = im.naturalWidth; c.height = im.naturalHeight;
+      var g = c.getContext("2d");
+      g.translate(0, c.height); g.scale(1, -1);      /* el reflejo va del revés */
+      g.drawImage(im, 0, 0);
+      espejo = c; imgLista = true;
+    };
+    im.src = "img/f2.jpg";
+  })();
+
+  function midePapel(){
+    if (!cx2) return;
+    DPR = Math.min(devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    cv.width = Math.round(W*DPR); cv.height = Math.round(H*DPR);
+    cv.style.width = W + "px"; cv.style.height = H + "px";
+    cx2.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+
+  function superficie(x, fase, agit, anillos){
+    var y = Math.sin(x/W*7.1 + fase) * 3.4 * (0.45 + agit)
+          + Math.sin(x/W*13.7 - fase*1.6) * 2.0 * (0.45 + agit)
+          + Math.sin(x/W*29.3 + fase*2.4) * 0.9;
+    for (var i=0;i<anillos.length;i++){
+      var a = anillos[i], d = Math.abs(x - a.cx);
+      y += Math.cos(d/24) * a.fuerza * Math.exp(-d/(W*0.4));
+    }
+    return y;
+  }
+
+  function pintaAgua(ms){
+    if (!cx2 || !W) return;
+    var fase = estado.fase + ms/2600;
+    var yBase = H * (1 - estado.nivel);
+    cx2.clearRect(0, 0, W, H);
+
+    /* recorte por la superficie ondulada */
+    cx2.save();
+    cx2.beginPath();
+    cx2.moveTo(0, H);
+    for (var x=0; x<=W; x+=6) cx2.lineTo(x, yBase + superficie(x, fase, estado.agit, estado.anillos));
+    cx2.lineTo(W, H); cx2.closePath(); cx2.clip();
+
+    /* el reflejo, banda a banda, desplazado por el rizo */
+    if (imgLista && estado.claridad > 0.02){
+      /* el reflejo cubre todo el ancho: si se recorta en columna, el
+         desplazamiento de cada banda deja el borde dentado a la vista */
+      var iw = espejo.width, ih = espejo.height;
+      var margen = 60 + estado.agit*30;
+      var rw = W + margen*2, rh = rw*ih/iw, rx = -margen;
+      var bandas = 72, alto = rh/bandas;
+      cx2.globalAlpha = estado.claridad;
+      for (var i=0;i<bandas;i++){
+        var prof = i/bandas;
+        var desp = Math.sin(prof*8.5 + fase*1.4) * (4 + estado.agit*22) * (1 - prof*0.45);
+        /* filas enteras: con destinos fraccionarios el remuestreo deja costuras */
+        var y0 = Math.round(yBase + i*alto), y1 = Math.round(yBase + (i+1)*alto);
+        cx2.drawImage(espejo, 0, prof*ih, iw, ih/bandas,
+                      Math.round(rx + desp), y0, rw, (y1-y0) + 1);
+      }
+      cx2.globalAlpha = 1;
+    }
+
+    /* el verde del agua, encima del reflejo */
+    var g = cx2.createLinearGradient(0, yBase, 0, H);
+    g.addColorStop(0,   "rgba(24,66,51,.30)");
+    g.addColorStop(.40, "rgba(11,38,29,.72)");
+    g.addColorStop(1,   "rgba(4,16,12,.94)");
+    cx2.fillStyle = g; cx2.fillRect(0, yBase-20, W, H-yBase+20);
+    cx2.restore();
+
+    /* la línea de flotación */
+    cx2.beginPath();
+    for (var x2=0; x2<=W; x2+=4){
+      var yy = yBase + superficie(x2, fase, estado.agit, estado.anillos);
+      if (x2 === 0) cx2.moveTo(x2, yy); else cx2.lineTo(x2, yy);
+    }
+    cx2.strokeStyle = "rgba(150,214,180," + (0.30 + estado.agit*0.35) + ")";
+    cx2.lineWidth = 1.2; cx2.stroke();
+    cx2.strokeStyle = "rgba(239,245,236,.12)"; cx2.lineWidth = 4; cx2.stroke();
+  }
+
+  var ultimoAgua = 0;
+  function bucleAgua(ms){
+    requestAnimationFrame(bucleAgua);
+    if (document.hidden || ms - ultimoAgua < 32) return;
+    ultimoAgua = ms;
+    pintaAgua(ms);
+  }
+
+  /* nivel del agua: sube con el poema y baja al cerrarse el sueño */
+  var ANCLAS = [[0,0.05]];
+  function nivelEn(t){
+    var i = 0;
+    while (i < ANCLAS.length-2 && t > ANCLAS[i+1][0]) i++;
+    var a = ANCLAS[i], b = ANCLAS[i+1] || a;
+    if (!ANCLAS[i+1]) return a[1];
+    var u = clamp((t-a[0])/((b[0]-a[0])||1), 0, 1);
+    u = u*u*(3-2*u);
+    return lerp(a[1], b[1], u);
+  }
+
   /* ---------- el color del fondo, parada a parada ---------- */
   var TINTE = [
     [0.00, [ 8,19,16]], [0.08, [14,45,31]], [0.20, [ 9,24,18]], [0.34, [21,15,13]],
@@ -569,7 +696,7 @@ html:not(.mo) .puerta,html:not(.mo) .reflejo,html:not(.mo) #velo{display:none}
   })();
 
   /* ================== MOTOR ================== */
-  var Y = 0, SY = 0, mods = [];
+  var Y = 0, SY = 0, mods = [], ondula = [], tAljibe = 0.7;
 
   var PX_POR_GOLPE = 24;
   function medir(){
@@ -652,11 +779,9 @@ html:not(.mo) .puerta,html:not(.mo) .reflejo,html:not(.mo) #velo{display:none}
     /* el aljibe */
     var alj = document.getElementById("aljibe");
     if (alj){
-      var agua = document.getElementById("agua"), car = document.getElementById("carambano"),
-          refl = document.getElementById("reflejo");
+      var car = document.getElementById("carambano"), refl = document.getElementById("reflejo");
       mods.push({ el:alj, fn:function(p){
         var h = alj.querySelector(".fija").clientHeight;
-        agua.style.height = (46 + easeO(clamp(p*1.4,0,1))*10) + "%";
         car.style.height = (easeO(clamp((p-0.18)*2.1,0,1)) * h * 0.48) + "px";
         var mece = Math.sin(p*Math.PI*4);
         refl.style.transform = "scaleY(-1) skewX(" + (mece*3.4) + "deg) translateX(" + (mece*9) + "px)";
@@ -675,6 +800,14 @@ html:not(.mo) .puerta,html:not(.mo) .reflejo,html:not(.mo) #velo{display:none}
         var lado = Math.floor(q*5) % 2 ? 1 : -1;
         txt.style.transform = "translate(" + (golpe*22*lado) + "px," + (golpe*7) + "px) rotate(" + (golpe*0.8*lado) + "deg)";
         puerta.style.opacity = String(golpe*0.6);
+        var anillos = [];
+        for (var k=0;k<5;k++){
+          var edad = q - (k+0.5)/5;
+          if (edad > 0 && edad < 0.5)
+            anillos.push({ cx: W*(0.5 + (k%2 ? 0.24 : -0.24)), fuerza: 11*Math.exp(-edad*11) });
+        }
+        estado.anillos = anillos;
+        estado.agit = Math.max(estado.agit, golpe*0.9);
         recitaBloque(gu, clamp((p-0.04)/0.34, 0, 1));
       }});
     }
@@ -690,6 +823,33 @@ html:not(.mo) .puerta,html:not(.mo) .reflejo,html:not(.mo) #velo{display:none}
       var r = m.el.getBoundingClientRect();
       m.top = r.top + pageYOffset; m.h = r.height;
     });
+
+    /* dónde está cada cosa, en progreso de documento */
+    var doc = document.body.scrollHeight - innerHeight;
+    function tDe(sel, frac){
+      var el = typeof sel === "string" ? document.querySelector(sel) : sel;
+      if (!el) return 0.5;
+      var r = el.getBoundingClientRect(), top = r.top + pageYOffset;
+      return clamp((top + r.height*frac - innerHeight*0.5) / (doc||1), 0, 1);
+    }
+    tAljibe = tDe("#aljibe", 0.55);
+    ANCLAS = [
+      [0, 0.085],
+      [tDe("header.port", 1), 0.11],
+      [tDe("#subida", 0.5), 0.17],
+      [tAljibe - 0.06, 0.34],
+      [tAljibe, 0.58],                      /* aquí el agua alcanza el aljibe */
+      [tDe("#guardias", 0.5), 0.46],
+      [1, 0.12]
+    ];
+
+    /* versos que quedarán bajo la línea de flotación */
+    ondula = [];
+    document.querySelectorAll(".tirada.recita .col, .cierre.recita .col").forEach(function(col){
+      var vs = [].slice.call(col.querySelectorAll(".v"));
+      ondula.push({ col:col, vs:vs, tops:vs.map(function(v){ return v.offsetTop; }) });
+    });
+    midePapel();
   }
 
   var corriendo = false;
@@ -709,6 +869,33 @@ html:not(.mo) .puerta,html:not(.mo) .reflejo,html:not(.mo) #velo{display:none}
       m.fn(p);
     });
 
+    /* el agua: nivel por posición, claridad por cercanía al aljibe,
+       y la agitación la pone la prisa del lector */
+    estado.nivel = nivelEn(t);
+    var cerca = Math.exp(-Math.pow((t - tAljibe)/0.055, 2));
+    estado.claridad = 0.15 + 0.68*cerca;
+    estado.agit = clamp(Math.abs(Y - SY)/45, 0, 1) * 0.85 + estado.agit*0.15;
+
+    /* los versos sumergidos se ondulan */
+    if (W){
+      var yBase = H*(1 - estado.nivel), fase = performance.now()/2600;
+      for (var j=0;j<ondula.length;j++){
+        var o = ondula[j], r = o.col.getBoundingClientRect();
+        if (r.bottom < -40 || r.top > H + 40){
+          if (o.on){ for (var q=0;q<o.vs.length;q++) o.vs[q].style.transform = ""; o.on = false; }
+          continue;
+        }
+        o.on = true;
+        for (var k=0;k<o.vs.length;k++){
+          var y = r.top + o.tops[k], d = y - yBase;
+          if (d < -14){ if (o.vs[k]._sum){ o.vs[k].style.transform = ""; o.vs[k]._sum = 0; } continue; }
+          var amp = clamp(d/130, 0, 1);
+          o.vs[k].style.transform = "translateX(" + (Math.sin(y/46 + fase*1.3)*amp*5.5).toFixed(2) + "px)";
+          o.vs[k]._sum = 1;
+        }
+      }
+    }
+
     if (SY !== Y) requestAnimationFrame(frame);
     else corriendo = false;
   }
@@ -717,10 +904,10 @@ html:not(.mo) .puerta,html:not(.mo) .reflejo,html:not(.mo) #velo{display:none}
     if (!corriendo){ corriendo = true; requestAnimationFrame(frame); }
   }
   addEventListener("scroll", despierta, {passive:true});
-  addEventListener("resize", function(){ medir(); despierta(); }, {passive:true});
+  addEventListener("resize", function(){ midePapel(); medir(); despierta(); }, {passive:true});
   addEventListener("load", function(){ medir(); despierta(); });
 
-  if (mo){ medir(); despierta(); }
+  if (mo){ midePapel(); medir(); despierta(); requestAnimationFrame(bucleAgua); }
 })();
 </script>
 

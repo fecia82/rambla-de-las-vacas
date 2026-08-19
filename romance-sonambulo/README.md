@@ -10,7 +10,22 @@ gitano** (1928).
 - Doce ilustraciones aportadas por el autor de la página, en `img/`. Ninguna
   fotografía.
 
-## Las tres ideas
+## Las cuatro ideas
+
+**El agua sabe el final desde el principio.** La muchacha lleva ahogada en el
+aljibe desde el primer verso: por eso es verde. Así que el agua no es una sección,
+es toda la página. Un lienzo fijo pinta una lámina de agua que sube con el poema,
+y **su rostro va reflejado boca abajo bajo la superficie desde la portada**,
+ondulando, ilegible. Solo cuando el nivel alcanza el aljibe se endereza y se ve.
+Al cerrarse el poema el agua se retira, pero ella sigue debajo.
+
+La agitación del agua la pone el lector: se calcula del desfase entre el scroll
+real y el suavizado, o sea de **la prisa con que se baja**. Hay que ir despacio
+para verla. Los cinco golpes de los guardias civiles mandan anillos por la
+superficie.
+
+El lienzo va en `z-index:1`: por encima de las láminas y los fondos, por debajo
+del verso. Las ilustraciones se sumergen; la voz no.
 
 **El scroll es la voz.** Las palabras no aparecen por versos sino de una en una,
 y la que se está diciendo brilla mientras las ya dichas se retiran a un tono
