@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Blau Terranova Garbí — Oliva, a un paseo descalzo</title>
+<title>Blau Terranova · Garbí</title>
 <meta name="description" content="Apartamento Blau Terranova Garbi. Calle Faig 16, Playa de Terranova, Oliva (Valencia). Tres dormitorios, salon con chimenea, terraza cubierta y galeria acristalada, a un paseo de las dunas.">
-<meta property="og:title" content="Blau Terranova Garbí — Oliva">
+<meta property="og:title" content="Blau Terranova · Garbí">
 <meta property="og:description" content="Tres dormitorios, terraza cubierta y una calle que muere en la pasarela de las dunas. Playa de Terranova, Oliva.">
 <meta name="theme-color" content="#FBF7F1">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🌊</text></svg>">
@@ -153,17 +153,38 @@ nav.scrolled{background:rgba(251,247,241,.9); backdrop-filter:blur(12px); box-sh
 .daypin{position:relative}
 .daypin .stick{position:sticky; top:0; height:100vh; height:100svh; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end}
 #cielo{position:absolute; inset:0; background:linear-gradient(180deg,#2B4A6B,#E3A470)}
-#marfondo{position:absolute; left:0; right:0; bottom:0; height:34%; background:#0E7C8C}
+#marfondo{position:absolute; left:0; right:0; bottom:0; height:34%; background:#0E7C8C; overflow:hidden}
+/* el agua: rizo fino arriba y ancho abajo, como la perspectiva real */
 #marfondo::after{content:""; position:absolute; inset:0;
-  background:repeating-linear-gradient(180deg,rgba(255,255,255,.13) 0 1px,rgba(255,255,255,0) 1px 16px)}
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.10),rgba(0,0,0,0) 22%,rgba(0,0,0,.20)),
+    repeating-linear-gradient(180deg,rgba(255,255,255,.10) 0 1px,rgba(255,255,255,0) 1px 7px) 0 0/100% 34%,
+    repeating-linear-gradient(180deg,rgba(255,255,255,.07) 0 1px,rgba(255,255,255,0) 1px 15px) 0 34%/100% 30%,
+    repeating-linear-gradient(180deg,rgba(255,255,255,.05) 0 2px,rgba(255,255,255,0) 2px 27px) 0 64%/100% 36%;
+  background-repeat:no-repeat}
+/* la raya de luz que deja el sol sobre el agua */
+#brillo{position:absolute; top:0; bottom:0; width:min(22vw,240px); transform:translateX(-50%);
+  opacity:0; will-change:opacity,left; pointer-events:none; mix-blend-mode:screen;
+  background:radial-gradient(58% 104% at 50% -4%, rgba(255,246,214,.95), rgba(255,246,214,.18) 52%, rgba(255,246,214,0) 100%);
+  -webkit-mask-image:repeating-linear-gradient(180deg,#000 0 2px,transparent 2px 9px);
+  mask-image:repeating-linear-gradient(180deg,#000 0 2px,transparent 2px 9px);
+  filter:blur(1.5px)}
+/* la costura entre cielo y mar */
+#horizonte{position:absolute; left:0; right:0; top:66%; height:2px; transform:translateY(-1px);
+  background:rgba(255,255,255,.5); filter:blur(1.5px); opacity:.55; pointer-events:none}
+/* el Montgó, ahí enfrente */
+#montgo{position:absolute; right:-2vw; bottom:34%; width:min(52vw,620px); height:min(11vh,104px);
+  pointer-events:none;
+  opacity:0; will-change:opacity}
+#montgo path{transition:none}
 .astro{position:absolute; top:0; left:0; width:min(13vw,110px); aspect-ratio:1; border-radius:50%; will-change:transform; transform:translate(-50%,-50%)}
 #sol{background:radial-gradient(circle,#FFF3D2,#FFC85E 58%,rgba(255,200,94,0) 72%)}
 #luna{background:radial-gradient(circle at 38% 38%,#F4F6FF,#C3CEE4 58%,rgba(195,206,228,0) 72%); opacity:0}
 .day-hud{position:relative; z-index:3; padding:0 30px 8vh; max-width:1280px; margin:0 auto; width:100%}
 .day-hud .reloj{font-family:var(--mono); font-size:clamp(38px,7vw,86px); font-weight:700; letter-spacing:-.03em;
   color:#fff; font-variant-numeric:tabular-nums; text-shadow:0 4px 30px rgba(0,0,0,.35)}
-.day-cap{position:relative; height:11em; margin-top:2vh}
-@media (min-width:700px){ .day-cap{height:5.4em} }
+.day-cap{position:relative; height:12.5em; margin-top:2vh}
+@media (min-width:700px){ .day-cap{height:7.6em} }
 .day-cap p{position:absolute; inset:0; opacity:0; will-change:opacity,transform;
   font-size:clamp(20px,2.9vw,34px); font-weight:800; letter-spacing:-.025em; line-height:1.18; color:#fff;
   max-width:24ch; text-shadow:0 2px 24px rgba(0,0,0,.45)}
@@ -185,7 +206,10 @@ nav.scrolled{background:rgba(251,247,241,.9); backdrop-filter:blur(12px); box-sh
 .dist{list-style:none; margin-top:10vh; max-width:900px}
 .dist li{display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center; padding:22px 0; border-bottom:1px solid var(--dark-line)}
 .dist li:first-child{border-top:1px solid var(--dark-line)}
-.dist .q{font-size:clamp(17px,2.2vw,24px); font-weight:700; letter-spacing:-.02em; color:#fff}
+.dist .q{display:block; font-size:clamp(17px,2.2vw,24px); font-weight:700; letter-spacing:-.02em;
+  color:#fff; text-decoration:none; transition:color .35s var(--ease)}
+a.q::after{content:" ↗"; font-size:.62em; color:var(--shell); opacity:.7}
+a.q:hover{color:var(--shell)}
 .dist .q small{display:block; font-family:var(--mono); font-size:12px; font-weight:400; letter-spacing:.16em;
   text-transform:uppercase; color:#83909A; margin-top:6px}
 .dist .m{font-family:var(--mono); font-size:clamp(16px,2vw,22px); font-weight:700; color:var(--shell);
@@ -262,6 +286,44 @@ footer .meta a:hover{color:var(--ink)}
   background:rgba(255,255,255,.12); color:#fff; font-size:26px; line-height:1}
 .lb .x:hover{background:rgba(255,255,255,.22)}
 
+/* ---------- iconos del equipamiento ---------- */
+.plain .ico{width:27px; height:27px; display:block; align-self:center; fill:none; stroke:var(--sun);
+  stroke-width:1.45; stroke-linecap:round; stroke-linejoin:round}
+
+/* ---------- bandas de foto (aparecen solo si existe el archivo) ---------- */
+.banda{display:none; position:relative; overflow:hidden; border-radius:16px;
+  height:min(58vh,480px); margin:9vh 0 0}
+.banda.on{display:block}
+.banda img{width:100%; height:100%; object-fit:cover; transform:scale(1.12); will-change:transform}
+.banda figcaption{position:absolute; left:0; right:0; bottom:0; padding:38px 22px 16px;
+  font-size:13.5px; color:#fff; background:linear-gradient(180deg,rgba(11,19,25,0),rgba(11,19,25,.72))}
+.darkp .banda{margin:9vh 0 0}
+
+/* ---------- el kite, que flamea con el scroll ---------- */
+.kite{margin-top:9vh; display:flex; align-items:center; gap:min(34px,4vw); flex-wrap:wrap}
+.kite svg{width:min(330px,62vw); height:auto; overflow:visible; flex:none}
+.kite .vela{fill:var(--shell); opacity:.92}
+.kite .brida{stroke:rgba(246,217,196,.5); stroke-width:1.4; fill:none}
+.kite .figura{stroke:var(--shell); stroke-width:2.6; fill:none; stroke-linecap:round; stroke-linejoin:round}
+.kite .tabla{fill:var(--sun)}
+.kite .racha{stroke:rgba(246,217,196,.42); stroke-width:2; fill:none; stroke-linecap:round}
+.kite p{font-size:15px; color:#B4BEC4; max-width:34ch; margin:0}
+.kite p b{color:#fff; font-weight:600}
+
+/* ---------- contacto directo ---------- */
+.contacto{margin-top:7vh; padding-top:26px; border-top:1px solid var(--line)}
+.contacto .ct-txt{font-size:16px; color:var(--ink-2); max-width:46ch}
+.ct-fila{display:flex; align-items:center; gap:14px 20px; flex-wrap:wrap; margin-top:20px}
+.ct-wa,.ct-tel{display:inline-flex; align-items:center; gap:9px; text-decoration:none; font-weight:700;
+  font-size:15px; padding:13px 20px; border-radius:999px; transition:transform .35s var(--ease)}
+.ct-wa{background:#1FA855; color:#fff}
+.ct-wa:hover,.ct-tel:hover{transform:translateY(-2px)}
+.ct-tel{border:1.5px solid var(--line); color:var(--ink); font-variant-numeric:tabular-nums}
+.ct-wa svg{width:19px; height:19px; fill:currentColor}
+.ct-firma{display:inline-flex; align-items:center; gap:10px; font-size:13.5px; color:var(--ink-3)}
+.ct-firma b{color:var(--ink-2); font-weight:700}
+.ct-firma img{height:30px; width:auto}
+
 /* ---------- reveal (respaldo IO, suave) ---------- */
 html.js .rv{opacity:0; transform:translateY(34px); transition:opacity 1s var(--ease), transform 1s var(--ease)}
 html.js .rv.on{opacity:1; transform:none}
@@ -304,7 +366,7 @@ html:not(.mo) .foto{opacity:1}
 
 <nav id="nav">
   <div class="nav-in">
-    <a class="brand" href="#top">Blau Terranova <span>Garbí</span></a>
+    <a class="brand" href="#top">Blau Terranova <span>· Garbí</span></a>
     <a class="nav-cta" href="https://www.booking.com/hotel/es/apartamento-blau-terranova-garbi.es.html" target="_blank" rel="noopener">Ver disponibilidad</a>
   </div>
 </nav>
@@ -325,7 +387,7 @@ html:not(.mo) .foto{opacity:1}
       Y ya hueles<br>
       <span class="ko mar" id="heroKo" data-foto-ko="img/hero.jpg">el mar.</span>
     </h1>
-    <p class="sub">Apartamento de <b>tres dormitorios</b> en Garbí, calle Faig 16. Suelo de terrazo, muebles de caña, chimenea para las noches raras y una terraza cubierta donde se come. La calle muere en la pasarela de las dunas: <b>1.750 metros de arena dorada</b> justo detrás.</p>
+    <p class="sub">Apartamento de <b>tres dormitorios</b> en Garbí, calle Faig 16. Suelo de terrazo, chimenea para las noches frías y una terraza cubierta donde se come. Y la calle no acaba: <b>se hace pasarela</b> y te deja en la arena.</p>
   </div>
   <p class="cue">Baja</p>
 </header>
@@ -336,7 +398,7 @@ html:not(.mo) .foto{opacity:1}
     <div class="bg sc-amanecer" data-foto="img/playa-amanecer.jpg"></div>
     <div class="bg sc-mar" data-foto="img/playa-mar.jpg"></div>
     <div class="bg sc-duna" data-foto="img/dunas.jpg"></div>
-    <p class="msg">La playa no se ve desde el salón. Se <em>oye</em>.<small>La calle muere en la pasarela</small></p>
+    <p class="msg">La playa no se ve desde el salón. Se <em>oye</em>.<small>La calle se hace pasarela</small></p>
     <p class="msg">1.750 metros de arena <em>fina y dorada</em>.<small>Terranova–Burguera · Bandera Azul</small></p>
     <p class="msg">Y detrás, un <em>cordón dunar</em> que sigue vivo.<small>Nidos de chorlitejo patinegro</small></p>
   </div>
@@ -364,10 +426,13 @@ html:not(.mo) .foto{opacity:1}
 <section class="sect">
   <div class="in">
     <h2 class="state rv">Una casa que <em>no pide nada</em> a cambio.</h2>
-    <p class="after rv">Ni traslados, ni horarios, ni buscar sitio donde dejar la sombrilla. Sales por la puerta con las chanclas en la mano y la calle te deja en la pasarela. Lo demás — la siesta, la ducha con arena, la cena tarde en la terraza — se organiza solo.</p>
+    <p class="after rv">Ni traslados, ni horarios, ni buscar sitio donde dejar la sombrilla. Sales por la puerta con las chanclas en la mano y no tienes que cruzar nada: la calle te lleva hasta la madera y la madera hasta el agua. Lo demás — la siesta, la ducha con arena, la cena tarde en la terraza — se organiza solo.</p>
+    <figure class="banda rv" data-banda="img/chanclas.jpg">
+      <figcaption>Se sale con las chanclas en la mano y no se vuelve a coger el coche.</figcaption>
+    </figure>
     <div class="loose">
       <div class="it rv"><p class="n"><span class="cnt" data-to="3">0</span> <small>dormitorios</small></p><p>Tres habitaciones independientes. La casa se reparte sola, sin que nadie acabe en el sofá.</p></div>
-      <div class="it rv"><p class="n"><span class="cnt" data-to="2">0</span> <small>min a la arena</small></p><p>La calle muere en una pasarela que cruza las dunas. Se va y se vuelve descalzo.</p></div>
+      <div class="it rv"><p class="n"><span class="cnt" data-to="2">0</span> <small>min a la arena</small></p><p>La calle no acaba en una acera: se convierte en la pasarela que cruza las dunas. Se va y se vuelve descalzo.</p></div>
       <div class="it rv"><p class="n"><span class="cnt" data-to="1750">0</span> <small>m de playa</small></p><p>Lo que mide Terranova–Burguera. Siempre hay un hueco donde no hay nadie.</p></div>
     </div>
   </div>
@@ -385,20 +450,25 @@ html:not(.mo) .foto{opacity:1}
 <section class="daypin" id="daypin" style="height:420vh" aria-label="Un día en la casa">
   <div class="stick">
     <div id="cielo"></div>
-    <div id="marfondo"></div>
+    <svg id="montgo" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true">
+      <path id="montgoP" d="M0 34 L11 32.2 L24 28.5 C 32 21, 40 11.5, 52 9.6 C 62 8.2, 70 11.6, 76.5 17.5 L82 24 L87.5 20.8 L93 26.5 L100 34 Z"></path>
+    </svg>
+    <div id="horizonte"></div>
+    <div id="marfondo"><span id="brillo"></span></div>
     <span class="astro" id="sol"></span>
     <span class="astro" id="luna"></span>
-    <div class="day-title"><h2>Un día aquí, de la primera luz a la última.</h2></div>
+    <div class="day-title"><h2>Un día aquí, de una primera luz a la siguiente.</h2></div>
     <div class="day-hud">
       <p class="reloj mono" id="reloj">07:30</p>
       <div class="day-cap" id="dayCap">
-        <p data-t="0.00">El levante entra por la terraza antes que el ruido. <em>Todavía no hay nadie</em> en la arena.</p>
-        <p data-t="0.18">Desayuno fuera. A esta hora la playa es un pasillo largo y vacío para <em>andar sin rumbo</em>.</p>
-        <p data-t="0.38">Sombrilla clavada, nevera fría. <em>El agua está en calma</em> hasta que se levanta la térmica.</p>
-        <p data-t="0.56">Se sube a comer y a dormir la siesta. La piscina de la urbanización, <em>a treinta pasos</em>.</p>
-        <p data-t="0.74">Vuelta al agua cuando el sol afloja. El Montgó se pone <em>violeta</em> al fondo.</p>
-        <p data-t="0.88">Ducha, mesa fuera, cena que no acaba. <em>Se oye el mar</em> otra vez porque ya no se oye nada más.</p>
-        <p data-t="1.00">Y mañana, exactamente lo mismo. <em>Eso es el plan.</em></p>
+        <p data-t="0.000">El levante entra por la terraza antes que el ruido. <em>Todavía no hay nadie</em> en la arena.</p>
+        <p data-t="0.076">Desayuno fuera. A esta hora la playa es un pasillo largo y vacío para <em>andar sin rumbo</em>.</p>
+        <p data-t="0.253">Sombrilla clavada, nevera fría. El agua está tan quieta y tan clara que <em>se te ven los pies</em> de pie en la orilla.</p>
+        <p data-t="0.375">Se sube a comer y a dormir la siesta. Y si luego apetece, <em>tardeo en el chiringuito</em> sin coger el coche.</p>
+        <p data-t="0.510">Vuelta al agua cuando el sol afloja. Ahí enfrente, el <em>Montgó</em> se pone violeta.</p>
+        <p data-t="0.615">Ducha, mesa fuera, cena que no acaba. <em>Se oye el mar</em> otra vez porque ya no se oye nada más.</p>
+        <p data-t="0.750">La casa se apaga y el mar sigue ahí, más alto que de día. <em>No pasa nada más</em>, y ese es el motivo.</p>
+        <p data-t="1.000">Y a las siete y media vuelve a salir. <em>Este amanecer se ve desde la cama.</em></p>
       </div>
     </div>
   </div>
@@ -410,17 +480,27 @@ html:not(.mo) .foto{opacity:1}
     <p class="tagline">La playa</p>
     <p><span class="ko arena kobig" id="bigKo" data-foto-ko="img/playa-ancha.jpg">TERRANOVA</span></p>
     <p class="after rv" style="margin-top:6vh">Una de las pocas playas del Mediterráneo español que sigue sin urbanizar de punta a punta. <b>Arena fina, dorada, con Bandera Azul</b>, un cordón de dunas detrás y un manantial de agua dulce — <b>El Tou</b> — que sale en la propia orilla. Es refugio del chorlitejo patinegro, que anida ahí mismo, así que las dunas se cruzan por las pasarelas y no por encima.</p>
-    <p class="after rv">Los vientos de la zona la han convertido además en clásico del windsurf. Y es accesible para personas con movilidad reducida.</p>
-  </div>
-</section>
+    <p class="after rv">Y es accesible para personas con movilidad reducida.</p>
 
-<!-- ================= SCROLLY 2: la noche ================= -->
-<section class="scrolly deep" style="height:220vh" aria-label="La noche">
-  <div class="stick">
-    <div class="bg sc-noche" data-foto="img/noche.jpg"></div>
-    <div class="bg sc-amanecer" data-foto="img/terraza.jpg"></div>
-    <p class="msg">De noche, aquí, <em>no pasa nada</em>.<small>Y eso es exactamente el motivo</small></p>
-    <p class="msg">Hasta que a las siete vuelve <em>a empezar</em>.<small>Playa de Terranova · Oliva</small></p>
+    <div class="kite rv" id="kite">
+      <svg viewBox="0 0 220 152" aria-hidden="true">
+        <path class="racha" id="r1" d="M2 26 C 26 20, 48 32, 70 26"></path>
+        <path class="racha" id="r2" d="M0 48 C 30 40, 56 54, 86 46"></path>
+        <path class="racha" id="r3" d="M6 72 C 28 66, 48 76, 66 70"></path>
+        <path class="vela" id="vela" d="M16 62 C 34 6, 132 6, 150 62 C 130 44, 36 44, 16 62 Z"></path>
+        <path class="brida" id="brida" d="M20 64 C 70 86, 120 96, 166 100 M146 64 C 152 80, 158 94, 166 100"></path>
+        <g id="tablaG">
+          <circle class="figura" cx="166" cy="95" r="4.6"></circle>
+          <path class="figura" d="M166 100 L166 117 M166 104 L156 111 M166 104 L176 110 M166 117 L159 131 M166 117 L174 131"></path>
+          <rect class="tabla" x="144" y="132" width="48" height="8.5" rx="4.2"></rect>
+        </g>
+      </svg>
+      <p>Aquí el <b>levante</b> entra casi todas las tardes. Por eso Terranova es un clásico del <b>windsurf</b> y del <b>kitesurf</b>: se monta en la orilla y se navega sin buscar sitio.</p>
+    </div>
+
+    <figure class="banda rv" data-banda="img/playa-ancha.jpg">
+      <figcaption>Playa de Terranova–Burguera, Oliva.</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -428,19 +508,35 @@ html:not(.mo) .foto{opacity:1}
 <section class="sect">
   <div class="in">
     <h2 class="state rv">Lo que hay dentro, <em>y en el bloque</em>.</h2>
-    <p class="after rv">Sin lista infinita de amenities. Lo que de verdad se usa en una semana de playa.</p>
+    <p class="after rv">Todo lo que hace falta en una semana de playa. Y nada de lo que no.</p>
     <ul class="plain">
-      <li class="rv"><span class="k">01</span><span>Tres dormitorios, con cabeceros y armarios de caña</span><span class="fix">3 dorm.</span></li>
-      <li class="rv"><span class="k">02</span><span>Salón con chimenea de leña y televisión</span><span class="fix">leña · TV</span></li>
-      <li class="rv"><span class="k">03</span><span>Terraza cubierta con mesa larga para comer fuera</span><span class="fix">sombra todo el día</span></li>
-      <li class="rv"><span class="k">04</span><span>Galería acristalada con butacas, la mejor luz de la casa</span><span class="fix">para la siesta</span></li>
-      <li class="rv"><span class="k">05</span><span>Cocina equipada y lavadero con lavadora</span><span class="fix">lavadora</span></li>
-      <li class="rv"><span class="k">06</span><span>Aire acondicionado y ventilador de techo</span><span class="fix">A/A</span></li>
-      <li class="rv"><span class="k">07</span><span>Wi-Fi, por si alguien tiene que fingir que trabaja</span><span class="fix">incluido</span></li>
-      <li class="rv"><span class="k">08</span><span>Suelo de terrazo original, fresco en agosto</span><span class="fix">de los de antes</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M3 18v-7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7"/><path d="M3 18h18"/><path d="M3 14h18"/><path d="M7 9V7h4v2"/></svg><span>Tres dormitorios, cada uno con su ventana</span><span class="fix">3 dorm.</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3c2.5 3 1 5 0 6-1.5-1-2-3-1-4"/><path d="M12 21a6 6 0 0 0 6-6c0-3-2-5-4-7 .5 2.5-.5 4-2 4.5-1-1.5-1-3 0-5-3 2-6 4.5-6 7.5a6 6 0 0 0 6 6Z"/></svg><span>Salón con chimenea de leña y televisión</span><span class="fix">leña · TV</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M2 10h20"/><path d="M5 10v9"/><path d="M19 10v9"/><path d="M12 3v7"/><path d="M6 6h12"/></svg><span>Terraza cubierta con mesa larga para comer fuera</span><span class="fix">sombra todo el día</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 3v18"/><path d="M4 12h16"/></svg><span>Galería acristalada con butacas, la mejor luz de la casa</span><span class="fix">para la siesta</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="14" r="4"/><path d="M8 7h.01M12 7h.01"/></svg><span>Cocina equipada y lavadora</span><span class="fix">para la semana</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M12 2v20M4 7l16 10M20 7 4 17"/><path d="M12 6 9.5 8.5M12 6l2.5 2.5M12 18l-2.5-2.5M12 18l2.5-2.5"/></svg><span>Aire acondicionado en el salón</span><span class="fix">A/A</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3v3"/><circle cx="12" cy="13" r="2"/><path d="M12 11c0-3 3-4 4.5-2.5S16 13 12 13"/><path d="M12 15c0 3-3 4-4.5 2.5S8 13 12 13"/><path d="M10 13c-3 0-4-3-2.5-4.5S14 10 14 13"/></svg><span>Ventilador de techo en el salón y en los tres dormitorios</span><span class="fix">en todas</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M2.5 9a15 15 0 0 1 19 0"/><path d="M6 12.5a10 10 0 0 1 12 0"/><path d="M9.5 16a5 5 0 0 1 5 0"/><path d="M12 19.5h.01"/></svg><span>Wi-Fi, por si alguien tiene que fingir que trabaja</span><span class="fix">incluido</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h.01M12 7h.01M17 9h.01M8 13h.01M13 12h.01M17 14h.01M7 18h.01M12 17h.01M16 18h.01"/></svg><span>Suelo de terrazo original, fresco en agosto</span><span class="fix">de los de antes</span></li>
     </ul>
     <p class="after rv" style="margin-top:6vh">El reparto exacto de camas, los baños, la superficie y el precio de tus fechas están siempre actualizados en la ficha de Booking, con las 23 fotos completas.</p>
     <a class="cta" href="https://www.booking.com/hotel/es/apartamento-blau-terranova-garbi.es.html" target="_blank" rel="noopener">Ver fechas y precio <span>↗ Booking</span></a>
+
+    <div class="contacto rv">
+      <p class="ct-txt">¿Prefieres no pasar por Booking? Escríbenos o llámanos y lo arreglamos directamente.</p>
+      <div class="ct-fila">
+        <a class="ct-wa" href="https://wa.me/34604529655" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2A9.9 9.9 0 0 0 2.1 11.9c0 1.75.46 3.46 1.34 4.97L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01a9.9 9.9 0 0 0 9.9-9.9A9.9 9.9 0 0 0 12.04 2Zm5.8 14.06c-.24.68-1.42 1.3-1.95 1.34-.5.05-.98.23-3.3-.69-2.77-1.09-4.53-3.93-4.67-4.11-.14-.19-1.11-1.48-1.11-2.82 0-1.34.7-2 .95-2.27a1 1 0 0 1 .72-.34c.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.72 1.18 1.54 1.92 1.06.94 1.95 1.24 2.23 1.38.28.14.44.12.6-.07.17-.19.7-.81.88-1.09.19-.28.37-.23.62-.14.25.09 1.62.76 1.9.9.28.14.46.21.53.33.07.12.07.68-.17 1.36Z"/></svg>
+          WhatsApp
+        </a>
+        <a class="ct-tel" href="tel:+34604529655">+34 604 529 655</a>
+        <span class="ct-firma">
+          <img src="img/sunsuite.png" alt="Sunsuite" onerror="this.style.display='none'">
+          Somos <b>Sunsuite</b>
+        </span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -450,12 +546,12 @@ html:not(.mo) .foto{opacity:1}
     <h2 class="state rv">A un cuarto de hora, <em>otro plan distinto</em>.</h2>
     <p class="after rv">La casa está en la playa, pero Oliva tiene detrás una comarca entera. Todo esto se hace en una mañana y se vuelve a comer a casa.</p>
     <ul class="dist">
-      <li class="rv"><span class="q">Font Salada<small>Manantial termal natural, 21–23 °C todo el año</small></span><span class="m">≈10 min</span></li>
-      <li class="rv"><span class="q">Marjal de Pego-Oliva<small>Parque natural · arrozales y aves acuáticas</small></span><span class="m">≈12 min</span></li>
-      <li class="rv"><span class="q">Casco antiguo de Oliva<small>Calles empedradas, herencia árabe y medieval</small></span><span class="m">≈8 min</span></li>
-      <li class="rv"><span class="q">Gandía<small>Puerto, restaurantes y tren a Valencia</small></span><span class="m">≈25 min</span></li>
-      <li class="rv"><span class="q">Dénia y el Montgó<small>Castillo, cala y la carretera de la Marina Alta</small></span><span class="m">≈25 min</span></li>
-      <li class="rv"><span class="q">Valencia<small>Por la AP-7 / N-332</small></span><span class="m">≈1 h 10</span></li>
+      <li class="rv"><a class="q" href="https://www.google.com/maps/search/?api=1&amp;query=Font+Salada+Oliva" target="_blank" rel="noopener">Font Salada<small>Manantial termal natural, 21–23 °C todo el año</small></a><span class="m">≈10 min</span></li>
+      <li class="rv"><a class="q" href="https://www.google.com/maps/search/?api=1&amp;query=Parc+Natural+de+la+Marjal+de+Pego-Oliva" target="_blank" rel="noopener">Marjal de Pego-Oliva<small>Parque natural · arrozales y aves acuáticas</small></a><span class="m">≈12 min</span></li>
+      <li class="rv"><a class="q" href="https://www.google.com/maps/search/?api=1&amp;query=Casco+antiguo+de+Oliva+Valencia" target="_blank" rel="noopener">Casco antiguo de Oliva<small>Calles empedradas, herencia árabe y medieval</small></a><span class="m">≈8 min</span></li>
+      <li class="rv"><a class="q" href="https://www.google.com/maps/search/?api=1&amp;query=Playa+de+Gandia" target="_blank" rel="noopener">Gandía<small>Puerto, restaurantes y tren a Valencia</small></a><span class="m">≈25 min</span></li>
+      <li class="rv"><a class="q" href="https://www.google.com/maps/search/?api=1&amp;query=Parc+Natural+del+Montgo+Denia" target="_blank" rel="noopener">Dénia y el Montgó<small>Castillo, cala y la carretera de la Marina Alta</small></a><span class="m">≈25 min</span></li>
+      <li class="rv"><a class="q" href="https://www.google.com/maps/search/?api=1&amp;query=Valencia+centro" target="_blank" rel="noopener">Valencia<small>Por la AP-7 / N-332</small></a><span class="m">≈1 h 10</span></li>
     </ul>
   </div>
 </section>
@@ -463,8 +559,8 @@ html:not(.mo) .foto{opacity:1}
 <!-- ================= MAPA ================= -->
 <section class="sect">
   <div class="in">
-    <h2 class="state rv">Calle Faig 16. <em>La segunda línea buena</em>.</h2>
-    <p class="after rv">Lo bastante cerca para ir descalzo, lo bastante dentro para dormir con la ventana abierta.</p>
+    <h2 class="state rv">Calle Faig 16. <em>Donde la calle se hace pasarela</em>.</h2>
+    <p class="after rv">No hay que cruzar ninguna carretera ni buscar por dónde se entra. Se baja la calle, la calle se convierte en pasarela de madera y la pasarela termina en la arena. Lo bastante cerca para ir descalzo; lo bastante dentro para dormir con la ventana abierta.</p>
     <div class="mapa rv">
       <svg viewBox="0 0 1000 520" role="img" aria-label="Croquis: calle Faig 16 respecto a la playa de Terranova">
         <rect class="mp-suelo" x="0" y="0" width="1000" height="520"/>
@@ -490,7 +586,6 @@ html:not(.mo) .foto{opacity:1}
     <dl class="ficha">
       <div><dt>Dirección</dt><dd><a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Faig+16%2C+Oliva%2C+Valencia" target="_blank" rel="noopener">Calle Faig 16, Oliva</a><small>Playa de Terranova · 46780 Valencia</small></dd></div>
       <div><dt>La casa</dt><dd>3 dormitorios<small>Salón con chimenea, terraza cubierta y galería</small></dd></div>
-      <div><dt>Urbanización</dt><dd>Garbí<small>Playa de Terranova, junto al cordón dunar</small></dd></div>
       <div><dt>Reserva</dt><dd><a href="https://www.booking.com/hotel/es/apartamento-blau-terranova-garbi.es.html" target="_blank" rel="noopener">Apartamento Blau Terranova Garbi</a><small>Disponibilidad y precio en tiempo real</small></dd></div>
     </dl>
   </div>
@@ -499,10 +594,11 @@ html:not(.mo) .foto{opacity:1}
 <!-- ================= FOOTER ================= -->
 <footer>
   <div class="in">
-    <p class="mantra">Se llega en coche.<br>Se vuelve <em>descalzo</em>.</p>
+    <figure class="banda rv" data-banda="img/descalzo.jpg" style="margin:0 0 8vh"></figure>
+    <p class="mantra">A la casa se llega en coche.<br>Se vuelve <em>descalzo</em>.</p>
     <a class="cta" href="https://www.booking.com/hotel/es/apartamento-blau-terranova-garbi.es.html" target="_blank" rel="noopener">Reservar en Booking <span>↗</span></a>
     <div class="meta">
-      <span>Blau Terranova Garbí · Calle Faig 16, Oliva (Valencia)</span>
+      <span>Blau Terranova · Garbí — Calle Faig 16, Oliva (Valencia)</span>
       <a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Faig+16%2C+Oliva%2C+Valencia" target="_blank" rel="noopener">Cómo llegar</a>
       <a href="https://www.booking.com/hotel/es/apartamento-blau-terranova-garbi.es.html" target="_blank" rel="noopener">Ficha y disponibilidad</a>
       <span>Página informativa no oficial. Las reservas se gestionan en Booking.</span>
@@ -595,6 +691,22 @@ html:not(.mo) .foto{opacity:1}
     });
 
     montaGaleria();
+    montaBandas();
+  }
+
+  /* ---------- bandas de foto: aparecen solo si el archivo existe ---------- */
+  function montaBandas(){
+    document.querySelectorAll("[data-banda]").forEach(function(fg){
+      var src = fg.dataset.banda, pr = new Image();
+      pr.onload = function(){
+        var im = document.createElement("img");
+        im.src = src; im.alt = ""; im.loading = "lazy";
+        fg.insertBefore(im, fg.firstChild);
+        fg.classList.add("on");
+        remedir();
+      };
+      pr.src = src;
+    });
   }
 
   /* ---------- centinela: si no hay fotos, esto es todo lo que se pide ---------- */
@@ -679,14 +791,17 @@ html:not(.mo) .foto{opacity:1}
   }
 
   /* ---------- paleta del dia ---------- */
-  /* cada parada: [t, cieloArriba, cieloAbajo, mar] */
+  /* cada parada: [t, cieloArriba, cieloAbajo, mar, monte] · 24 h completas */
   var DIA = [
-    [0.00, [30,58,95],  [232,160,107], [20,83,106]],
-    [0.20, [46,134,200],[207,233,244], [14,124,140]],
-    [0.45, [44,147,216],[217,240,247], [17,148,162]],
-    [0.68, [78,143,192],[246,221,174], [20,128,142]],
-    [0.85, [122,79,124],[238,139,60],  [90,95,122]],
-    [1.00, [6,12,21],   [22,48,63],    [10,34,48]]
+    [0.000, [ 44, 92,148], [248,196,150], [ 26, 90,110], [ 32, 48, 70]],  /* 07:30 */
+    [0.100, [ 46,134,200], [207,233,244], [ 14,124,140], [ 74, 98,116]],  /* 09:54 */
+    [0.280, [ 40,142,216], [214,240,248], [ 17,150,164], [ 98,124,136]],  /* 14:13 */
+    [0.450, [ 70,140,196], [246,224,180], [ 20,130,144], [ 86,102,118]],  /* 18:18 */
+    [0.560, [130, 84,124], [240,132, 58], [ 92, 86,110], [ 92, 58, 96]],  /* 20:56 violeta */
+    [0.660, [ 26, 32, 64], [ 56, 52, 86], [ 22, 34, 52], [ 30, 26, 48]],  /* 23:20 */
+    [0.800, [  6, 10, 20], [ 16, 26, 40], [  8, 20, 32], [  9, 12, 22]],  /* 02:42 */
+    [0.950, [ 26, 44, 80], [ 92, 90,120], [ 18, 38, 56], [ 22, 30, 48]],  /* 06:18 */
+    [1.000, [ 58,110,160], [250,190,140], [ 30, 96,116], [ 40, 54, 76]]   /* 07:30 */
   ];
   function mezcla(t){
     var i = 0;
@@ -698,10 +813,10 @@ html:not(.mo) .foto{opacity:1}
                       Math.round(lerp(a[ia][1],b[ia][1],u)) + "," +
                       Math.round(lerp(a[ia][2],b[ia][2],u)) + ")";
     }
-    return {arriba:c(1), abajo:c(2), mar:c(3)};
+    return {arriba:c(1), abajo:c(2), mar:c(3), monte:c(4)};
   }
   function reloj(t){
-    var m = Math.round(450 + t*960);                  /* 07:30 -> 23:30 */
+    var m = Math.round(450 + t*1440) % 1440;          /* 07:30 -> 07:30 del día siguiente */
     var h = Math.floor(m/60) % 24, mm = m % 60;
     return (h<10?"0":"") + h + ":" + (mm<10?"0":"") + mm;
   }
@@ -710,33 +825,60 @@ html:not(.mo) .foto{opacity:1}
   var caps = [].slice.call(document.querySelectorAll("#dayCap p"));
   var capT = caps.map(function(p){ return parseFloat(p.dataset.t); });
 
+  /* cuánta luz de día hay: 1 de día, 0 de noche */
+  function luzDia(t){
+    if (t < 0.52) return 1;
+    if (t < 0.66) return 1 - (t-0.52)/0.14;
+    if (t < 0.92) return 0;
+    return (t-0.92)/0.08;
+  }
+
   function pintaDia(t){
     var col = mezcla(t);
     var cielo = document.getElementById("cielo"), mar = document.getElementById("marfondo");
     cielo.style.background = "linear-gradient(180deg," + col.arriba + "," + col.abajo + ")";
     mar.style.background = col.mar;
+    var mP = document.getElementById("montgoP");
+    if (mP){ mP.setAttribute("fill", col.monte);
+             document.getElementById("montgo").style.opacity = String(0.22 + 0.74*luzDia(t)); }
 
-    var h = stickH || innerHeight;
-    var horiz = h*0.66;
-    var su = clamp(t/0.86, 0, 1);
-    var sol = document.getElementById("sol"), luna = document.getElementById("luna");
-    sol.style.transform = "translate(-50%,-50%) translate(" + (6+t*88) + "vw," +
-                          (horiz - Math.sin(su*Math.PI)*h*0.40) + "px)";
-    sol.style.opacity = String(clamp((0.90-t)/0.06, 0, 1));
-    var lt = clamp((t-0.82)/0.18, 0, 1);
-    luna.style.transform = "translate(-50%,-50%) translate(" + (12+lt*34) + "vw," +
-                           (horiz*0.62 - Math.sin(lt*1.1)*h*0.16) + "px)";
-    luna.style.opacity = String(clamp((t-0.84)/0.08, 0, 1));
+    var h = stickH || innerHeight, horiz = h*0.66;
+    var sol = document.getElementById("sol"), luna = document.getElementById("luna"),
+        bri = document.getElementById("brillo");
+    var minuto = 450 + t*1440;
+
+    /* dos arcos de sol: el del día y el amanecer del día siguiente */
+    var su  = (minuto - 410) / 870;              /* sale 06:50, se pone 21:20 */
+    var su2 = (minuto - 1850) / 870;             /* y vuelve a salir */
+    var arco = (su >= 0 && su <= 1) ? su : (su2 >= 0 ? su2 : null);
+    if (arco !== null){
+      var alt = Math.sin(clamp(arco,0,1)*Math.PI), xs = 94 - arco*88;  /* sale del mar, se pone tierra adentro */
+      sol.style.transform = "translate(-50%,-50%) translate(" + xs + "vw," + (horiz - alt*h*0.40) + "px)";
+      sol.style.opacity = String(clamp(alt*7, 0, 1));
+      if (bri){ bri.style.left = xs + "vw"; bri.style.opacity = String(clamp(alt*2.4, 0, 0.9)); }
+    } else {
+      sol.style.opacity = "0";
+      if (bri) bri.style.opacity = "0";
+    }
+
+    /* la luna cubre el hueco entre una puesta y la siguiente salida */
+    var lu = (minuto - 1250) / 650;
+    if (lu >= 0 && lu <= 1){
+      var la = Math.sin(lu*Math.PI);
+      luna.style.transform = "translate(-50%,-50%) translate(" + (88 - lu*76) + "vw," +
+                             (horiz - la*h*0.34) + "px)";
+      luna.style.opacity = String(clamp(la*4, 0, 1));
+    } else luna.style.opacity = "0";
 
     document.getElementById("reloj").textContent = reloj(t);
     for (var i=0;i<caps.length;i++){
       /* cada frase manda hasta el punto medio con su vecina; solo se cruzan en la banda */
       var lo = i === 0 ? -1 : (capT[i-1]+capT[i])/2;
       var hi = i === caps.length-1 ? 2 : (capT[i]+capT[i+1])/2;
-      var banda = 0.016;   /* relevo corto: dos frases nunca se leen a la vez */
+      var banda = 0.005;   /* relevo corto: dos frases nunca se leen a la vez */
       var o = Math.min(clamp((t-lo+banda)/(2*banda), 0, 1), clamp((hi+banda-t)/(2*banda), 0, 1));
       caps[i].style.opacity = String(o);
-      caps[i].style.transform = "translateY(" + clamp((t-capT[i])*-300, -44, 44) + "px)";
+      caps[i].style.transform = "translateY(" + clamp((t-capT[i])*-900, -80, 80) + "px)";
     }
   }
 
@@ -799,6 +941,38 @@ html:not(.mo) .foto{opacity:1}
     var dp = document.getElementById("daypin");
     if (dp) stickH = dp.querySelector(".stick").clientHeight;
     if (dp) mods.push({ el:dp, fn:function(p){ pintaDia(clamp(p*1.04,0,1)); }});
+
+    /* bandas de foto: un parallax corto al pasar */
+    document.querySelectorAll(".banda").forEach(function(fg){
+      mods.push({ el:fg, entra:true, fn:function(p){
+        var im = fg.querySelector("img");
+        if (im) im.style.transform = "scale(1.12) translateY(" + ((p-0.5)*-44) + "px)";
+      }});
+    });
+
+    /* el kite flamea con el scroll */
+    var kite = document.getElementById("kite");
+    if (kite){
+      var vela = document.getElementById("vela"), brida = document.getElementById("brida"),
+          tabla = document.getElementById("tablaG"),
+          rachas = [document.getElementById("r1"), document.getElementById("r2"), document.getElementById("r3")];
+      mods.push({ el:kite.closest("section"), entra:true, fn:function(p){
+        var f = p*Math.PI*6, sa = Math.sin(f), sb = Math.sin(f + 0.85);
+        vela.setAttribute("d",
+          "M16 62 C 34 " + (6 + sa*9).toFixed(1) + ", 132 " + (6 - sa*9).toFixed(1) +
+          ", 150 62 C 130 " + (44 + sb*6).toFixed(1) + ", 36 " + (44 - sb*6).toFixed(1) + ", 16 62 Z");
+        brida.setAttribute("d",
+          "M20 64 C 70 " + (86 + sa*7).toFixed(1) + ", 120 " + (96 - sa*5).toFixed(1) +
+          ", 166 100 M146 64 C 152 " + (80 - sb*4).toFixed(1) + ", 158 94, 166 100");
+        tabla.setAttribute("transform", "translate(0," + (sb*3).toFixed(1) + ") rotate(" + (sa*3.5).toFixed(1) + " 168 130)");
+        rachas.forEach(function(r, i){
+          if (!r) return;
+          var d = ((p*260 + i*90) % 150) - 40;
+          r.setAttribute("transform", "translate(" + d.toFixed(1) + ",0)");
+          r.style.opacity = String(0.25 + 0.6*Math.abs(Math.sin(f*0.5 + i)));
+        });
+      }});
+    }
 
     /* kobig */
     var bk = document.getElementById("bigKo");

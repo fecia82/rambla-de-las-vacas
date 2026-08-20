@@ -1,4 +1,4 @@
-# Blau Terranova Garbí — web de la casa
+# Blau Terranova · Garbí — web de la casa
 
 Landing de una página para el apartamento **Blau Terranova Garbi**, calle Faig 16,
 Playa de Terranova, Oliva (Valencia).
@@ -20,10 +20,12 @@ Mismo motor de scroll que el sitio de Rambla de las Vacas: un único bucle
 | Hero | desplaza y funde el titular, mueve el degradado dentro de las letras |
 | `.scrolly` | encadena mensajes a pantalla completa sobre fondos que se cruzan |
 | `.full` | revela la escena de la urbanización con `clip-path` + parallax |
-| `#daypin` | arrastra el sol por el arco del día: cielo, mar, reloj y frases |
+| `#daypin` | 24 h completas: el sol **sale del mar** y se pone tierra adentro (la playa de Oliva mira al este), la luna cubre la noche y al final vuelve a amanecer; el Montgó al fondo cambia de color y el reflejo del sol se mueve sobre el agua |
 | `.kobig` | mueve el degradado dentro de "TERRANOVA" |
 | `.cnt` | cuenta los números al entrar en pantalla |
 | `.galeria` | rejilla de fotos con lightbox, oculta si no hay ninguna |
+| `.banda` | bandas de foto con parallax corto, ocultas si falta el archivo |
+| `#kite` | la cometa flamea, las bridas se arquean y las rachas cruzan |
 
 Sin JavaScript o con `prefers-reduced-motion`, el `<html>` no recibe la clase `mo`
 y todas las piezas caen a un estado final estático y legible.
@@ -46,7 +48,10 @@ De fuentes públicas:
   cordón dunar, manantial de agua dulce (El Tou), nidificación del chorlitejo
   patinegro, accesible, clásico del windsurf.
 - Distancias a Font Salada (~10 min), Marjal de Pego-Oliva (~12 min) y
-  Gandía (~25 min).
+  Gandía (~25 min). Cada una enlaza a su ficha en Google Maps.
+
+Contacto directo: **Sunsuite**, +34 604 529 655 (WhatsApp y teléfono), junto al
+CTA de Booking.
 
 Estimado, no verificado: los «2 min a la arena». Salen de las vistas aéreas de
 la manzana, donde la calle Faig muere en una pasarela que cruza el cordón dunar.
