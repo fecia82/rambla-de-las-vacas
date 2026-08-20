@@ -25,7 +25,7 @@ Mismo motor de scroll que el sitio de Rambla de las Vacas: un único bucle
 | `.cnt` | cuenta los números al entrar en pantalla |
 | `.galeria` | rejilla de fotos con lightbox, oculta si no hay ninguna |
 | `.banda` | bandas de foto con parallax corto, ocultas si falta el archivo |
-| `#kite` | la cometa flamea, las bridas se arquean y las rachas cruzan |
+| `#kite` | el kitesurfista: la cometa bascula en la ventana de viento pivotando sobre el rider, que talonea, y las rachas cruzan por detrás |
 | `#son` | botón del sonido del mar, abajo a la derecha |
 
 Sin JavaScript o con `prefers-reduced-motion`, el `<html>` no recibe la clase `mo`
