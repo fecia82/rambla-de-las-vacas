@@ -326,18 +326,25 @@ footer .meta a:hover{color:var(--ink)}
 .ct-firma img{height:46px; width:auto; mix-blend-mode:multiply}
 
 /* ---------- el sonido del mar, siempre a elección ---------- */
-.son{position:fixed; right:20px; bottom:20px; z-index:60; display:none; align-items:center; gap:9px;
+.mandos{position:fixed; right:20px; bottom:20px; z-index:60;
+  display:flex; flex-direction:column; align-items:flex-end; gap:9px}
+.son,.giro{display:none; align-items:center; gap:9px;
   padding:11px 16px 11px 13px; border:1px solid var(--line); border-radius:999px; cursor:pointer;
   background:rgba(251,247,241,.92); backdrop-filter:blur(10px); color:var(--ink-2);
   font-family:var(--sans); font-size:12.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
   box-shadow:0 12px 30px -18px rgba(16,24,32,.5); transition:color .4s var(--ease), border-color .4s var(--ease)}
-.son.hay{display:inline-flex}
-.son svg{width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round}
+.son.hay,.giro.hay{display:inline-flex}
+.son svg,.giro svg{width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round}
+.giro[aria-pressed="true"]{color:var(--sun); border-color:var(--shell)}
+.giro .aguja{transition:transform .5s var(--ease); transform-origin:12px 12px}
+.giro[aria-pressed="true"] .aguja{transform:rotate(-18deg)}
+.giro.no{display:none}
 .son .o2,.son .o3{opacity:.28; transition:opacity .5s var(--ease)}
 .son[aria-pressed="true"]{color:var(--sea); border-color:var(--foam)}
 .son[aria-pressed="true"] .o2{opacity:.75}
 .son[aria-pressed="true"] .o3{opacity:1}
-@media (max-width:640px){ .son{right:14px; bottom:14px; padding:10px 14px 10px 11px; font-size:11.5px} }
+@media (max-width:640px){ .mandos{right:14px; bottom:14px}
+  .son,.giro{padding:10px 14px 10px 11px; font-size:11.5px} }
 
 /* ---------- reveal (respaldo IO, suave) ---------- */
 html.js .rv{opacity:0; transform:translateY(34px); transition:opacity 1s var(--ease), transform 1s var(--ease)}
@@ -626,6 +633,14 @@ html:not(.mo) .foto{opacity:1}
   </div>
 </footer>
 
+<div class="mandos">
+<button class="giro" id="giro" type="button" aria-pressed="false" aria-label="Que la página se mueva al inclinar el móvil">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="8.4"/>
+    <path class="aguja" d="M12 6.2v11.6M8.4 9.4h7.2"/>
+  </svg>
+  <span>Mover</span>
+</button>
 <button class="son" id="son" type="button" aria-pressed="false" aria-label="Poner el sonido del mar">
   <svg viewBox="0 0 24 24" aria-hidden="true">
     <path class="o1" d="M2 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>
@@ -634,6 +649,7 @@ html:not(.mo) .foto{opacity:1}
   </svg>
   <span>Mar</span>
 </button>
+</div>
 <audio id="mar" src="audio/olas.mp3" loop preload="none"></audio>
 
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Foto ampliada">
@@ -817,6 +833,53 @@ html:not(.mo) .foto{opacity:1}
     rvs.forEach(function(el){ el.classList.add("on"); });
   }
 
+  /* ---------- la inclinación del móvil ----------
+     iOS pide permiso y solo lo concede desde un gesto, así que va por
+     botón. Donde no hace falta permiso arranca sola. Dentro de un iframe
+     hace falta allow="gyroscope", que no controlamos: por eso el botón se
+     apaga solo si en dos segundos no ha llegado ni una lectura. */
+  var incl = { x:0, y:0, ax:0, ay:0, on:false, vivo:false };
+  (function(){
+    var giro = document.getElementById("giro");
+    if (!giro || !mo) return;
+    var haySensor = typeof DeviceOrientationEvent !== "undefined" && matchMedia("(pointer:coarse)").matches;
+    if (!haySensor) return;
+    var pide = typeof DeviceOrientationEvent.requestPermission === "function";
+    giro.classList.add("hay");
+
+    function lee(e){
+      if (e.gamma === null && e.beta === null) return;
+      incl.vivo = true;
+      var g = e.gamma || 0, b = e.beta || 0;
+      var ang = (screen.orientation && screen.orientation.angle) || window.orientation || 0;
+      if (Math.abs(ang) === 90){ var t = g; g = b; b = -t; }
+      incl.x = clamp(g / 26, -1, 1);
+      incl.y = clamp((b - 42) / 26, -1, 1);   /* 42° es como se sostiene el móvil leyendo */
+      wake();
+    }
+    function enciende(){
+      addEventListener("deviceorientation", lee, {passive:true});
+      incl.on = true; giro.setAttribute("aria-pressed", "true");
+      setTimeout(function(){ if (!incl.vivo) apaga(true); }, 3500);
+    }
+    function apaga(sinSensor){
+      removeEventListener("deviceorientation", lee);
+      incl.on = false; incl.x = incl.y = 0;
+      giro.setAttribute("aria-pressed", "false");
+      if (sinSensor) giro.classList.add("no");
+      wake();
+    }
+    giro.addEventListener("click", function(){
+      if (incl.on) return apaga(false);
+      if (pide){
+        DeviceOrientationEvent.requestPermission()
+          .then(function(r){ if (r === "granted") enciende(); else giro.classList.add("no"); })
+          .catch(function(){ giro.classList.add("no"); });
+      } else enciende();
+    });
+    if (!pide) enciende();
+  })();
+
   /* ---------- el sonido del mar ----------
      nunca arranca solo: los navegadores lo bloquean y además sería una
      grosería. el botón recuerda la elección y, si estaba puesto, espera
@@ -985,7 +1048,7 @@ html:not(.mo) .foto{opacity:1}
     mods.push({ el:document.body, top:0, h:innerHeight, fn:function(p){
       heroIn.style.opacity = String(clamp(1 - p*1.25, 0, 1));
       heroIn.style.transform = "translateY(" + (-p*52) + "px)";
-      heroKo.style.backgroundPosition = (40 + p*34) + "% " + (50 + p*22) + "%";  /* de mar a duna dentro de las letras */
+      heroKo.style.backgroundPosition = (40 + p*34 + incl.ax*5) + "% " + (50 + p*22 + incl.ay*4) + "%";  /* de mar a duna dentro de las letras */
       heroSea.style.transform = "translate3d(" + (-p*14) + "%," + (p*40) + "px,0)";
     }});
 
@@ -1021,7 +1084,7 @@ html:not(.mo) .foto{opacity:1}
         var rev = easeO(clamp(p*1.6,0,1));
         var ins = (1-rev)*10;
         frame.style.clipPath = "inset(" + ins + "% " + ins*0.7 + "% round " + (1-rev)*26 + "px)";
-        plx.style.transform = "translate3d(0," + ((p-0.5)*-84) + "px,0)";
+        plx.style.transform = "translate3d(" + (incl.ax*14) + "px," + ((p-0.5)*-84 + incl.ay*10) + "px,0)";
       }});
     });
 
@@ -1034,7 +1097,7 @@ html:not(.mo) .foto{opacity:1}
     document.querySelectorAll(".banda").forEach(function(fg){
       mods.push({ el:fg, entra:true, fn:function(p){
         var im = fg.querySelector("img");
-        if (im) im.style.transform = "scale(1.12) translateY(" + ((p-0.5)*-44) + "px)";
+        if (im) im.style.transform = "scale(1.12) translate(" + (incl.ax*12) + "px," + ((p-0.5)*-44 + incl.ay*8) + "px)";
       }});
     });
 
@@ -1047,7 +1110,7 @@ html:not(.mo) .foto{opacity:1}
         var f = p*Math.PI*5, sa = Math.sin(f), sb = Math.sin(f + 1.15), sc = Math.sin(f*1.7);
         /* la vela pivota sobre el rider, que es donde estarían las líneas */
         vela.setAttribute("transform",
-          "rotate(" + (sa*7).toFixed(2) + " 150 440) translate(" + (sb*5).toFixed(1) + "," + (sa*-7).toFixed(1) + ")" +
+          "rotate(" + (sa*7 + incl.ax*4).toFixed(2) + " 150 440) translate(" + (sb*5).toFixed(1) + "," + (sa*-7).toFixed(1) + ")" +
           " scale(" + (1 + sc*0.018).toFixed(4) + ")");
         rider.setAttribute("transform",
           "rotate(" + (sb*2.4).toFixed(2) + " 165 450) translate(0," + (sc*4).toFixed(1) + ")");
@@ -1085,6 +1148,10 @@ html:not(.mo) .foto{opacity:1}
   function frame(){
     SY += (Y-SY)*K;
     if (Math.abs(Y-SY) < 0.3) SY = Y;
+    incl.ax += (incl.x - incl.ax)*0.07;
+    incl.ay += (incl.y - incl.ay)*0.07;
+    var quieto = Math.abs(incl.x-incl.ax) < 0.0015 && Math.abs(incl.y-incl.ay) < 0.0015;
+    if (quieto){ incl.ax = incl.x; incl.ay = incl.y; }
     var vh = innerHeight;
     nav.classList.toggle("scrolled", SY > vh*0.6);
     mods.forEach(function(m){
@@ -1094,7 +1161,7 @@ html:not(.mo) .foto{opacity:1}
       else { p = clamp((SY - m.top)/(m.h - vh), 0, 1); }
       m.fn(p);
     });
-    if (SY !== Y){ requestAnimationFrame(frame); }
+    if (SY !== Y || !quieto){ requestAnimationFrame(frame); }
     else { running = false; }
   }
   function wake(){
