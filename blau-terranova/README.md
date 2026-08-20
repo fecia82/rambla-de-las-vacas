@@ -26,6 +26,7 @@ Mismo motor de scroll que el sitio de Rambla de las Vacas: un único bucle
 | `.galeria` | rejilla de fotos con lightbox, oculta si no hay ninguna |
 | `.banda` | bandas de foto con parallax corto, ocultas si falta el archivo |
 | `#kite` | la cometa flamea, las bridas se arquean y las rachas cruzan |
+| `#son` | botón del sonido del mar, abajo a la derecha |
 
 Sin JavaScript o con `prefers-reduced-motion`, el `<html>` no recibe la clase `mo`
 y todas las piezas caen a un estado final estático y legible.
@@ -66,6 +67,15 @@ Pendiente de confirmar: superficie en m², número de baños, reparto exacto de
 camas, plaza de aparcamiento, horarios de entrada y salida y política de
 mascotas. El precio y la disponibilidad no se tocan aquí a propósito: los tres
 CTA llevan a la ficha de Booking, que es la que manda.
+
+## Sonido
+
+`audio/olas.mp3` de fondo, **siempre a elección**: nunca arranca solo, porque los
+navegadores lo bloquean y porque sería una grosería. El botón «MAR» de abajo a
+la derecha lo enciende con un fundido a un tercio de volumen, guarda la elección
+en `localStorage` y lo para al cambiar de pestaña. Si vuelves con la preferencia
+puesta, espera al primer gesto —clic o tecla— para reanudarlo. Si el archivo no
+está, el botón ni aparece.
 
 ## Fotos
 

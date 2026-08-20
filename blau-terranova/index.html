@@ -322,7 +322,21 @@ footer .meta a:hover{color:var(--ink)}
 .ct-wa svg{width:19px; height:19px; fill:currentColor}
 .ct-firma{display:inline-flex; align-items:center; gap:10px; font-size:13.5px; color:var(--ink-3)}
 .ct-firma b{color:var(--ink-2); font-weight:700}
-.ct-firma img{height:30px; width:auto}
+.ct-firma img{height:46px; width:auto; mix-blend-mode:multiply}
+
+/* ---------- el sonido del mar, siempre a elección ---------- */
+.son{position:fixed; right:20px; bottom:20px; z-index:60; display:none; align-items:center; gap:9px;
+  padding:11px 16px 11px 13px; border:1px solid var(--line); border-radius:999px; cursor:pointer;
+  background:rgba(251,247,241,.92); backdrop-filter:blur(10px); color:var(--ink-2);
+  font-family:var(--sans); font-size:12.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  box-shadow:0 12px 30px -18px rgba(16,24,32,.5); transition:color .4s var(--ease), border-color .4s var(--ease)}
+.son.hay{display:inline-flex}
+.son svg{width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round}
+.son .o2,.son .o3{opacity:.28; transition:opacity .5s var(--ease)}
+.son[aria-pressed="true"]{color:var(--sea); border-color:var(--foam)}
+.son[aria-pressed="true"] .o2{opacity:.75}
+.son[aria-pressed="true"] .o3{opacity:1}
+@media (max-width:640px){ .son{right:14px; bottom:14px; padding:10px 14px 10px 11px; font-size:11.5px} }
 
 /* ---------- reveal (respaldo IO, suave) ---------- */
 html.js .rv{opacity:0; transform:translateY(34px); transition:opacity 1s var(--ease), transform 1s var(--ease)}
@@ -510,7 +524,7 @@ html:not(.mo) .foto{opacity:1}
     <h2 class="state rv">Lo que hay dentro, <em>y en el bloque</em>.</h2>
     <p class="after rv">Todo lo que hace falta en una semana de playa. Y nada de lo que no.</p>
     <ul class="plain">
-      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M3 18v-7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7"/><path d="M3 18h18"/><path d="M3 14h18"/><path d="M7 9V7h4v2"/></svg><span>Tres dormitorios, cada uno con su ventana</span><span class="fix">3 dorm.</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M3 18v-7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7"/><path d="M3 18h18"/><path d="M3 14h18"/><path d="M7 9V7h4v2"/></svg><span>Tres dormitorios, uno de ellos con litera</span><span class="fix">3 dorm.</span></li>
       <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3c2.5 3 1 5 0 6-1.5-1-2-3-1-4"/><path d="M12 21a6 6 0 0 0 6-6c0-3-2-5-4-7 .5 2.5-.5 4-2 4.5-1-1.5-1-3 0-5-3 2-6 4.5-6 7.5a6 6 0 0 0 6 6Z"/></svg><span>Salón con chimenea de leña y televisión</span><span class="fix">leña · TV</span></li>
       <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M2 10h20"/><path d="M5 10v9"/><path d="M19 10v9"/><path d="M12 3v7"/><path d="M6 6h12"/></svg><span>Terraza cubierta con mesa larga para comer fuera</span><span class="fix">sombra todo el día</span></li>
       <li class="rv"><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 3v18"/><path d="M4 12h16"/></svg><span>Galería acristalada con butacas, la mejor luz de la casa</span><span class="fix">para la siesta</span></li>
@@ -532,7 +546,7 @@ html:not(.mo) .foto{opacity:1}
         </a>
         <a class="ct-tel" href="tel:+34604529655">+34 604 529 655</a>
         <span class="ct-firma">
-          <img src="img/sunsuite.png" alt="Sunsuite" onerror="this.style.display='none'">
+          <img src="img/sunsuite.jpg" alt="Sunsuite" onerror="this.style.display='none'">
           Somos <b>Sunsuite</b>
         </span>
       </div>
@@ -606,6 +620,16 @@ html:not(.mo) .foto{opacity:1}
   </div>
 </footer>
 
+<button class="son" id="son" type="button" aria-pressed="false" aria-label="Poner el sonido del mar">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path class="o1" d="M2 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>
+    <path class="o2" d="M2 10c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>
+    <path class="o3" d="M2 5c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>
+  </svg>
+  <span>Mar</span>
+</button>
+<audio id="mar" src="audio/olas.mp3" loop preload="none"></audio>
+
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Foto ampliada">
   <button class="x" id="lbX" aria-label="Cerrar">&times;</button>
   <img id="lbImg" alt="">
@@ -654,7 +678,10 @@ html:not(.mo) .foto{opacity:1}
     ["img/03.jpg", "El sofá y la chimenea"],
     ["img/04.jpg", "La terraza cubierta"],
     ["img/05.jpg", "Dormitorio principal"],
-    ["img/06.jpg", "Segundo dormitorio"]
+    ["img/06.jpg", "Segundo dormitorio"],
+    ["img/07.jpg", "Tercer dormitorio"],
+    ["img/08.jpg", "La litera, con la playa en la ventana"],
+    ["img/09.jpg", "Otro dormitorio, otra ventana"]
   ];
 
   /* remedida diferida: cada foto que entra cambia alturas */
@@ -783,6 +810,61 @@ html:not(.mo) .foto{opacity:1}
   } else {
     rvs.forEach(function(el){ el.classList.add("on"); });
   }
+
+  /* ---------- el sonido del mar ----------
+     nunca arranca solo: los navegadores lo bloquean y además sería una
+     grosería. el botón recuerda la elección y, si estaba puesto, espera
+     al primer gesto del visitante para volver a sonar. */
+  (function(){
+    var btn = document.getElementById("son"), au = document.getElementById("mar");
+    if (!btn || !au) return;
+    var CLAVE = "blau-mar", TOPE = 0.34, fundido = null, listo = false;
+
+    au.addEventListener("canplay", function(){ listo = true; btn.classList.add("hay"); });
+    au.addEventListener("error", function(){ btn.classList.remove("hay"); });
+    au.preload = "metadata"; au.load();
+
+    function funde(hacia, alAcabar){
+      clearInterval(fundido);
+      fundido = setInterval(function(){
+        var d = hacia - au.volume;
+        if (Math.abs(d) < 0.012){ au.volume = hacia; clearInterval(fundido); if (alAcabar) alAcabar(); return; }
+        au.volume = Math.max(0, Math.min(1, au.volume + d*0.12));
+      }, 40);
+    }
+    function pon(){
+      au.volume = 0;
+      var pr = au.play();
+      if (pr && pr.catch) pr.catch(function(){ btn.setAttribute("aria-pressed","false"); });
+      btn.setAttribute("aria-pressed","true");
+      try{ localStorage.setItem(CLAVE, "1"); }catch(e){}
+      funde(TOPE);
+    }
+    function quita(){
+      btn.setAttribute("aria-pressed","false");
+      try{ localStorage.setItem(CLAVE, "0"); }catch(e){}
+      funde(0, function(){ au.pause(); });
+    }
+    btn.addEventListener("click", function(){
+      if (au.paused) pon(); else quita();
+    });
+    document.addEventListener("visibilitychange", function(){
+      if (document.hidden && !au.paused) au.pause();
+      else if (!document.hidden && btn.getAttribute("aria-pressed") === "true" && au.paused) au.play().catch(function(){});
+    });
+    /* si ya lo tenía puesto, se reanuda en cuanto toque cualquier cosa */
+    var queria = false;
+    try{ queria = localStorage.getItem(CLAVE) === "1"; }catch(e){}
+    if (queria){
+      var unaVez = function(){
+        document.removeEventListener("pointerdown", unaVez);
+        document.removeEventListener("keydown", unaVez);
+        if (listo) pon();
+      };
+      document.addEventListener("pointerdown", unaVez, {once:true});
+      document.addEventListener("keydown", unaVez, {once:true});
+    }
+  })();
 
   /* ---------- contadores ---------- */
   function setCnt(c, t){

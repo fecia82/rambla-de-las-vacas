@@ -1,42 +1,44 @@
-FOTOS DE LA CASA
-================
+FOTOS Y SONIDO
+==============
 
-Cada foto que exista entra sola en la página; la que falte se queda con la
-escena dibujada en CSS y no se rompe nada. No hay que tocar el HTML.
+Cada archivo que exista entra solo en la página; el que falte se queda con
+la escena dibujada en CSS y no se rompe nada. No hay que tocar el HTML.
 
-YA ESTÁN (recortadas de las capturas de la ficha de Booking, 1 a 7 de 23):
+GALERÍA (nueve, y la rejilla de tres columnas cuadra exacta)
+  01.jpg  La galería acristalada      (sale a doble tamaño)
+  02.jpg  Salón comedor
+  03.jpg  El sofá y la chimenea
+  04.jpg  La terraza cubierta
+  05.jpg  Dormitorio principal
+  06.jpg  Segundo dormitorio
+  07.jpg  Tercer dormitorio
+  08.jpg  La litera, con la playa en la ventana
+  09.jpg  Otro dormitorio, otra ventana
 
-  hero.jpg            la pasarela sobre las dunas, dentro de las letras
-                      "el mar." del titular
-  playa-amanecer.jpg  la misma, a pantalla completa detrás del primer mensaje
-  casa.jpg            la terraza cubierta, a sangre en la sección grande
-  01.jpg    La galería acristalada      (sale a doble tamaño)
-  02.jpg    Salón comedor
-  03.jpg    El sofá y la chimenea
-  04.jpg    La terraza cubierta
-  05.jpg    Dormitorio principal
-  06.jpg    Segundo dormitorio
+PORTADAS Y BANDAS
+  hero.jpg            dentro de las letras "el mar." del titular
+  playa-amanecer.jpg  detrás del primer mensaje
+  casa.jpg            la terraza cubierta, a sangre
+  descalzo.jpg        los pies en la arena, sobre "Se vuelve descalzo"
+  sunsuite.jpg        el logo, junto al teléfono de contacto
 
-FALTAN — estos son los huecos que quedan abiertos:
-
+SIGUEN FALTANDO
   playa-mar.jpg    la panorámica de la playa y el cordón dunar, detrás del
                    mensaje "1.750 metros de arena fina y dorada"
   dunas.jpg        el chorlitejo patinegro con el pollito, detrás del
                    mensaje "Y detrás, un cordón dunar"
   chanclas.jpg     la silueta bajando la pasarela con las chanclas en la
                    mano, en "Una casa que no pide nada a cambio"
-  descalzo.jpg     los pies en la arena al atardecer, sobre "A la casa se
-                   llega en coche. Se vuelve descalzo"
   playa-ancha.jpg  una de playa abierta: sale dentro de las letras
                    "TERRANOVA" y como banda en esa misma sección
-  sunsuite.png     el logo, pequeño, junto al teléfono de contacto
-
-MÁS FOTOS DE LA GALERÍA
-  07.jpg, 08.jpg, ... Añade el archivo y una línea a la lista GALERIA que
-  hay al principio del <script> en index.html, con su pie de foto. La
-  rejilla es de tres columnas: cuadra exacto con 6, 9, 12... fotos.
 
 FORMATO
   Horizontales, lado largo de 1600 a 2000 px, JPG de calidad ~80.
-  Las portadas y las bandas se recortan a sangre, así que conviene que lo
-  importante no esté pegado al borde.
+  Las portadas y las bandas se recortan a sangre: que lo importante no
+  quede pegado al borde.
+
+SONIDO
+  ../audio/olas.mp3 — el mar de fondo. Nunca arranca solo: hay un botón
+  "MAR" abajo a la derecha. Recuerda la elección en el navegador, se para
+  al cambiar de pestaña y entra con un fundido a un tercio de volumen.
+  Si se borra el archivo, el botón no llega a aparecer.
