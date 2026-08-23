@@ -1,0 +1,159 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><style>
+:root{--paper:#FBF7F1;--ink:#101820;--sun:#E9762B;--shell:#F6D9C4;--sea:#0E7C8C;
+  --sans:"Liberation Sans","DejaVu Sans",Arial,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--ink);font-family:var(--sans)}
+.plano{position:absolute;inset:0;overflow:hidden;will-change:clip-path;display:none}
+.plano img{position:absolute;left:50%;top:50%;width:1080px;height:1920px;object-fit:cover;
+  transform-origin:center;will-change:transform}
+.plano::after{content:"";position:absolute;inset:0}
+.plano.oscuro::after{background:linear-gradient(180deg,rgba(16,24,32,.62) 0%,rgba(16,24,32,.12) 34%,
+  rgba(16,24,32,.20) 60%,rgba(16,24,32,.78) 100%)}
+.plano.suave::after{background:linear-gradient(180deg,rgba(16,24,32,.50) 0%,rgba(16,24,32,.05) 40%,
+  rgba(16,24,32,.55) 100%)}
+.plano.fuerte::after{background:linear-gradient(180deg,rgba(16,24,32,.70) 0%,rgba(16,24,32,.52) 45%,
+  rgba(16,24,32,.34) 70%,rgba(16,24,32,.72) 100%)}
+
+/* la zona segura de Reels: la interfaz come arriba y abajo */
+.capa{position:absolute;left:90px;right:90px;z-index:5}
+.linea{display:block;overflow:hidden}
+.linea span{display:block;will-change:transform,opacity}
+
+.gancho{top:430px}
+.gancho .linea span{font-size:104px;font-weight:700;line-height:1.02;letter-spacing:-.035em;color:#fff;
+  text-shadow:0 4px 40px rgba(0,0,0,.45)}
+.gancho em{font-style:normal;color:var(--sun)}
+
+.pie{bottom:470px}
+.pie .linea span{font-size:82px;font-weight:700;line-height:1.06;letter-spacing:-.03em;color:#fff;
+  text-shadow:0 4px 36px rgba(0,0,0,.5)}
+.pie .chico span{font-size:31px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--shell);margin-bottom:26px;text-shadow:0 2px 20px rgba(0,0,0,.6)}
+
+.cifras{top:560px}
+.cifras .n{font-size:190px;font-weight:700;letter-spacing:-.05em;line-height:.94;color:#fff;
+  text-shadow:0 4px 40px rgba(0,0,0,.5)}
+.cifras .n em{font-style:normal;font-size:.42em;color:var(--sun);letter-spacing:-.02em}
+.cifras .q{font-size:36px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--shell);
+  margin:14px 0 78px;text-shadow:0 2px 20px rgba(0,0,0,.6)}
+
+/* cierre */
+#cierre{position:absolute;inset:0;background:var(--paper);display:none;z-index:8;
+  padding:0 90px;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+#cierre .marca{font-size:86px;font-weight:700;letter-spacing:-.035em;color:var(--ink);line-height:1.04}
+#cierre .marca b{color:var(--sun);font-weight:700}
+#cierre .dir{margin-top:30px;font-size:38px;font-weight:500;color:#4E5A62;letter-spacing:.01em}
+#cierre .tel{margin-top:74px;font-size:52px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+#cierre .tel small{display:block;font-size:27px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:#98A2A8;margin-bottom:18px}
+#cierre img{width:360px;height:auto;margin-top:80px;mix-blend-mode:multiply}
+#cierre .cap{position:absolute;left:0;right:0;bottom:330px;font-size:30px;letter-spacing:.22em;
+  text-transform:uppercase;color:#98A2A8;font-weight:600}
+</style></head><body>
+
+<div class="plano" id="p0"><img src="../img/hero.jpg"></div>
+<div class="plano" id="p1"><img src="../img/02.jpg"></div>
+<div class="plano" id="p2"><img src="../img/04.jpg"></div>
+<div class="plano" id="p3"><img src="../img/01.jpg"></div>
+<div class="plano" id="p4"><img src="../img/05.jpg"></div>
+<div class="plano" id="p5"><img src="../img/descalzo.jpg"></div>
+<div class="plano" id="p6"><img src="../img/playa-amanecer.jpg"></div>
+
+<div class="capa gancho" id="t0">
+  <span class="linea"><span id="t0a">Esta calle no va</span></span>
+  <span class="linea"><span id="t0b">a ninguna parte.</span></span>
+</div>
+<div class="capa gancho" id="t1">
+  <span class="linea"><span id="t1a">Va <em>a la arena</em>.</span></span>
+</div>
+<div class="capa pie" id="t2">
+  <span class="linea chico"><span id="t2a">Oliva · Playa de Terranova</span></span>
+  <span class="linea"><span id="t2b">Blau Terranova</span></span>
+  <span class="linea"><span id="t2c">Garbí</span></span>
+</div>
+<div class="capa pie" id="t3"><span class="linea"><span id="t3a">Se come fuera.</span></span></div>
+<div class="capa pie" id="t4"><span class="linea"><span id="t4a">Se duerme la siesta.</span></span></div>
+<div class="capa pie" id="t5"><span class="linea"><span id="t5a">Tres dormitorios.</span></span></div>
+<div class="capa pie" id="t6"><span class="linea"><span id="t6a">Se vuelve descalzo.</span></span></div>
+<div class="capa cifras" id="t7">
+  <div><p class="n" id="t7a">2 <em>min</em></p><p class="q">a la arena</p></div>
+  <div><p class="n" id="t7b">1.750 <em>m</em></p><p class="q">de playa</p></div>
+</div>
+
+<div id="cierre">
+  <p class="marca">Blau Terranova · <b>Garbí</b></p>
+  <p class="dir">Calle Faig 16 · Oliva (Valencia)</p>
+  <p class="tel"><small>Reserva directa</small>+34 604 529 655</p>
+  <img src="../img/sunsuite.jpg" alt="">
+  <p class="cap">Escríbenos por WhatsApp</p>
+</div>
+
+<script>
+var PLANOS = [
+  { el:"p0", t0:0.0,  t1:5.0,  z:[1.18,1.03], y:[ 40,-30], clase:"oscuro" },
+  { el:"p1", t0:5.0,  t1:8.0,  z:[1.05,1.16], y:[-20, 20], clase:"suave"  },
+  { el:"p2", t0:8.0,  t1:10.8, z:[1.16,1.04], y:[ 25,-15], clase:"suave"  },
+  { el:"p3", t0:10.8, t1:13.6, z:[1.04,1.15], y:[-18, 18], clase:"suave"  },
+  { el:"p4", t0:13.6, t1:16.2, z:[1.15,1.05], y:[ 20,-20], clase:"suave"  },
+  { el:"p5", t0:16.2, t1:19.0, z:[1.03,1.14], y:[ 10,-25], clase:"oscuro" },
+  { el:"p6", t0:19.0, t1:21.6, z:[1.14,1.04], y:[-10, 25], clase:"fuerte" }
+];
+var TEXTOS = [
+  { el:"t0", t0:0.5,  t1:2.7,  hijos:["t0a","t0b"] },
+  { el:"t1", t0:2.9,  t1:4.9,  hijos:["t1a"] },
+  { el:"t2", t0:5.3,  t1:7.9,  hijos:["t2a","t2b","t2c"] },
+  { el:"t3", t0:8.3,  t1:10.7, hijos:["t3a"] },
+  { el:"t4", t0:11.1, t1:13.5, hijos:["t4a"] },
+  { el:"t5", t0:13.9, t1:16.1, hijos:["t5a"] },
+  { el:"t6", t0:16.5, t1:18.9, hijos:["t6a"] },
+  { el:"t7", t0:19.3, t1:21.5, hijos:["t7a","t7b"] }
+];
+var CIERRE = 21.6, FIN = 24.0;
+var D = {};
+["p0","p1","p2","p3","p4","p5","p6","t0","t1","t2","t3","t4","t5","t6","t7","cierre"]
+  .forEach(function(k){ D[k] = document.getElementById(k); });
+PLANOS.forEach(function(P){ D[P.el].classList.add(P.clase); P.img = D[P.el].querySelector("img"); });
+
+function cl(v,a,b){ return v<a?a:(v>b?b:v); }
+function suave(t){ return t*t*(3-2*t); }
+function salida(t){ return 1-Math.pow(1-t,3); }
+
+function pinta(t){
+  /* planos: entran con una marea que sube y hacen ken burns */
+  PLANOS.forEach(function(P){
+    var ENTRA = 0.42;
+    var vis = t >= P.t0 - ENTRA && t < P.t1 + 0.05;
+    D[P.el].style.display = vis ? "block" : "none";
+    if (!vis) return;
+    var e = cl((t - (P.t0 - ENTRA)) / ENTRA, 0, 1);
+    D[P.el].style.clipPath = "inset(" + ((1 - salida(e)) * 100).toFixed(2) + "% 0 0 0)";
+    var k = cl((t - (P.t0 - ENTRA)) / ((P.t1 + 0.05) - (P.t0 - ENTRA)), 0, 1);
+    var z = P.z[0] + (P.z[1] - P.z[0]) * k;
+    var y = P.y[0] + (P.y[1] - P.y[0]) * k;
+    P.img.style.transform = "translate(-50%,-50%) scale(" + z.toFixed(4) + ") translateY(" + y.toFixed(1) + "px)";
+  });
+  /* textos: cada línea entra desde abajo con retardo y se va entera */
+  TEXTOS.forEach(function(T){
+    var vis = t >= T.t0 - 0.05 && t < T.t1 + 0.5;
+    D[T.el].style.display = vis ? "block" : "none";
+    if (!vis) return;
+    var fuera = cl((t - T.t1) / 0.42, 0, 1);
+    T.hijos.forEach(function(h, i){
+      var el = document.getElementById(h);
+      var a = cl((t - (T.t0 + i * 0.16)) / 0.5, 0, 1);
+      var o = salida(a) * (1 - suave(fuera));
+      el.style.opacity = o.toFixed(3);
+      el.style.transform = "translateY(" + ((1 - salida(a)) * 74 - suave(fuera) * 34).toFixed(1) + "px)";
+    });
+  });
+  /* cierre */
+  var c = cl((t - CIERRE) / 0.5, 0, 1);
+  D.cierre.style.display = t >= CIERRE - 0.02 ? "flex" : "none";
+  D.cierre.style.opacity = suave(c).toFixed(3);
+}
+window.pinta = pinta;
+window.listo = Promise.all([].map.call(document.images, function(im){
+  return im.complete ? 1 : new Promise(function(r){ im.onload = im.onerror = r; });
+}));
+pinta(0);
+</script></body></html>

@@ -1,0 +1,39 @@
+REEL PARA INSTAGRAM
+===================
+
+blau-terranova-reel.mp4 — 1080x1920, 24 s, 30 fps, H.264 + AAC, ~7,6 MB.
+Listo para subir tal cual a Reels, Stories o TikTok.
+
+CÓMO ESTÁ HECHO
+  film.html   el guion entero: los planos, los tiempos y los textos.
+              No es un vídeo: es una página con una función pinta(t) que
+              coloca todo en el instante t. Determinista, así que el
+              render sale igual siempre.
+  rodar.js    abre film.html en Chromium a 1080x1920, llama a pinta(t)
+              para cada fotograma y guarda un JPEG. 720 fotogramas.
+
+PARA CAMBIAR ALGO
+  Los textos y los tiempos están en las tablas PLANOS y TEXTOS al final
+  de film.html. Cambia lo que quieras y vuelve a rodar:
+
+    node rodar.js previo    # 10 fotogramas sueltos, para mirar
+    node rodar.js rodar     # los 720
+
+  Y después codificar (ffmpeg completo, con libx264 y aac):
+
+    ffmpeg -framerate 30 -i frames/f%05d.jpg -i ../audio/olas.mp3 \
+      -filter_complex "[1:a]atrim=0:24,asetpts=N/SR/TB,\
+loudnorm=I=-16:TP=-1.5:LRA=11,afade=t=in:st=0:d=1.2,\
+afade=t=out:st=22.2:d=1.8[a]" \
+      -map 0:v -map "[a]" -c:v libx264 -profile:v high -preset slow \
+      -crf 20 -pix_fmt yuv420p -c:a aac -b:a 160k -movflags +faststart \
+      -shortest blau-terranova-reel.mp4
+
+ZONA SEGURA
+  La interfaz de Reels tapa la franja de arriba y unos 400 px de abajo.
+  Todo el texto va entre y=300 y y=1450 por eso.
+
+TIPOGRAFÍA
+  Va en Liberation Sans (clon métrico de Arial) porque es lo mejor que
+  había instalado. Si dejas un .ttf/.otf en esta carpeta y lo declaras
+  con @font-face en film.html, el render lo usa.
