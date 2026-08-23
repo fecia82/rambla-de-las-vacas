@@ -1,0 +1,915 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Romance sonámbulo</title>
+<meta name="description" content="El Romance sonambulo de Federico Garcia Lorca, del Romancero gitano (1928), recitado por el scroll: las palabras llegan una a una y la voz se detiene en las que un actor sostendria.">
+<meta property="og:title" content="Romance sonámbulo">
+<meta property="og:description" content="Verde que te quiero verde. Lorca, Romancero gitano, 1928.">
+<meta name="theme-color" content="#081310">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23081310'/><path d='M20 6a11 11 0 100 20 13 13 0 010-20z' fill='%235FBE86'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap">
+
+<style>
+/* ============================================================
+   ROMANCE SONÁMBULO · Federico García Lorca, 1928
+   dominio público en España desde el 1 de enero de 2017
+
+   tres ideas, las tres del propio poema:
+   1. RECITADO. el scroll es la voz. las palabras llegan una a una;
+      la que se está diciendo brilla, las ya dichas se apagan a un
+      tono menor. las que un actor sostendría cuestan más tiempo.
+   2. EL VERDE ES EL PROTAGONISTA. el fondo satura en los
+      estribillos y se desangra en el trato de los compadres.
+   3. EL POEMA SUBE MIENTRAS EL LECTOR BAJA. las barandas cruzan
+      la pantalla hacia arriba: bajar se lee como trepar.
+   ============================================================ */
+:root{
+  --tinta:#081310; --verde:#2E6B4B; --verde-alto:#5FBE86;
+  --plata:#DDE7E0; --escarcha:#8AA396; --herida:#A03526; --luna:#EFF5EC;
+  --linea:#1B3227;
+  --dicho:#8AA396;          /* lo ya recitado se retira a este tono */
+  --voz:#EFF5EC;            /* la palabra que se está diciendo */
+  --verso:"Cormorant Garamond","Iowan Old Style",Palatino,"Palatino Linotype",Georgia,serif;
+  --titulo:"Bodoni Moda",Didot,"Bodoni MT","Times New Roman",Georgia,serif;
+  --ease:cubic-bezier(.22,.61,.21,1);
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html{background:var(--tinta)}
+body{
+  font-family:var(--verso); background:var(--tinta); color:var(--plata);
+  font-size:19px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+img{display:block; max-width:100%}
+a{color:inherit}
+a:focus-visible{outline:2px solid var(--verde-alto); outline-offset:4px}
+
+#tinte{position:fixed; inset:0; z-index:-2; background:var(--tinta); will-change:background}
+#agua{position:fixed; inset:0; z-index:1; pointer-events:none}
+#velo{position:fixed; inset:0; z-index:3; pointer-events:none; opacity:0; will-change:opacity;
+  background:radial-gradient(120% 80% at 50% 30%, rgba(95,190,134,.20), rgba(8,19,16,0) 70%)}
+
+.rot{font-family:var(--titulo); font-size:11.5px; font-weight:400; letter-spacing:.36em;
+  text-transform:uppercase; color:var(--escarcha)}
+
+/* ---------- fondos: las planchas limpias, detrás del verso ---------- */
+.fondo{position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0}
+.fondo img{position:absolute; inset:-12% -6%; width:112%; height:124%; object-fit:cover;
+  opacity:0; will-change:transform,opacity; filter:saturate(.75)}
+.fondo::after{content:""; position:absolute; inset:0; z-index:1;
+  background:linear-gradient(180deg,rgba(8,19,16,.74),rgba(8,19,16,.44) 45%,rgba(8,19,16,.8))}
+.encima{position:relative; z-index:2}
+
+/* ---------- EL RECITADO ---------- */
+.recita{position:relative}
+.v{display:block; font-size:clamp(19px,2.5vw,30px); font-weight:300; line-height:1.72;
+  text-indent:-1.15em; padding-left:1.15em}
+.v.dice{font-style:italic}
+.w{
+  display:inline-block; opacity:0; will-change:opacity,transform;
+  text-indent:0;                    /* se hereda: sin esto cada palabra se aplica la
+                                       sangría francesa dentro de su caja y se pisan */
+  font-style:inherit;               /* <i> las pondría todas en cursiva */
+  color:var(--dicho);                                   /* reserva si no hay color-mix */
+  color:color-mix(in oklab, var(--voz) calc(var(--f,0) * 100%), var(--dicho));
+  transform:translateY(calc(var(--f,0) * -2px));
+  text-shadow:0 0 calc(var(--f,0) * 20px) rgba(95,190,134,calc(var(--f,0) * .45));
+}
+.w.tenida{--voz:var(--verde-alto)}                      /* la palabra que el actor sostiene */
+.v.sangra .w{--voz:var(--herida); --dicho:#6B4038}      /* el único rojo, con las rosas morenas */
+.hueco{display:block; height:4.5vh}
+
+/* ---------- portada ---------- */
+.port{min-height:100vh; min-height:100svh; display:flex; flex-direction:column; justify-content:center;
+  padding:12vh 30px 14vh; position:relative; overflow:hidden}
+.port .port-in{max-width:1100px; margin:0 auto; width:100%; will-change:transform,opacity}
+.port h1{font-family:var(--titulo); font-weight:900; font-size:clamp(46px,10.5vw,150px);
+  line-height:.92; letter-spacing:-.025em; text-wrap:balance; margin:5vh 0 0}
+.port h1 em{font-style:italic; font-weight:400; color:var(--verde-alto)}
+.port .autor{margin-top:5vh; font-size:clamp(17px,2vw,22px); color:var(--escarcha); font-style:italic}
+.port .autor b{font-style:normal; font-weight:400; color:var(--plata)}
+.baja{position:absolute; left:50%; bottom:30px; transform:translateX(-50%); z-index:3}
+.baja span{display:block; width:1px; height:52px; background:var(--escarcha); margin:12px auto 0;
+  animation:baja 2.6s var(--ease) infinite}
+@keyframes baja{0%{transform:scaleY(0); transform-origin:top} 45%{transform:scaleY(1); transform-origin:top}
+  55%{transform:scaleY(1); transform-origin:bottom} 100%{transform:scaleY(0); transform-origin:bottom}}
+
+/* ---------- LÁMINAS: las planchas con el verso impreso ---------- */
+.lamina{position:relative}
+.lamina .fija{position:sticky; top:0; height:100vh; height:100svh; overflow:hidden;
+  display:grid; place-items:center; background:var(--tinta)}
+.marco{position:relative; overflow:hidden; will-change:clip-path;
+  height:86vh; height:86svh; aspect-ratio:457/551; max-width:92vw}
+.marco img{width:100%; height:100%; object-fit:cover; will-change:transform}
+.lamina.doble .fija{gap:min(28px,3vw); grid-auto-flow:column}
+.lamina.doble .marco{height:70vh; height:70svh}
+@media (max-width:760px){
+  .lamina.doble .fija{grid-auto-flow:row}
+  .lamina.doble .marco{height:38vh; height:38svh}
+}
+
+/* ---------- estribillo a pantalla completa ---------- */
+.estri{position:relative}
+.estri .fija{position:sticky; top:0; height:100vh; height:100svh; display:grid; place-items:center;
+  overflow:hidden; padding:0 26px}
+.estri p{font-family:var(--titulo); font-weight:700; text-align:center; text-wrap:balance;
+  font-size:clamp(38px,8.4vw,120px); line-height:1.02; letter-spacing:-.03em;
+  will-change:transform,opacity; position:relative; z-index:2}
+.estri em{font-style:italic; font-weight:400}
+.estri .verde{color:var(--verde-alto)}
+/* el segundo estribillo se rellena con la lámina: tipografía calada */
+.estri .calado{
+  background-image:url("img/l1.jpg"); background-size:cover; background-position:center 10%;
+  -webkit-background-clip:text; background-clip:text; color:transparent; will-change:background-position;
+}
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){
+  .estri .calado{color:var(--verde-alto); background:none}
+}
+
+/* ---------- tiradas ---------- */
+.tirada{padding:18vh 30px; position:relative}
+.tirada .col{width:min(540px,100%); max-width:540px; margin:0 auto; position:relative; z-index:2}
+.tirada.fijada,.cierre.fijada{padding:0}
+.fijada .fija{position:sticky; top:0; min-height:100vh; min-height:100svh;
+  display:grid; place-items:center; padding:10vh 30px}
+@media (max-width:640px){ .fijada .fija{padding:8vh 22px} }
+
+/* ---------- la subida ---------- */
+.subida{position:relative}
+.subida .fija{position:sticky; top:0; height:100vh; height:100svh; overflow:hidden;
+  display:grid; place-items:center}
+.barandas{position:absolute; inset:0; pointer-events:none; z-index:0}  /* que el agua las cubra al subir */
+.baranda{position:absolute; left:-8%; width:116%; height:38px; will-change:transform,opacity}
+.baranda::before{content:""; position:absolute; left:0; right:0; top:0; height:3px;
+  background:linear-gradient(90deg,rgba(47,95,73,0),#4C8A69 12%,#4C8A69 88%,rgba(47,95,73,0))}
+.baranda::after{content:""; position:absolute; left:0; right:0; top:3px; bottom:0;
+  background:repeating-linear-gradient(90deg,#26523E 0 2px,rgba(0,0,0,0) 2px 38px);
+  background-position-x:var(--fase,0px);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.subida .dentro{position:relative; z-index:3; width:100%; max-width:540px; padding:0 26px}
+.rastro{position:absolute; top:0; bottom:0; left:50%; width:210px; transform:translateX(-50%); z-index:1;
+  background:linear-gradient(180deg,rgba(160,53,38,0),rgba(160,53,38,.42));
+  filter:blur(34px); opacity:0; will-change:opacity}
+
+/* ---------- el aljibe ---------- */
+.aljibe{position:relative}
+.aljibe .fija{position:sticky; top:0; height:100vh; height:100svh; overflow:hidden;
+  display:flex; flex-direction:column; justify-content:flex-start; align-items:center;
+  padding:12vh 26px 0}   /* el verso queda sobre la línea de flotación, el reflejo debajo */
+.carambano{position:absolute; left:50%; top:0; width:2px; transform:translateX(-50%); z-index:2;
+  background:linear-gradient(180deg,rgba(239,245,236,0),var(--luna)); will-change:height}
+.gitana{position:relative; z-index:3; text-align:center; width:100%; max-width:540px}
+.reflejo{position:relative; z-index:3; text-align:center; width:100%; max-width:540px; margin-top:26px;
+  color:var(--verde-alto); opacity:.42; transform:scaleY(-1); will-change:transform}
+.reflejo .v{font-size:clamp(17px,2vw,24px)}
+.reflejo .w{opacity:1; --voz:var(--verde-alto)}
+
+/* ---------- los guardias ---------- */
+.guardias{position:relative}
+.guardias .fija{position:sticky; top:0; height:100vh; height:100svh; display:grid; place-items:center;
+  overflow:hidden; padding:0 26px}
+.puerta{position:absolute; inset:0; opacity:0; will-change:opacity; pointer-events:none; z-index:2;
+  background:radial-gradient(125% 95% at 50% 50%, rgba(160,53,38,0) 38%, rgba(160,53,38,.9) 100%)}
+.golpe{position:relative; z-index:3; text-align:center; max-width:880px; will-change:transform}
+.golpe .v{font-size:clamp(24px,4.2vw,52px); font-family:var(--titulo); font-weight:700;
+  line-height:1.14; text-indent:0; padding-left:0}
+
+/* ---------- cierre ---------- */
+.cierre{padding:22vh 30px 12vh; position:relative}
+.cierre .col{max-width:540px; margin:0 auto; text-align:center; position:relative; z-index:2}
+.cierre .v{text-indent:0; padding-left:0; font-size:clamp(22px,3.2vw,38px)}
+
+/* ---------- pie ---------- */
+.vuelta{text-align:center; padding:2vh 30px 16vh; position:relative; z-index:2}
+.vuelta a{font-family:var(--titulo); font-size:12px; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--escarcha); text-decoration:none; border-bottom:1px solid var(--linea); padding-bottom:6px;
+  transition:color .5s var(--ease), border-color .5s var(--ease)}
+.vuelta a:hover{color:var(--verde-alto); border-bottom-color:var(--verde-alto)}
+footer{padding:10vh 30px 8vh; border-top:1px solid var(--linea); position:relative; z-index:2}
+footer .in{max-width:640px; margin:0 auto}
+footer p{font-size:15px; line-height:1.7; color:var(--escarcha); margin-top:16px}
+footer p:first-of-type{margin-top:22px}
+footer b{color:var(--plata); font-weight:400}
+footer a{text-decoration:none; border-bottom:1px solid var(--linea)}
+footer a:hover{border-bottom-color:var(--verde-alto)}
+
+/* ---------- sin motor: el poema entero, quieto y legible ---------- */
+html:not(.mo) .w{opacity:1!important; transform:none!important; color:var(--plata)!important;
+  text-shadow:none!important}
+html:not(.mo) .v.sangra .w{color:#C4574A!important}
+html:not(.mo) .fondo img{opacity:.3}
+html:not(.mo) .estri .fija,html:not(.mo) .subida .fija,html:not(.mo) .aljibe .fija,
+html:not(.mo) .guardias .fija,html:not(.mo) .lamina .fija{position:static; height:auto; padding:12vh 26px}
+html:not(.mo) .estri,html:not(.mo) .subida,html:not(.mo) .aljibe,
+html:not(.mo) .guardias,html:not(.mo) .lamina{height:auto!important}
+html:not(.mo) .marco{height:auto; clip-path:none!important; max-width:min(520px,88vw)}
+html:not(.mo) .barandas,html:not(.mo) .rastro,html:not(.mo) .carambano,
+html:not(.mo) .puerta,html:not(.mo) .reflejo,html:not(.mo) #velo,
+html:not(.mo) #agua{display:none}
+
+/* ---------- móvil ---------- */
+@media (max-width:640px){
+  body{font-size:18px}
+  .port{padding:11vh 22px 13vh}
+  .tirada{padding:13vh 22px}
+  .cierre{padding:16vh 22px 10vh}
+  footer{padding:9vh 22px 7vh}
+  .marco{height:74vh; height:74svh}
+}
+@media (prefers-reduced-motion:reduce){ .baja span{animation:none} }
+</style>
+</head>
+<body>
+<script>document.documentElement.className += " js" + (matchMedia("(prefers-reduced-motion:reduce)").matches ? "" : " mo");</script>
+
+<div id="tinte"></div>
+<canvas id="agua" aria-hidden="true"></canvas>
+<div id="velo"></div>
+
+<!-- ================= PORTADA ================= -->
+<header class="port" id="port">
+  <div class="fondo" aria-hidden="true"><img id="fPort" src="img/f1.jpg" alt=""></div>
+  <div class="port-in encima" id="portIn">
+    <p class="rot">Romancero gitano · 1928</p>
+    <h1>Romance<br><em>sonámbulo</em></h1>
+    <p class="autor"><b>Federico García Lorca</b><br>A Gloria Giner y a Fernando de los Ríos</p>
+  </div>
+  <p class="baja rot">Baja<span></span></p>
+</header>
+
+<!-- ================= LÁMINA ================= -->
+<section class="lamina" style="height:175vh" aria-label="Lámina: Romance sonámbulo">
+  <div class="fija"><div class="marco"><img src="img/l1.jpg" alt="Lámina: una luna creciente sobre el rótulo «Romance sonámbulo»."></div></div>
+</section>
+
+<!-- ================= TIRADA I ================= -->
+<section class="tirada recita">
+  <div class="fondo" aria-hidden="true"><img src="img/f4.jpg" alt=""></div>
+  <div class="col encima">
+    <span class="v"><em>Verde</em> viento. <em>Verdes</em> ramas.</span>
+    <span class="v">El barco sobre la <em>mar</em></span>
+    <span class="v">y el caballo en la <em>montaña</em>.</span>
+    <span class="v">Con la sombra en la cintura</span>
+    <span class="v">ella <em>sueña</em> en su baranda,</span>
+    <span class="v"><em>verde</em> carne, pelo <em>verde</em>,</span>
+    <span class="v">con ojos de <em>fría plata</em>.</span>
+    <span class="v"><em>Verde</em> que te quiero <em>verde</em>.</span>
+    <span class="v">Bajo la <em>luna gitana</em>,</span>
+    <span class="v">las cosas la están <em>mirando</em></span>
+    <span class="v">y ella no puede <em>mirarlas</em>.</span>
+  </div>
+</section>
+
+<!-- ================= TIRADA II ================= -->
+<section class="tirada recita">
+  <div class="col">
+    <span class="v"><em>Verde</em> que te quiero <em>verde</em>.</span>
+    <span class="v">Grandes estrellas de <em>escarcha</em></span>
+    <span class="v">vienen con el <em>pez de sombra</em></span>
+    <span class="v">que abre el camino del <em>alba</em>.</span>
+    <span class="v">La higuera frota su viento</span>
+    <span class="v">con la <em>lija</em> de sus ramas,</span>
+    <span class="v">y el monte, <em>gato garduño</em>,</span>
+    <span class="v">eriza sus <em>pitas agrias</em>.</span>
+    <span class="v">¿Pero <em>quién vendrá</em>? ¿Y <em>por dónde</em>...?</span>
+    <span class="v">Ella sigue en su baranda,</span>
+    <span class="v"><em>verde</em> carne, pelo <em>verde</em>,</span>
+    <span class="v">soñando en la <em>mar amarga</em>.</span>
+  </div>
+</section>
+
+<!-- ================= LÁMINA ================= -->
+<section class="lamina" style="height:175vh" aria-label="Lámina: Verde que te quiero verde">
+  <div class="fija"><div class="marco"><img src="img/l2.jpg" alt="Lámina: dos rostros de perfil sobre una cuña verde, con el verso «Verde que te quiero verde»."></div></div>
+</section>
+
+<!-- ================= ESTRIBILLO I ================= -->
+<section class="estri" style="height:190vh" aria-label="Estribillo">
+  <div class="fija">
+    <p id="estri1">Verde que te quiero <em class="verde">verde</em>.</p>
+  </div>
+</section>
+
+<!-- ================= EL TRATO ================= -->
+<section class="tirada recita" aria-label="El trato de los compadres">
+  <div class="fondo" aria-hidden="true"><img src="img/f5.jpg" alt=""></div>
+  <div class="col encima">
+    <span class="v dice">—Compadre, quiero <em>cambiar</em></span>
+    <span class="v dice">mi caballo por su <em>casa</em>,</span>
+    <span class="v dice">mi montura por su <em>espejo</em>,</span>
+    <span class="v dice">mi cuchillo por su <em>manta</em>.</span>
+    <span class="v dice">Compadre, vengo <em>sangrando</em>,</span>
+    <span class="v dice">desde los puertos de <em>Cabra</em>.</span>
+    <span class="hueco"></span>
+    <span class="v dice">—Si yo pudiera, mocito,</span>
+    <span class="v dice">ese trato se <em>cerraba</em>.</span>
+    <span class="v dice">Pero <em>yo ya no soy yo</em>,</span>
+    <span class="v dice">ni <em>mi casa es ya mi casa</em>.</span>
+    <span class="hueco"></span>
+    <span class="v dice">—Compadre, quiero <em>morir</em></span>
+    <span class="v dice"><em>decentemente</em> en mi cama.</span>
+    <span class="v dice">De <em>acero</em>, si puede ser,</span>
+    <span class="v dice">con las sábanas de <em>holanda</em>.</span>
+    <span class="v dice">¿No ves la <em>herida</em> que tengo</span>
+    <span class="v dice">desde el pecho a la <em>garganta</em>?</span>
+    <span class="hueco"></span>
+    <span class="v dice sangra">—<em>Trescientas rosas morenas</em></span>
+    <span class="v dice sangra">lleva tu pechera <em>blanca</em>.</span>
+    <span class="v dice sangra">Tu <em>sangre</em> rezuma y huele</span>
+    <span class="v dice sangra">alrededor de tu <em>faja</em>.</span>
+    <span class="v dice">Pero <em>yo ya no soy yo</em>,</span>
+    <span class="v dice">ni <em>mi casa es ya mi casa</em>.</span>
+  </div>
+</section>
+
+<!-- ================= BARANDALES DE LA LUNA ================= -->
+<section class="tirada recita" aria-label="Dejadme subir">
+  <div class="fondo" aria-hidden="true"><img src="img/f3.jpg" alt=""></div>
+  <div class="col encima">
+    <span class="v dice">—<em>Dejadme subir</em> al menos</span>
+    <span class="v dice">hasta las <em>altas barandas</em>;</span>
+    <span class="v dice">¡<em>dejadme subir</em>!, dejadme</span>
+    <span class="v dice">hasta las <em>verdes barandas</em>.</span>
+    <span class="v dice">Barandales de la <em>luna</em></span>
+    <span class="v dice">por donde <em>retumba el agua</em>.</span>
+  </div>
+</section>
+
+<!-- ================= LÁMINA ================= -->
+<section class="lamina" style="height:175vh" aria-label="Lámina: Ya suben los dos compadres">
+  <div class="fija"><div class="marco"><img src="img/l3.jpg" alt="Lámina: una luna sobre el agua y una ventana encendida, con el verso «Ya suben los dos compadres hacia las altas barandas»."></div></div>
+</section>
+
+<!-- ================= LA SUBIDA ================= -->
+<section class="subida recita" id="subida" style="height:340vh" aria-label="La subida a las barandas">
+  <div class="fija">
+    <div class="barandas" id="barandas" aria-hidden="true"></div>
+    <div class="rastro" id="rastro" aria-hidden="true"></div>
+    <div class="dentro">
+      <span class="v">Ya suben los dos <em>compadres</em></span>
+      <span class="v">hacia las <em>altas barandas</em>.</span>
+      <span class="v">Dejando un rastro de <em>sangre</em>.</span>
+      <span class="v">Dejando un rastro de <em>lágrimas</em>.</span>
+      <span class="v">Temblaban en los tejados</span>
+      <span class="v">farolillos de <em>hojalata</em>.</span>
+      <span class="v"><em>Mil panderos de cristal</em></span>
+      <span class="v"><em>herían</em> la madrugada.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DÍPTICO: SANGRE Y LÁGRIMAS ================= -->
+<section class="lamina doble" style="height:200vh" aria-label="Láminas: el rastro de sangre y el de lágrimas">
+  <div class="fija">
+    <div class="marco"><img src="img/l4.jpg" alt="Lámina: una figura al borde de una rampa que sangra, con el verso «Dejando un rastro de sangre»."></div>
+    <div class="marco"><img src="img/l5.jpg" alt="Lámina: un rostro de ojos cerrados partido en planos, con el verso «Dejando un rastro de lágrimas»."></div>
+  </div>
+</section>
+
+<!-- ================= ESTRIBILLO II ================= -->
+<section class="estri" style="height:190vh" aria-label="Estribillo">
+  <div class="fija">
+    <p id="estri2" class="calado">Verde que te quiero verde,<br>verde viento, verdes ramas.</p>
+  </div>
+</section>
+
+<!-- ================= TIRADA IV ================= -->
+<section class="tirada recita">
+  <div class="col">
+    <span class="v">Los dos compadres <em>subieron</em>.</span>
+    <span class="v">El largo viento dejaba</span>
+    <span class="v">en la boca un <em>raro gusto</em></span>
+    <span class="v">de <em>hiel</em>, de <em>menta</em> y de <em>albahaca</em>.</span>
+    <span class="hueco"></span>
+    <span class="v dice">—¡<em>Compadre</em>! ¿Dónde está, dime?</span>
+    <span class="v dice">¿Dónde está tu <em>niña amarga</em>?</span>
+    <span class="hueco"></span>
+    <span class="v dice">—¡<em>Cuántas veces</em> te esperó!</span>
+    <span class="v dice">¡<em>Cuántas veces</em> te esperara,</span>
+    <span class="v dice"><em>cara fresca</em>, <em>negro pelo</em>,</span>
+    <span class="v dice">en esta <em>verde baranda</em>!</span>
+  </div>
+</section>
+
+<!-- ================= EL ALJIBE ================= -->
+<section class="aljibe recita" id="aljibe" style="height:300vh" aria-label="El aljibe">
+  <div class="fija">
+    <div class="fondo" aria-hidden="true"><img src="img/f2.jpg" alt=""></div>
+    <span class="carambano" id="carambano" aria-hidden="true"></span>
+    <div class="gitana" id="gitana">
+      <span class="v">Sobre el rostro del <em>aljibe</em></span>
+      <span class="v">se <em>mecía</em> la gitana.</span>
+      <span class="v"><em>Verde</em> carne, pelo <em>verde</em>,</span>
+      <span class="v">con ojos de <em>fría plata</em>.</span>
+      <span class="v">Un <em>carámbano de luna</em></span>
+      <span class="v">la sostiene sobre el <em>agua</em>.</span>
+    </div>
+    <div class="reflejo" id="reflejo" aria-hidden="true">
+      <span class="v">Verde carne, pelo verde,</span>
+      <span class="v">con ojos de fría plata.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LA NOCHE ================= -->
+<section class="tirada recita">
+  <div class="col">
+    <span class="v">La noche se puso <em>íntima</em></span>
+    <span class="v">como una <em>pequeña plaza</em>.</span>
+  </div>
+</section>
+
+<!-- ================= LÁMINA ================= -->
+<section class="lamina" style="height:175vh" aria-label="Lámina: los guardias civiles">
+  <div class="fija"><div class="marco"><img src="img/l6.jpg" alt="Lámina: un hombre de sombrero recortado en el vano iluminado de una puerta, con el verso «Guardias civiles borrachos en la puerta golpeaban»."></div></div>
+</section>
+
+<!-- ================= LOS GUARDIAS ================= -->
+<section class="guardias recita" id="guardias" style="height:260vh" aria-label="Los guardias civiles">
+  <div class="fija">
+    <div class="fondo" aria-hidden="true"><img src="img/f6.jpg" alt=""></div>
+    <div class="puerta" id="puerta" aria-hidden="true"></div>
+    <div class="golpe" id="golpeTxt">
+      <span class="v"><em>Guardias civiles borrachos</em></span>
+      <span class="v">en la puerta <em>golpeaban</em>.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CIERRE ================= -->
+<section class="cierre recita">
+  <div class="col">
+    <span class="v"><em>Verde</em> que te quiero <em>verde</em>.</span>
+    <span class="v"><em>Verde</em> viento. <em>Verdes</em> ramas.</span>
+    <span class="v">El barco sobre la <em>mar</em>.</span>
+    <span class="v">Y el caballo en la <em>montaña</em>.</span>
+  </div>
+</section>
+
+<p class="vuelta"><a href="#port" id="vuelta">Volver a empezar</a></p>
+
+<!-- ================= PIE ================= -->
+<footer>
+  <div class="in">
+    <p class="rot">Sobre este texto</p>
+    <p><b>Romance sonámbulo</b>, de Federico García Lorca, del <b>Romancero gitano</b> (1928). Lorca murió en 1936 y en España los derechos de los autores fallecidos antes de 1987 caducan a los ochenta años, así que el libro es de <b>dominio público desde el 1 de enero de 2017</b>. El poema se reproduce entero: 86 versos, sin cortes.</p>
+    <p>El texto se ha cotejado con <a href="https://poemas.uned.es/poema/romance-sonambulo-federico-garcia-lorca/" rel="noopener">PoeMAS (UNED)</a> y la <a href="https://www.poetryfoundation.org/poems/161926/romance-sonambulo" rel="noopener">Poetry Foundation</a>. Las versiones que circulan por internet arrastran erratas y saltos de tirada; si vas a citarlo, conviene contrastar contra una edición en papel — sobre todo <em>«desde los puertos de Cabra»</em> y <em>«ese trato se cerraba»</em>, que aparecen alterados en más de un sitio.</p>
+    <p class="rot" style="margin-top:6vh">Sobre las láminas</p>
+    <p>Las doce imágenes son ilustraciones aportadas por el autor de la página. Seis llevan el verso impreso y se muestran como <b>láminas</b>, solas y a pantalla completa; las otras seis van de fondo, atenuadas, detrás del verso recitado. Que una lámina repita el verso que la voz dice después no es un descuido: el romance vive de la repetición y del eco — «Verde que te quiero verde» aparece cuatro veces en el propio poema.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var mo = document.documentElement.classList.contains("mo");
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  function easeO(t){ return 1-Math.pow(1-t,3); }
+
+  /* ============================================================
+     EL RECITADO
+     cada palabra es un golpe de voz. las marcadas con <em> son las
+     que un actor sostiene: cuestan más tiempo y se van al verde.
+     ============================================================ */
+  var COSTE_PALABRA = 1, COSTE_TENIDA = 2.4, COSTE_VERSO = 0.7, COSTE_HUECO = 2.5;
+
+  var SOLO_SIGNOS = /^[^0-9A-Za-zÀ-ÿ]+$/;
+  function tokeniza(v){
+    var nodos = [].slice.call(v.childNodes), out = [], pendiente = "";
+    v.textContent = "";
+    function mete(texto, tenida){
+      /* los signos sueltos no son un golpe de voz: se pegan a la palabra vecina */
+      if (SOLO_SIGNOS.test(texto)){
+        if (out.length){ out[out.length-1].el.textContent += texto; return; }
+        pendiente += texto; return;
+      }
+      var w = document.createElement("i");
+      w.className = tenida ? "w tenida" : "w";
+      w.textContent = pendiente + texto; pendiente = "";
+      v.appendChild(w); out.push({ el:w, tenida:tenida });
+    }
+    nodos.forEach(function(n){
+      if (n.nodeType === 3){
+        n.nodeValue.split(/(\s+)/).forEach(function(t){
+          if (!t) return;
+          if (/^\s+$/.test(t)){ if (out.length && !pendiente) v.appendChild(document.createTextNode(" ")); return; }
+          mete(t, false);
+        });
+      } else if (n.nodeType === 1 && n.tagName === "EM"){
+        mete(n.textContent, true);                       /* una tenida es un solo golpe */
+      } else {
+        v.appendChild(n);
+      }
+    });
+    return out;
+  }
+
+  var bloques = [];
+  if (mo){
+    document.querySelectorAll(".recita").forEach(function(bl){
+      var toks = [], beat = 0;
+      [].slice.call(bl.querySelectorAll(".v, .hueco")).forEach(function(el){
+        if (el.closest(".reflejo")) return;             /* el reflejo no habla: solo repite */
+        if (el.classList.contains("hueco")){ beat += COSTE_HUECO; return; }
+        tokeniza(el).forEach(function(t){
+          t.beat = beat;
+          beat += t.tenida ? COSTE_TENIDA : COSTE_PALABRA;
+          toks.push(t);
+        });
+        beat += COSTE_VERSO;
+      });
+      bl._toks = toks; bl._total = beat;
+      bl._fijo = /subida|aljibe|guardias/.test(bl.className);
+      if (!bl._fijo){
+        /* el verso se fija y la sección se estira: unos 24 px de scroll por
+           golpe de voz, que es lo que hace que suene a recitado y no a parpadeo */
+        var col = bl.querySelector(".col"), fija = document.createElement("div");
+        fija.className = "fija"; bl.insertBefore(fija, col); fija.appendChild(col);
+        bl.classList.add("fijada");
+      }
+      bloques.push(bl);
+    });
+  }
+
+  function recitaBloque(bl, p){
+    var toks = bl._toks, c = -1.5 + p * (bl._total + 3.2);
+    for (var i=0;i<toks.length;i++){
+      var t = toks[i], d = c - t.beat;
+      var o = d <= 0 ? 0 : (d >= 0.9 ? 1 : d/0.9);
+      var f = 1 - Math.abs(d - 0.6)/1.6; if (f < 0) f = 0;
+      var ro = Math.round(o*50)/50, rf = Math.round(f*50)/50;
+      if (ro !== t._o){ t.el.style.opacity = ro; t._o = ro; }
+      if (rf !== t._f){ t.el.style.setProperty("--f", rf); t._f = rf; }
+    }
+  }
+
+  /* ============================================================
+     EL AGUA
+     la muchacha lleva ahogada en el aljibe desde el primer verso:
+     por eso es verde. así que el agua está en toda la página, no
+     solo en su sección. su rostro va reflejado boca abajo bajo la
+     superficie desde la portada, ilegible, y solo se endereza
+     cuando el nivel alcanza el aljibe.
+
+     la agitación la pone el propio lector: cuanto más rápido baja,
+     más se riza el agua. hay que ir despacio para verla.
+     ============================================================ */
+  var cv = document.getElementById("agua"), cx2 = cv ? cv.getContext("2d") : null;
+  var W = 0, H = 0, DPR = 1, espejo = null, imgLista = false;
+  var estado = { nivel:0.085, agit:0, anillos:[], claridad:0.18, fase:0 };
+
+  (function(){
+    if (!cx2) return;
+    var im = new Image();
+    im.onload = function(){
+      var c = document.createElement("canvas");
+      c.width = im.naturalWidth; c.height = im.naturalHeight;
+      var g = c.getContext("2d");
+      g.translate(0, c.height); g.scale(1, -1);      /* el reflejo va del revés */
+      g.drawImage(im, 0, 0);
+      espejo = c; imgLista = true;
+    };
+    im.src = "img/f2.jpg";
+  })();
+
+  function midePapel(){
+    if (!cx2) return;
+    DPR = Math.min(devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    cv.width = Math.round(W*DPR); cv.height = Math.round(H*DPR);
+    cv.style.width = W + "px"; cv.style.height = H + "px";
+    cx2.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+
+  function superficie(x, fase, agit, anillos){
+    var y = Math.sin(x/W*7.1 + fase) * 3.4 * (0.45 + agit)
+          + Math.sin(x/W*13.7 - fase*1.6) * 2.0 * (0.45 + agit)
+          + Math.sin(x/W*29.3 + fase*2.4) * 0.9;
+    for (var i=0;i<anillos.length;i++){
+      var a = anillos[i], d = Math.abs(x - a.cx);
+      y += Math.cos(d/24) * a.fuerza * Math.exp(-d/(W*0.4));
+    }
+    return y;
+  }
+
+  function pintaAgua(ms){
+    if (!cx2 || !W) return;
+    var fase = estado.fase + ms/2600;
+    var yBase = H * (1 - estado.nivel);
+    cx2.clearRect(0, 0, W, H);
+
+    /* recorte por la superficie ondulada */
+    cx2.save();
+    cx2.beginPath();
+    cx2.moveTo(0, H);
+    for (var x=0; x<=W; x+=6) cx2.lineTo(x, yBase + superficie(x, fase, estado.agit, estado.anillos));
+    cx2.lineTo(W, H); cx2.closePath(); cx2.clip();
+
+    /* el reflejo, banda a banda, desplazado por el rizo */
+    if (imgLista && estado.claridad > 0.02){
+      /* el reflejo cubre todo el ancho: si se recorta en columna, el
+         desplazamiento de cada banda deja el borde dentado a la vista */
+      var iw = espejo.width, ih = espejo.height;
+      var margen = 60 + estado.agit*30;
+      var rw = W + margen*2, rh = rw*ih/iw, rx = -margen;
+      var bandas = 72, alto = rh/bandas;
+      cx2.globalAlpha = estado.claridad;
+      for (var i=0;i<bandas;i++){
+        var prof = i/bandas;
+        var desp = Math.sin(prof*8.5 + fase*1.4) * (4 + estado.agit*22) * (1 - prof*0.45);
+        /* filas enteras: con destinos fraccionarios el remuestreo deja costuras */
+        var y0 = Math.round(yBase + i*alto), y1 = Math.round(yBase + (i+1)*alto);
+        cx2.drawImage(espejo, 0, prof*ih, iw, ih/bandas,
+                      Math.round(rx + desp), y0, rw, (y1-y0) + 1);
+      }
+      cx2.globalAlpha = 1;
+    }
+
+    /* el verde del agua, encima del reflejo */
+    var g = cx2.createLinearGradient(0, yBase, 0, H);
+    g.addColorStop(0,   "rgba(24,66,51,.30)");
+    g.addColorStop(.40, "rgba(11,38,29,.72)");
+    g.addColorStop(1,   "rgba(4,16,12,.94)");
+    cx2.fillStyle = g; cx2.fillRect(0, yBase-20, W, H-yBase+20);
+    cx2.restore();
+
+    /* la línea de flotación */
+    cx2.beginPath();
+    for (var x2=0; x2<=W; x2+=4){
+      var yy = yBase + superficie(x2, fase, estado.agit, estado.anillos);
+      if (x2 === 0) cx2.moveTo(x2, yy); else cx2.lineTo(x2, yy);
+    }
+    cx2.strokeStyle = "rgba(150,214,180," + (0.30 + estado.agit*0.35) + ")";
+    cx2.lineWidth = 1.2; cx2.stroke();
+    cx2.strokeStyle = "rgba(239,245,236,.12)"; cx2.lineWidth = 4; cx2.stroke();
+  }
+
+  var ultimoAgua = 0;
+  function bucleAgua(ms){
+    requestAnimationFrame(bucleAgua);
+    if (document.hidden || ms - ultimoAgua < 32) return;
+    ultimoAgua = ms;
+    pintaAgua(ms);
+  }
+
+  /* nivel del agua: sube con el poema y baja al cerrarse el sueño */
+  var ANCLAS = [[0,0.05]];
+  function nivelEn(t){
+    var i = 0;
+    while (i < ANCLAS.length-2 && t > ANCLAS[i+1][0]) i++;
+    var a = ANCLAS[i], b = ANCLAS[i+1] || a;
+    if (!ANCLAS[i+1]) return a[1];
+    var u = clamp((t-a[0])/((b[0]-a[0])||1), 0, 1);
+    u = u*u*(3-2*u);
+    return lerp(a[1], b[1], u);
+  }
+
+  /* ---------- el color del fondo, parada a parada ---------- */
+  var TINTE = [
+    [0.00, [ 8,19,16]], [0.08, [14,45,31]], [0.20, [ 9,24,18]], [0.34, [21,15,13]],
+    [0.46, [10,26,19]], [0.58, [17,55,37]], [0.72, [ 6,23,19]], [0.86, [26,13,11]], [1.00, [12,40,28]]
+  ];
+  function tinte(t){
+    var i = 0;
+    while (i < TINTE.length-2 && t > TINTE[i+1][0]) i++;
+    var a = TINTE[i], b = TINTE[i+1], u = clamp((t-a[0])/(b[0]-a[0]), 0, 1);
+    return "rgb(" + Math.round(lerp(a[1][0],b[1][0],u)) + "," +
+                    Math.round(lerp(a[1][1],b[1][1],u)) + "," +
+                    Math.round(lerp(a[1][2],b[1][2],u)) + ")";
+  }
+  function velo(t){
+    var picos = [0.08, 0.58, 1.0], o = 0;
+    for (var i=0;i<picos.length;i++) o = Math.max(o, clamp(1 - Math.abs(t-picos[i])/0.06, 0, 1));
+    return Math.pow(o, 1.5);
+  }
+
+  (function(){
+    var b = document.getElementById("barandas");
+    if (!b) return;
+    var html = "";
+    for (var i=0;i<6;i++) html += '<span class="baranda" style="--fase:' + (i*11) + 'px"></span>';
+    b.innerHTML = html;
+  })();
+
+  /* ================== MOTOR ================== */
+  var Y = 0, SY = 0, mods = [], ondula = [], tAljibe = 0.7;
+
+  var PX_POR_GOLPE = 24;
+  function medir(){
+    mods = [];
+    if (!mo) return;
+    /* primero las alturas, que cambian el layout; después se mide */
+    bloques.forEach(function(bl){
+      if (!bl._fijo) bl.style.height = Math.round(bl._total * PX_POR_GOLPE + innerHeight) + "px";
+    });
+    var tinteEl = document.getElementById("tinte"), veloEl = document.getElementById("velo");
+
+    mods.push({ global:true, fn:function(t){
+      tinteEl.style.background = tinte(t);
+      veloEl.style.opacity = String(velo(t));
+    }});
+
+    /* portada */
+    var portIn = document.getElementById("portIn"), fPort = document.getElementById("fPort");
+    mods.push({ el:document.body, top:0, h:innerHeight, fn:function(p){
+      portIn.style.opacity = String(clamp(1 - p*1.3, 0, 1));
+      portIn.style.transform = "translateY(" + (-p*46) + "px)";
+      fPort.style.opacity = String(clamp(0.62 - p*0.62, 0, 1));
+      fPort.style.transform = "scale(" + (1.06 + p*0.10) + ") translateY(" + (p*40) + "px)";
+    }});
+
+    /* fondos de sección: entran, respiran y salen */
+    document.querySelectorAll(".fondo").forEach(function(f){
+      if (f.closest("header.port")) return;
+      var im = f.querySelector("img"), sec = f.closest("section");
+      mods.push({ el:sec, entra:true, fn:function(p){
+        var vis = clamp(1 - Math.abs(p-0.5)*1.7, 0, 1);
+        im.style.opacity = String(vis * 0.62);
+        im.style.transform = "scale(" + (1.12 - vis*0.08) + ") translateY(" + ((p-0.5)*-56) + "px)";
+      }});
+    });
+
+    /* láminas: se abren, sostienen con un zoom lento y se cierran */
+    document.querySelectorAll(".lamina").forEach(function(lm){
+      var marcos = [].slice.call(lm.querySelectorAll(".marco"));
+      mods.push({ el:lm, fn:function(p){
+        marcos.forEach(function(m, k){
+          var q = clamp((p - k*0.05) / (1 - k*0.05), 0, 1);
+          var abre = easeO(clamp(q/0.26, 0, 1));
+          var cierra = easeO(clamp((q-0.78)/0.22, 0, 1));
+          var ins = (1-abre)*50 + cierra*50;
+          m.style.clipPath = "inset(" + ins + "% 0 " + ins + "% 0)";
+          var im = m.querySelector("img");
+          im.style.transform = "scale(" + (1.16 - 0.16*clamp(q*1.5,0,1)) + ")";
+        });
+      }});
+    });
+
+    /* estribillos */
+    document.querySelectorAll(".estri").forEach(function(sc){
+      var p0 = sc.querySelector("p"), calado = p0.classList.contains("calado");
+      mods.push({ el:sc, fn:function(p){
+        var d = (p - 0.5) * 2, vis = clamp(1 - Math.abs(d)*1.15, 0, 1);
+        p0.style.opacity = String(Math.pow(vis, 0.9));
+        p0.style.transform = "scale(" + (0.93 + 0.07*vis) + ") translateY(" + (d*-40) + "px)";
+        if (calado) p0.style.backgroundPosition = "center " + (2 + p*22) + "%";
+      }});
+    });
+
+    /* la subida */
+    var sub = document.getElementById("subida");
+    if (sub){
+      var bars = sub.querySelectorAll(".baranda"), rastro = document.getElementById("rastro"), n = bars.length;
+      mods.push({ el:sub, fn:function(p){
+        var h = sub.querySelector(".fija").clientHeight;
+        for (var i=0;i<n;i++){
+          var y = ((i/n - p*1.15) % 1 + 1) % 1;          /* el poema sube; el lector baja */
+          bars[i].style.transform = "translateY(" + (y*h*1.25 - h*0.12) + "px)";
+          bars[i].style.opacity = String(0.25 + 0.75*Math.sin(y*Math.PI));
+        }
+        rastro.style.opacity = String(clamp((p-0.22)*1.9, 0, 0.8));
+        recitaBloque(sub, clamp((p-0.10)/0.72, 0, 1));
+      }});
+    }
+
+    /* el aljibe */
+    var alj = document.getElementById("aljibe");
+    if (alj){
+      var car = document.getElementById("carambano"), refl = document.getElementById("reflejo");
+      mods.push({ el:alj, fn:function(p){
+        var h = alj.querySelector(".fija").clientHeight;
+        car.style.height = (easeO(clamp((p-0.18)*2.1,0,1)) * h * 0.48) + "px";
+        var mece = Math.sin(p*Math.PI*4);
+        refl.style.transform = "scaleY(-1) skewX(" + (mece*3.4) + "deg) translateX(" + (mece*9) + "px)";
+        refl.style.opacity = String(clamp((p-0.3)*2, 0, 0.45));
+        recitaBloque(alj, clamp((p-0.06)/0.62, 0, 1));
+      }});
+    }
+
+    /* los guardias: cinco golpes secos */
+    var gu = document.getElementById("guardias");
+    if (gu){
+      var txt = document.getElementById("golpeTxt"), puerta = document.getElementById("puerta");
+      mods.push({ el:gu, fn:function(p){
+        var q = clamp((p-0.18)/0.7, 0, 1);
+        var golpe = Math.pow(Math.abs(Math.sin(q*Math.PI*5)), 9);
+        var lado = Math.floor(q*5) % 2 ? 1 : -1;
+        txt.style.transform = "translate(" + (golpe*22*lado) + "px," + (golpe*7) + "px) rotate(" + (golpe*0.8*lado) + "deg)";
+        puerta.style.opacity = String(golpe*0.6);
+        var anillos = [];
+        for (var k=0;k<5;k++){
+          var edad = q - (k+0.5)/5;
+          if (edad > 0 && edad < 0.5)
+            anillos.push({ cx: W*(0.5 + (k%2 ? 0.24 : -0.24)), fuerza: 11*Math.exp(-edad*11) });
+        }
+        estado.anillos = anillos;
+        estado.agit = Math.max(estado.agit, golpe*0.9);
+        recitaBloque(gu, clamp((p-0.04)/0.34, 0, 1));
+      }});
+    }
+
+    /* bloques recitados en flujo normal */
+    bloques.forEach(function(bl){
+      if (bl._fijo) return;
+      mods.push({ el:bl, fn:function(p){ recitaBloque(bl, p); }});
+    });
+
+    mods.forEach(function(m){
+      if (m.global || m.el === document.body) return;
+      var r = m.el.getBoundingClientRect();
+      m.top = r.top + pageYOffset; m.h = r.height;
+    });
+
+    /* dónde está cada cosa, en progreso de documento */
+    var doc = document.body.scrollHeight - innerHeight;
+    function tDe(sel, frac){
+      var el = typeof sel === "string" ? document.querySelector(sel) : sel;
+      if (!el) return 0.5;
+      var r = el.getBoundingClientRect(), top = r.top + pageYOffset;
+      return clamp((top + r.height*frac - innerHeight*0.5) / (doc||1), 0, 1);
+    }
+    tAljibe = tDe("#aljibe", 0.55);
+    ANCLAS = [
+      [0, 0.085],
+      [tDe("header.port", 1), 0.11],
+      [tDe("#subida", 0.5), 0.17],
+      [tAljibe - 0.06, 0.34],
+      [tAljibe, 0.58],                      /* aquí el agua alcanza el aljibe */
+      [tDe("#guardias", 0.5), 0.46],
+      [1, 0.12]
+    ];
+
+    /* versos que quedarán bajo la línea de flotación */
+    ondula = [];
+    document.querySelectorAll(".tirada.recita .col, .cierre.recita .col").forEach(function(col){
+      var vs = [].slice.call(col.querySelectorAll(".v"));
+      ondula.push({ col:col, vs:vs, tops:vs.map(function(v){ return v.offsetTop; }) });
+    });
+    midePapel();
+  }
+
+  var corriendo = false;
+  var K = matchMedia("(pointer:coarse)").matches ? 0.22 : 0.14;
+  function frame(){
+    SY += (Y-SY)*K;
+    if (Math.abs(Y-SY) < 0.3) SY = Y;
+    var vh = innerHeight, doc = document.body.scrollHeight - vh;
+    var t = clamp(SY / (doc||1), 0, 1);
+
+    mods.forEach(function(m){
+      if (m.global){ m.fn(t); return; }
+      var p;
+      if (m.el === document.body) p = clamp(SY/(vh*0.95), 0, 1);
+      else if (m.entra) p = clamp((SY + vh - m.top) / (vh + m.h*0.6), 0, 1);
+      else p = clamp((SY - m.top) / (m.h - vh || 1), 0, 1);
+      m.fn(p);
+    });
+
+    /* el agua: nivel por posición, claridad por cercanía al aljibe,
+       y la agitación la pone la prisa del lector */
+    estado.nivel = nivelEn(t);
+    var cerca = Math.exp(-Math.pow((t - tAljibe)/0.055, 2));
+    estado.claridad = 0.15 + 0.68*cerca;
+    estado.agit = clamp(Math.abs(Y - SY)/45, 0, 1) * 0.85 + estado.agit*0.15;
+
+    /* los versos sumergidos se ondulan */
+    if (W){
+      var yBase = H*(1 - estado.nivel), fase = performance.now()/2600;
+      for (var j=0;j<ondula.length;j++){
+        var o = ondula[j], r = o.col.getBoundingClientRect();
+        if (r.bottom < -40 || r.top > H + 40){
+          if (o.on){ for (var q=0;q<o.vs.length;q++) o.vs[q].style.transform = ""; o.on = false; }
+          continue;
+        }
+        o.on = true;
+        for (var k=0;k<o.vs.length;k++){
+          var y = r.top + o.tops[k], d = y - yBase;
+          if (d < -14){ if (o.vs[k]._sum){ o.vs[k].style.transform = ""; o.vs[k]._sum = 0; } continue; }
+          var amp = clamp(d/130, 0, 1);
+          o.vs[k].style.transform = "translateX(" + (Math.sin(y/46 + fase*1.3)*amp*5.5).toFixed(2) + "px)";
+          o.vs[k]._sum = 1;
+        }
+      }
+    }
+
+    if (SY !== Y) requestAnimationFrame(frame);
+    else corriendo = false;
+  }
+  function despierta(){
+    Y = pageYOffset;
+    if (!corriendo){ corriendo = true; requestAnimationFrame(frame); }
+  }
+  addEventListener("scroll", despierta, {passive:true});
+  addEventListener("resize", function(){ midePapel(); medir(); despierta(); }, {passive:true});
+  addEventListener("load", function(){ medir(); despierta(); });
+
+  if (mo){ midePapel(); medir(); despierta(); requestAnimationFrame(bucleAgua); }
+})();
+</script>
+
+</body>
+</html>

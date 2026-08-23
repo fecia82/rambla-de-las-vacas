@@ -1,0 +1,44 @@
+FOTOS Y SONIDO
+==============
+
+Cada archivo que exista entra solo en la página; el que falte se queda con
+la escena dibujada en CSS y no se rompe nada. No hay que tocar el HTML.
+
+GALERÍA (nueve, y la rejilla de tres columnas cuadra exacta)
+  01.jpg  La galería acristalada      (sale a doble tamaño)
+  02.jpg  Salón comedor
+  03.jpg  El sofá y la chimenea
+  04.jpg  La terraza cubierta
+  05.jpg  Dormitorio principal
+  06.jpg  Segundo dormitorio
+  07.jpg  Tercer dormitorio
+  08.jpg  La litera, con la playa en la ventana
+  09.jpg  Otro dormitorio, otra ventana
+
+PORTADAS Y BANDAS
+  hero.jpg            dentro de las letras "el mar." del titular
+  playa-amanecer.jpg  detrás del primer mensaje
+  casa.jpg            la terraza cubierta, a sangre
+  descalzo.jpg        los pies en la arena, sobre "Se vuelve descalzo"
+  sunsuite.jpg        el logo, junto al teléfono de contacto
+
+SIGUEN FALTANDO
+  playa-mar.jpg    la panorámica de la playa y el cordón dunar, detrás del
+                   mensaje "1.750 metros de arena fina y dorada"
+  dunas.jpg        el chorlitejo patinegro con el pollito, detrás del
+                   mensaje "Y detrás, un cordón dunar"
+  chanclas.jpg     la silueta bajando la pasarela con las chanclas en la
+                   mano, en "Una casa que no pide nada a cambio"
+  playa-ancha.jpg  una de playa abierta: sale dentro de las letras
+                   "TERRANOVA" y como banda en esa misma sección
+
+FORMATO
+  Horizontales, lado largo de 1600 a 2000 px, JPG de calidad ~80.
+  Las portadas y las bandas se recortan a sangre: que lo importante no
+  quede pegado al borde.
+
+SONIDO
+  ../audio/olas.mp3 — el mar de fondo. Nunca arranca solo: hay un botón
+  "MAR" abajo a la derecha. Recuerda la elección en el navegador, se para
+  al cambiar de pestaña y entra con un fundido a un tercio de volumen.
+  Si se borra el archivo, el botón no llega a aparecer.

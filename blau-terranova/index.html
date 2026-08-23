@@ -1,0 +1,1288 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Blau Terranova · Garbí</title>
+<meta name="description" content="Apartamento Blau Terranova Garbi. Calle Faig 16, Playa de Terranova, Oliva (Valencia). Tres dormitorios, salon con chimenea, terraza cubierta y galeria acristalada, a un paseo de las dunas.">
+<meta property="og:title" content="Blau Terranova · Garbí">
+<meta property="og:description" content="Tres dormitorios, terraza cubierta y una calle que muere en la pasarela de las dunas. Playa de Terranova, Oliva.">
+<meta name="theme-color" content="#FBF7F1">
+<link rel="canonical" href="https://fecia82.github.io/rambla-de-las-vacas/blau-terranova/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="Blau Terranova · Garbí">
+<meta property="og:url" content="https://fecia82.github.io/rambla-de-las-vacas/blau-terranova/">
+<meta property="og:image" content="https://fecia82.github.io/rambla-de-las-vacas/blau-terranova/img/compartir.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="La pasarela de madera que cruza las dunas hasta la orilla, en la playa de Terranova.">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Apartment",
+  "name": "Blau Terranova · Garbí",
+  "url": "https://fecia82.github.io/rambla-de-las-vacas/blau-terranova/",
+  "description": "Apartamento de tres dormitorios en la playa de Terranova, Oliva. Salón con chimenea, terraza cubierta y galería acristalada, a un paseo de las dunas.",
+  "image": ["https://fecia82.github.io/rambla-de-las-vacas/blau-terranova/img/compartir.jpg", "https://fecia82.github.io/rambla-de-las-vacas/blau-terranova/img/01.jpg", "https://fecia82.github.io/rambla-de-las-vacas/blau-terranova/img/04.jpg"],
+  "numberOfBedrooms": 3,
+  "telephone": "+34604529655",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Calle Faig 16",
+    "addressLocality": "Oliva",
+    "addressRegion": "Valencia",
+    "postalCode": "46780",
+    "addressCountry": "ES"
+  },
+  "amenityFeature": [
+    { "@type": "LocationFeatureSpecification", "name": "Aire acondicionado", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Chimenea de leña", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Terraza cubierta", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Lavadora", "value": true },
+    { "@type": "LocationFeatureSpecification", "name": "Wi-Fi", "value": true }
+  ]
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🌊</text></svg>">
+
+<style>
+/* ============================================================
+   BLAU TERRANOVA GARBI · scroll-scrubbed
+   mismo motor que rambla-de-las-vacas: todo ligado al dedo.
+   sin fotos: la direccion de arte es CSS/SVG (cielo, mar, duna)
+   ============================================================ */
+:root{
+  --paper:#FBF7F1; --ink:#101820; --ink-2:#4E5A62; --ink-3:#98A2A8;
+  --line:#EAE3D8; --sun:#E9762B; --shell:#F6D9C4;
+  --sea:#0E7C8C; --sea-2:#0A5966; --foam:#CDE7E4;
+  --dark:#0B1319; --dark-2:#12202A; --dark-line:#1E2E38;
+  --sans:"Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --mono:"Cascadia Mono",Consolas,ui-monospace,Menlo,monospace;
+  --ease:cubic-bezier(.22,.61,.21,1);
+}
+*{box-sizing:border-box; margin:0; padding:0}
+body{
+  font-family:var(--sans); background:var(--paper); color:var(--ink);
+  font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+img{max-width:100%; display:block}
+a{color:inherit}
+a:focus-visible{outline:2px solid var(--sun); outline-offset:4px}
+.mono{font-family:var(--mono)}
+
+/* ---------- nav ---------- */
+nav{position:fixed; inset:0 0 auto; z-index:50; transition:background .5s var(--ease), box-shadow .5s var(--ease)}
+nav.scrolled{background:rgba(251,247,241,.9); backdrop-filter:blur(12px); box-shadow:0 1px 0 var(--line)}
+.nav-in{max-width:1280px; margin:0 auto; padding:0 30px; height:66px; display:flex; align-items:center; justify-content:space-between}
+.brand{font-weight:800; font-size:15px; text-decoration:none; letter-spacing:.02em}
+.brand span{color:var(--sun)}
+.nav-acc{display:flex; align-items:center; gap:18px}
+.brand,.nav-cta{white-space:nowrap}
+.nav-cta .corta{display:none}
+.nav-cta{font-size:13.5px; font-weight:700; text-decoration:none; border-bottom:2px solid var(--sun); padding-bottom:2px}
+.nav-wa{display:inline-flex; align-items:center; gap:7px; text-decoration:none; font-size:13.5px; font-weight:700;
+  color:var(--ink-2); transition:color .35s var(--ease)}
+.nav-wa svg{width:19px; height:19px; fill:#25D366; flex:none}
+.nav-wa:hover{color:var(--ink)}
+@media (max-width:640px){ .nav-acc{gap:13px} .nav-wa-txt{display:none} .nav-cta{font-size:12.5px}
+  .nav-cta .larga{display:none} .nav-cta .corta{display:inline} }
+
+/* ---------- tipografia inversa ---------- */
+.ko{
+  font-weight:900; letter-spacing:-.045em; line-height:.88;
+  background-size:220% 220%; background-position:center 40%;
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.ko.mar{background-image:linear-gradient(155deg,#0E7C8C,#12A0A6 34%,#57C6C0 58%,#0A5966)}
+.ko.arena{background-image:linear-gradient(150deg,#E9762B,#F0A968 40%,#F6D9C4 62%,#C9541A)}
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){
+  .ko{color:var(--sea); background:none}
+}
+
+/* ---------- hero ---------- */
+.hero{min-height:100vh; min-height:100svh; display:flex; flex-direction:column; justify-content:center; position:relative; padding:90px 30px 60px; overflow:hidden}
+.hero-in{max-width:1280px; margin:0 auto; width:100%; position:relative; z-index:2; will-change:transform,opacity}
+.hero .kick{font-family:var(--mono); font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:var(--ink-3); margin-bottom:4vh}
+.hero h1{font-size:clamp(58px,13.5vw,210px); font-weight:900; letter-spacing:-.045em; line-height:.88}
+.hero h1 .ko{display:block; will-change:background-position}
+.hero .sub{margin-top:5vh; font-size:clamp(16px,1.8vw,20px); color:var(--ink-2); max-width:46ch}
+.hero .sub b{color:var(--ink)}
+.hero .cue{position:absolute; bottom:34px; left:50%; transform:translateX(-50%); z-index:2;
+  font-family:var(--mono); font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--ink-3)}
+.hero .cue::after{content:""; display:block; width:1px; height:44px; background:var(--ink-3); margin:12px auto 0;
+  animation:cue 2.2s var(--ease) infinite}
+@keyframes cue{0%{transform:scaleY(0); transform-origin:top} 45%{transform:scaleY(1); transform-origin:top}
+  55%{transform:scaleY(1); transform-origin:bottom} 100%{transform:scaleY(0); transform-origin:bottom}}
+/* olas de fondo del hero, puro svg */
+.hero-sea{position:absolute; inset:auto 0 0; height:34vh; z-index:1; opacity:.5; pointer-events:none; will-change:transform}
+.hero-sea svg{width:130%; height:100%; display:block}
+
+/* ---------- scrolly scrubbed ---------- */
+.scrolly{position:relative}
+.scrolly .stick{position:sticky; top:0; height:100vh; height:100svh; display:grid; place-items:center; overflow:hidden}
+.scrolly .bg{position:absolute; inset:-4%; opacity:0; will-change:transform,opacity; pointer-events:none}
+.scrolly .bg::after{content:""; position:absolute; inset:0}
+.scrolly.lite .bg::after{background:linear-gradient(180deg, rgba(251,247,241,.74), rgba(251,247,241,.52) 45%, rgba(251,247,241,.8))}
+.scrolly.deep .bg::after{background:linear-gradient(180deg, rgba(11,19,25,.7), rgba(11,19,25,.48) 45%, rgba(11,19,25,.82))}
+.scrolly.deep .msg{color:#fff}
+.scrolly .msg{
+  position:absolute; z-index:2; text-align:center; padding:0 30px; max-width:26ch;
+  font-size:clamp(32px,6.2vw,86px); font-weight:900; letter-spacing:-.04em; line-height:1.02;
+  opacity:0; will-change:transform,opacity; text-wrap:balance;
+}
+.scrolly .msg em{font-style:normal; color:var(--sun)}
+.scrolly.deep .msg em{color:var(--shell)}
+.scrolly .msg small{display:block; font-family:var(--mono); font-weight:400; font-size:13px;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--ink-2); margin-top:26px}
+/* escenas de fondo, sin fotografia */
+.sc-amanecer{background:linear-gradient(180deg,#2B4A6B 0%,#7E6E86 38%,#E3A470 66%,#F2CFA6 100%)}
+.sc-mar{background:linear-gradient(180deg,#0A5966 0%,#0E7C8C 46%,#39A8A8 78%,#CDE7E4 100%)}
+.sc-duna{background:linear-gradient(180deg,#BFE0E6 0%,#E7D9BC 46%,#D9C199 74%,#B8985F 100%)}
+.sc-noche{background:linear-gradient(180deg,#070E16 0%,#0F2233 52%,#1C3B48 100%)}
+
+/* ---------- full bleed con revelado ---------- */
+.full{position:relative; height:112vh; overflow:hidden}
+.full .frame{position:absolute; inset:0; will-change:clip-path; overflow:hidden}
+.full .plx{position:absolute; inset:-9% 0; will-change:transform}
+.full .chip{
+  position:absolute; left:30px; bottom:36px; z-index:3;
+  background:rgba(11,19,25,.84); color:#EDEDE8; backdrop-filter:blur(6px);
+  border-radius:12px; padding:15px 20px; max-width:44ch; font-size:14px; line-height:1.5;
+}
+.full .chip b{color:#fff}
+
+/* escena piscina/edificio, geometria css */
+.esc-casa{position:absolute; inset:0; background:linear-gradient(180deg,#79C0DD,#B7DEEA 44%,#DFEFF1 68%)}
+.esc-casa .sol{position:absolute; top:11%; right:13%; width:min(15vw,132px); aspect-ratio:1; border-radius:50%;
+  background:radial-gradient(circle,#FFF0C9,#F5B24E 60%,rgba(245,178,78,0) 70%)}
+.esc-casa .arena{position:absolute; left:0; right:0; bottom:0; height:44%;
+  background:linear-gradient(180deg,#F2E7CE,#D9C295)}
+.esc-casa .agua{position:absolute; left:0; right:0; bottom:0; height:21%;
+  background:linear-gradient(180deg,#4CB6BF,#0E7C8C 52%,#0A5966)}
+.esc-casa .agua::before{content:""; position:absolute; left:0; right:0; top:-6px; height:12px;
+  background:rgba(255,255,255,.75); filter:blur(4px)}
+.esc-casa .agua::after{content:""; position:absolute; inset:0;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.14) 0 1px,rgba(255,255,255,0) 1px 15px)}
+.esc-casa .bloque{position:absolute; left:6%; bottom:30%; width:min(31vw,390px); height:44%; overflow:hidden;
+  background:linear-gradient(100deg,#FFFDF8,#EDE4D4); box-shadow:0 40px 90px -50px rgba(10,40,50,.65)}
+.esc-casa .bloque i{position:absolute; display:block; background:linear-gradient(180deg,#2E8494,#0A5966)}
+.esc-casa .bloque b{position:absolute; left:0; right:0; height:2.4%; background:rgba(16,32,40,.13)}
+.esc-casa .som{position:absolute; width:min(9vw,88px); aspect-ratio:2/1; border-radius:100% 100% 0 0}
+.esc-casa .som::after{content:""; position:absolute; left:50%; top:100%; width:2px; height:34px;
+  background:#9C8560; transform:translateX(-50%)}
+
+/* ---------- secciones ---------- */
+.sect{padding:20vh 30px}
+.sect .in{max-width:1280px; margin:0 auto}
+.state{font-size:clamp(32px,5.4vw,74px); font-weight:900; letter-spacing:-.04em; line-height:1.02; max-width:18ch; text-wrap:balance}
+.state em{font-style:normal; color:var(--sun)}
+.after{margin-top:4vh; font-size:clamp(16px,1.7vw,19px); color:var(--ink-2); max-width:52ch}
+.after b{color:var(--ink)}
+
+.loose{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:7vh 40px; margin-top:11vh}
+.loose .it .n{font-size:clamp(38px,4.6vw,64px); font-weight:900; letter-spacing:-.04em; line-height:1; font-variant-numeric:tabular-nums}
+.loose .it .n small{display:block; font-size:.4em; font-weight:700; color:var(--ink-3); margin-top:8px; letter-spacing:-.01em}
+.loose .it p{margin-top:10px; font-size:14px; color:var(--ink-2); max-width:26ch}
+
+/* ---------- panel oscuro ---------- */
+.darkp{background:var(--dark); color:#EDEDE8}
+.darkp .after{color:#B4BEC4}
+.darkp .after b{color:#fff}
+.darkp .state{color:#fff}
+.darkp .state em{color:var(--shell)}
+.tit-ko{font-weight:inherit; line-height:1}
+.kobig{font-size:min(13.4vw,210px); display:inline-block; will-change:background-position}
+.tagline{font-family:var(--mono); font-size:12px; letter-spacing:.26em; text-transform:uppercase; color:#83909A; margin-bottom:3vh}
+
+/* ---------- EL DIA: sol arrastrado por el scroll ---------- */
+.daypin{position:relative}
+.daypin .stick{position:sticky; top:0; height:100vh; height:100svh; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end}
+#cielo{position:absolute; inset:0; background:linear-gradient(180deg,#2B4A6B,#E3A470)}
+#marfondo{position:absolute; left:0; right:0; bottom:0; height:34%; background:#0E7C8C; overflow:hidden}
+/* el agua: rizo fino arriba y ancho abajo, como la perspectiva real */
+#marfondo::after{content:""; position:absolute; inset:0;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.10),rgba(0,0,0,0) 22%,rgba(0,0,0,.20)),
+    repeating-linear-gradient(180deg,rgba(255,255,255,.10) 0 1px,rgba(255,255,255,0) 1px 7px) 0 0/100% 34%,
+    repeating-linear-gradient(180deg,rgba(255,255,255,.07) 0 1px,rgba(255,255,255,0) 1px 15px) 0 34%/100% 30%,
+    repeating-linear-gradient(180deg,rgba(255,255,255,.05) 0 2px,rgba(255,255,255,0) 2px 27px) 0 64%/100% 36%;
+  background-repeat:no-repeat}
+/* la raya de luz que deja el sol sobre el agua */
+#brillo{position:absolute; top:0; bottom:0; width:min(22vw,240px); transform:translateX(-50%);
+  opacity:0; will-change:opacity,left; pointer-events:none; mix-blend-mode:screen;
+  background:radial-gradient(58% 104% at 50% -4%, rgba(255,246,214,.95), rgba(255,246,214,.18) 52%, rgba(255,246,214,0) 100%);
+  -webkit-mask-image:repeating-linear-gradient(180deg,#000 0 2px,transparent 2px 9px);
+  mask-image:repeating-linear-gradient(180deg,#000 0 2px,transparent 2px 9px);
+  filter:blur(1.5px)}
+/* la costura entre cielo y mar */
+#horizonte{position:absolute; left:0; right:0; top:66%; height:2px; transform:translateY(-1px);
+  background:rgba(255,255,255,.5); filter:blur(1.5px); opacity:.55; pointer-events:none}
+/* el Montgó, ahí enfrente */
+#montgo{position:absolute; right:-2vw; bottom:34%; width:min(52vw,620px); height:min(11vh,104px);
+  pointer-events:none;
+  opacity:0; will-change:opacity}
+#montgo path{transition:none}
+.astro{position:absolute; top:0; left:0; width:min(13vw,110px); aspect-ratio:1; border-radius:50%; will-change:transform; transform:translate(-50%,-50%)}
+#sol{background:radial-gradient(circle,#FFF3D2,#FFC85E 58%,rgba(255,200,94,0) 72%)}
+#luna{background:radial-gradient(circle at 38% 38%,#F4F6FF,#C3CEE4 58%,rgba(195,206,228,0) 72%); opacity:0}
+.day-hud{position:relative; z-index:3; padding:0 30px 8vh; max-width:1280px; margin:0 auto; width:100%}
+.day-hud .reloj{font-family:var(--mono); font-size:clamp(38px,7vw,86px); font-weight:700; letter-spacing:-.03em;
+  color:#fff; font-variant-numeric:tabular-nums; text-shadow:0 4px 30px rgba(0,0,0,.35)}
+.day-cap{position:relative; height:12.5em; margin-top:2vh}
+@media (min-width:700px){ .day-cap{height:7.6em} }
+.day-cap p{position:absolute; inset:0; opacity:0; will-change:opacity,transform;
+  font-size:clamp(20px,2.9vw,34px); font-weight:800; letter-spacing:-.025em; line-height:1.18; color:#fff;
+  max-width:24ch; text-shadow:0 2px 24px rgba(0,0,0,.45)}
+.day-cap p em{font-style:normal; color:var(--shell)}
+.day-title{position:absolute; top:0; left:0; right:0; z-index:3; padding:96px 30px 0; max-width:1280px; margin:0 auto}
+.day-title h2{font-size:clamp(24px,3.4vw,44px); font-weight:900; letter-spacing:-.035em; color:#fff; max-width:22ch;
+  text-shadow:0 2px 24px rgba(0,0,0,.4)}
+
+/* ---------- equipamiento ---------- */
+.plain{list-style:none; margin-top:9vh; max-width:960px}
+.plain li{display:grid; grid-template-columns:auto 1fr auto; gap:26px; align-items:baseline;
+  padding:28px 0; border-bottom:1px solid var(--line); font-size:clamp(17px,2.1vw,23px); font-weight:700; letter-spacing:-.015em}
+.plain li:first-child{border-top:1px solid var(--line)}
+.plain .k{font-family:var(--mono); font-size:12px; color:var(--sun); font-weight:700}
+.plain .fix{font-size:13px; font-weight:600; color:var(--ink-3); font-family:var(--mono); text-align:right; white-space:nowrap}
+@media (max-width:640px){ .plain li{grid-template-columns:auto 1fr} .plain .fix{grid-column:2; text-align:left} }
+
+/* ---------- distancias ---------- */
+.dist{list-style:none; margin-top:10vh; max-width:900px}
+.dist li{display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center; padding:22px 0; border-bottom:1px solid var(--dark-line)}
+.dist li:first-child{border-top:1px solid var(--dark-line)}
+.dist .q{display:block; font-size:clamp(17px,2.2vw,24px); font-weight:700; letter-spacing:-.02em;
+  color:#fff; text-decoration:none; transition:color .35s var(--ease)}
+a.q::after{content:" ↗"; font-size:.62em; color:var(--shell); opacity:.7}
+a.q:hover{color:var(--shell)}
+.dist .q small{display:block; font-family:var(--mono); font-size:12px; font-weight:400; letter-spacing:.16em;
+  text-transform:uppercase; color:#83909A; margin-top:6px}
+.dist .m{font-family:var(--mono); font-size:clamp(16px,2vw,22px); font-weight:700; color:var(--shell);
+  font-variant-numeric:tabular-nums; white-space:nowrap}
+
+/* ---------- mapa dibujado ---------- */
+.mapa{margin-top:10vh; border-radius:18px; overflow:hidden; background:#EFEADF; border:1px solid var(--line)}
+.mapa svg{width:100%; height:auto; display:block}
+.mp-agua{fill:#9FD3E4}
+.mp-arena{fill:#EFE2C5}
+.mp-duna{fill:#D8C79C}
+.mp-suelo{fill:#F7F3EA}
+.mp-via{stroke:#D6CDBC; stroke-width:7; fill:none; stroke-linecap:round}
+.mp-faig{stroke:var(--sun); stroke-width:7; fill:none; stroke-linecap:round}
+.mp-lab{font-family:var(--mono); font-size:15px; fill:#6E7A80; letter-spacing:.08em}
+.mp-lab.big{font-size:19px; font-weight:700; fill:#101820}
+.mp-pin{fill:var(--sun); stroke:#fff; stroke-width:4}
+.mp-ruta{stroke:#101820; stroke-width:3; stroke-dasharray:2 10; stroke-linecap:round; fill:none}
+
+/* ---------- reserva ---------- */
+.cta{display:inline-flex; align-items:center; gap:12px; margin-top:6vh; text-decoration:none;
+  background:var(--sun); color:#fff; font-weight:800; font-size:16px; letter-spacing:-.01em;
+  padding:18px 28px; border-radius:999px; transition:transform .4s var(--ease), box-shadow .4s var(--ease);
+  box-shadow:0 20px 40px -22px rgba(233,118,43,.9)}
+.cta:hover{transform:translateY(-2px); box-shadow:0 26px 50px -22px rgba(233,118,43,.95)}
+.cta span{font-family:var(--mono); font-size:13px; opacity:.85}
+.reserva{margin-top:8vh}
+.reserva .state{margin-bottom:1vh}
+.ficha{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:30px 40px; margin-top:10vh}
+.ficha dt{font-family:var(--mono); font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-3)}
+.ficha dd{margin-top:8px; font-size:17px; font-weight:700; letter-spacing:-.01em}
+.ficha dd a{text-decoration:none; border-bottom:2px solid var(--sun)}
+.ficha dd small{display:block; font-weight:400; font-size:14px; color:var(--ink-2); margin-top:6px; letter-spacing:0}
+
+/* ---------- footer ---------- */
+footer{padding:14vh 30px 60px}
+footer .in{max-width:1280px; margin:0 auto}
+.mantra{font-size:clamp(28px,4.4vw,56px); font-weight:900; letter-spacing:-.04em; line-height:1.02}
+.mantra em{font-style:normal; color:var(--sun)}
+footer .meta{margin-top:8vh; padding-top:26px; border-top:1px solid var(--line);
+  display:flex; flex-wrap:wrap; gap:14px 40px; font-size:12.5px; color:var(--ink-3)}
+footer .meta a{text-decoration:none; border-bottom:1px solid var(--line)}
+footer .meta a:hover{color:var(--ink)}
+
+/* ---------- fotos: capa opcional encima de las escenas ----------
+   cada elemento con data-foto se queda como esta hasta que el archivo
+   existe; entonces la foto entra por encima. sin fotos no se rompe nada. */
+.foto{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  opacity:0; transition:opacity .9s var(--ease)}
+.foto.on{opacity:1}
+.ko.confoto{background-size:cover}
+
+/* ---------- galeria ---------- */
+.galeria[hidden]{display:none}
+.grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:10vh}
+@media (max-width:900px){ .grid{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:560px){ .grid{grid-template-columns:1fr} }
+.tile{position:relative; display:block; padding:0; border:0; cursor:zoom-in; background:var(--line);
+  border-radius:14px; overflow:hidden; aspect-ratio:4/3; font:inherit; color:inherit}
+.grid.destacada .tile:first-child{grid-column:span 2; grid-row:span 2; aspect-ratio:auto}
+@media (max-width:560px){ .grid.destacada .tile:first-child{grid-column:auto; grid-row:auto; aspect-ratio:4/3} }
+.tile img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  transition:transform 1.1s var(--ease)}
+.tile:hover img,.tile:focus-visible img{transform:scale(1.05)}
+.tile figcaption{position:absolute; left:0; right:0; bottom:0; z-index:2; text-align:left;
+  padding:34px 16px 13px; font-size:13px; font-weight:600; color:#fff;
+  background:linear-gradient(180deg,rgba(11,19,25,0),rgba(11,19,25,.72))}
+
+/* ---------- lightbox ---------- */
+.lb[hidden]{display:none}
+.lb{position:fixed; inset:0; z-index:100; background:rgba(9,16,21,.95); display:grid; place-items:center;
+  padding:clamp(16px,4vw,60px)}
+.lb img{max-width:100%; max-height:82vh; object-fit:contain; border-radius:10px}
+.lb .cap{position:absolute; left:0; right:0; bottom:26px; text-align:center; color:#C9D2D6; font-size:14px; padding:0 24px}
+.lb .x{position:absolute; top:18px; right:20px; width:44px; height:44px; border:0; border-radius:50%; cursor:pointer;
+  background:rgba(255,255,255,.12); color:#fff; font-size:26px; line-height:1}
+.lb .x:hover{background:rgba(255,255,255,.22)}
+
+/* ---------- iconos del equipamiento ---------- */
+.plain .ico{width:27px; height:27px; display:block; align-self:center; fill:none; stroke:var(--sun);
+  stroke-width:1.45; stroke-linecap:round; stroke-linejoin:round}
+
+/* ---------- bandas de foto (aparecen solo si existe el archivo) ---------- */
+.banda{display:none; position:relative; overflow:hidden; border-radius:16px;
+  height:min(58vh,480px); margin:9vh 0 0}
+.banda.on{display:block}
+.banda img{width:100%; height:100%; object-fit:cover; transform:scale(1.12); will-change:transform}
+.banda figcaption{position:absolute; left:0; right:0; bottom:0; padding:38px 22px 16px;
+  font-size:13.5px; color:#fff; background:linear-gradient(180deg,rgba(11,19,25,0),rgba(11,19,25,.72))}
+.darkp .banda{margin:9vh 0 0}
+
+/* ---------- el kite: la cometa barre la ventana de viento con el scroll ---------- */
+.kite{margin-top:9vh; display:flex; align-items:center; gap:min(40px,5vw); flex-wrap:wrap}
+.kite svg{width:min(300px,48vw); height:auto; overflow:visible; flex:none}
+.kite .vela{fill:var(--sun)}
+.kite .vela.punta{fill:#C9541A}
+.kite .rider{fill:var(--shell)}
+.kite .cabeza{fill:var(--shell)}
+.kite .racha{stroke:rgba(246,217,196,.4); stroke-width:5; fill:none; stroke-linecap:round}
+#kVela,#kRider{will-change:transform}
+.kite p{font-size:15px; color:#B4BEC4; max-width:32ch; margin:0}
+.kite p b{color:#fff; font-weight:600}
+
+/* ---------- contacto directo ---------- */
+.contacto{margin-top:7vh; padding-top:26px; border-top:1px solid var(--line)}
+.contacto .ct-txt{font-size:16px; color:var(--ink-2); max-width:46ch}
+.ct-fila{display:flex; align-items:center; gap:14px 20px; flex-wrap:wrap; margin-top:20px}
+.ct-wa,.ct-tel{display:inline-flex; align-items:center; gap:9px; text-decoration:none; font-weight:700;
+  font-size:15px; padding:13px 20px; border-radius:999px; transition:transform .35s var(--ease)}
+.ct-wa{background:#1FA855; color:#fff}
+.ct-wa:hover,.ct-tel:hover{transform:translateY(-2px)}
+.ct-tel{border:1.5px solid var(--line); color:var(--ink); font-variant-numeric:tabular-nums}
+.ct-wa svg{width:19px; height:19px; fill:currentColor}
+.ct-firma{display:inline-flex; align-items:center; gap:10px; font-size:13.5px; color:var(--ink-3)}
+.ct-firma b{color:var(--ink-2); font-weight:700}
+.ct-firma img{height:46px; width:auto}
+
+/* ---------- el sonido del mar, siempre a elección ---------- */
+.mandos{position:fixed; right:20px; bottom:20px; z-index:60;
+  display:flex; flex-direction:column; align-items:flex-end; gap:9px}
+.son,.giro{display:none; align-items:center; gap:9px;
+  padding:11px 16px 11px 13px; border:1px solid var(--line); border-radius:999px; cursor:pointer;
+  background:rgba(251,247,241,.92); backdrop-filter:blur(10px); color:var(--ink-2);
+  font-family:var(--sans); font-size:12.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  box-shadow:0 12px 30px -18px rgba(16,24,32,.5); transition:color .4s var(--ease), border-color .4s var(--ease)}
+.son.hay,.giro.hay{display:inline-flex}
+.son svg,.giro svg{width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round}
+.giro[aria-pressed="true"]{color:var(--sun); border-color:var(--shell)}
+.giro .aguja{transition:transform .5s var(--ease); transform-origin:12px 12px}
+.giro[aria-pressed="true"] .aguja{transform:rotate(-18deg)}
+.giro.no{display:none}
+.son .o2,.son .o3{opacity:.28; transition:opacity .5s var(--ease)}
+.son[aria-pressed="true"]{color:var(--sea); border-color:var(--foam)}
+.son[aria-pressed="true"] .o2{opacity:.75}
+.son[aria-pressed="true"] .o3{opacity:1}
+@media (max-width:640px){ .mandos{right:14px; bottom:14px}
+  .son,.giro{padding:10px 14px 10px 11px; font-size:11.5px} }
+
+/* ---------- reveal (respaldo IO, suave) ---------- */
+html.js .rv{opacity:0; transform:translateY(34px); transition:opacity 1s var(--ease), transform 1s var(--ease)}
+html.js .rv.on{opacity:1; transform:none}
+
+/* ---------- sin motor: estados finales ---------- */
+html:not(.mo) .scrolly .msg{position:static; opacity:1; transform:none; margin:8vh auto}
+html:not(.mo) .scrolly .bg{display:none}
+html:not(.mo) .scrolly .stick{position:static; height:auto; display:block; padding:10vh 0}
+html:not(.mo) .scrolly{height:auto!important}
+html:not(.mo) .daypin{height:auto!important}
+html:not(.mo) .daypin .stick{position:static; height:auto; min-height:70vh}
+html:not(.mo) .day-cap{height:auto}
+html:not(.mo) .day-cap p{position:static; opacity:1; margin-bottom:18px}
+html:not(.mo) .astro{display:none}
+html:not(.mo) .day-title{position:static; padding:96px 30px 4vh}
+html:not(.mo) .foto{opacity:1}
+
+/* ---------- movil ---------- */
+@media (max-width:640px){
+  body{font-size:16px}
+  .nav-in{height:58px; padding:0 18px; padding-left:max(18px, env(safe-area-inset-left)); padding-right:max(18px, env(safe-area-inset-right))}
+  nav.scrolled{backdrop-filter:none; background:rgba(251,247,241,.97)}
+  .hero{padding:80px 22px 50px}
+  .sect{padding:14vh 22px}
+  .full{height:96vh}
+  .full .chip{left:18px; right:18px; bottom:22px; max-width:none; font-size:13px}
+  .day-hud{padding:0 22px 7vh}
+  .day-title{padding:84px 22px 0}
+  footer{padding:12vh 22px 46px}
+  .loose{gap:5.5vh 26px; margin-top:8vh}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero .cue::after{animation:none}
+  html.js .rv{transition:none}
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.className += " js" + (matchMedia("(prefers-reduced-motion:reduce)").matches ? "" : " mo");</script>
+
+<nav id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top">Blau Terranova <span>· Garbí</span></a>
+    <span class="nav-acc">
+      <a class="nav-wa" href="https://wa.me/34604529655" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2A9.9 9.9 0 0 0 2.1 11.9c0 1.75.46 3.46 1.34 4.97L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01a9.9 9.9 0 0 0 9.9-9.9A9.9 9.9 0 0 0 12.04 2Zm5.8 14.06c-.24.68-1.42 1.3-1.95 1.34-.5.05-.98.23-3.3-.69-2.77-1.09-4.53-3.93-4.67-4.11-.14-.19-1.11-1.48-1.11-2.82 0-1.34.7-2 .95-2.27a1 1 0 0 1 .72-.34c.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.72 1.18 1.54 1.92 1.06.94 1.95 1.24 2.23 1.38.28.14.44.12.6-.07.17-.19.7-.81.88-1.09.19-.28.37-.23.62-.14.25.09 1.62.76 1.9.9.28.14.46.21.53.33.07.12.07.68-.17 1.36Z"/></svg>
+        <span class="nav-wa-txt">WhatsApp</span>
+      </a>
+      <a class="nav-cta" href="https://www.booking.com/hotel/es/apartamento-blau-terranova-garbi.es.html" target="_blank" rel="noopener"><span class="larga">Ver disponibilidad</span><span class="corta">Reservar</span></a>
+    </span>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="hero-sea" id="heroSea">
+    <svg viewBox="0 0 1200 300" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 160 C 150 120, 260 200, 420 160 S 720 110, 900 165 S 1120 200, 1200 150 L1200 300 L0 300 Z" fill="#CDE7E4"/>
+      <path d="M0 205 C 170 175, 300 240, 470 205 S 780 160, 960 210 S 1130 240, 1200 200 L1200 300 L0 300 Z" fill="#7FC6C8"/>
+      <path d="M0 250 C 190 225, 320 275, 500 250 S 820 215, 1010 255 S 1140 275, 1200 248 L1200 300 L0 300 Z" fill="#39A8A8"/>
+    </svg>
+  </div>
+  <div class="hero-in" id="heroIn">
+    <p class="kick">Oliva · Playa de Terranova · Calle Faig 16</p>
+    <h1>
+      Sales de casa.<br>
+      Y ya hueles<br>
+      <span class="ko mar" id="heroKo" data-foto-ko="img/hero.jpg">el mar.</span>
+    </h1>
+    <p class="sub">Apartamento de <b>tres dormitorios</b> en Garbí, calle Faig 16. Suelo de terrazo, chimenea para las noches frías y una terraza cubierta donde se come. Y la calle no acaba: <b>se hace pasarela</b> y te deja en la arena.</p>
+  </div>
+  <p class="cue">Baja</p>
+</header>
+
+<!-- ================= SCROLLY 1: la playa ================= -->
+<section class="scrolly lite" style="height:230vh" aria-label="La playa de Terranova">
+  <div class="stick">
+    <div class="bg sc-amanecer" data-foto="img/playa-amanecer.jpg"></div>
+    <div class="bg sc-duna" data-foto="img/dunas.jpg"></div>
+    <p class="msg">La playa no se ve desde el salón. Se <em>oye</em>.<small>La calle se hace pasarela</small></p>
+    <p class="msg">Y donde acaba la calle, empieza <em>la arena</em>.<small>Terranova–Burguera · Oliva</small></p>
+  </div>
+</section>
+
+<!-- ================= PANEL OSCURO: TERRANOVA ================= -->
+<section class="sect darkp" aria-label="Terranova">
+  <div class="in">
+    <p class="tagline">La playa</p>
+    <h2 class="tit-ko"><span class="ko arena kobig" id="bigKo" data-foto-ko="img/playa-ancha.jpg">TERRANOVA</span></h2>
+    <p class="after rv" style="margin-top:6vh">Una de las pocas playas del Mediterráneo español que sigue sin urbanizar de punta a punta. <b>Arena fina, dorada, con Bandera Azul</b>, un cordón de dunas detrás y un manantial de agua dulce — <b>El Tou</b> — que sale en la propia orilla. Es refugio del chorlitejo patinegro, que anida ahí mismo, así que las dunas se cruzan por las pasarelas y no por encima.</p>
+    <p class="after rv">Y es accesible para personas con movilidad reducida.</p>
+
+    <div class="kite rv" id="kite">
+      <svg viewBox="-40 0 504 500" aria-hidden="true">
+        <g id="kRachas">
+          <path class="racha" id="kR1" d="M-34 118 C -6 110, 22 124, 52 116"></path>
+          <path class="racha" id="kR2" d="M-38 168 C -4 158, 30 174, 66 164"></path>
+          <path class="racha" id="kR3" d="M-30 222 C -8 214, 14 226, 36 218"></path>
+        </g>
+        <g id="kVela">
+          <path class="vela" d="M405.8,135.2c-0.6,32.8-6.6,64.3-22.6,93.2c-4.6,8.3-10.1,16.4-16,23.8c-11,13.8-30.1,17.2-45.6,8.7c-6.4-3.5-10-12-7.6-20c3.7-12.4,8.3-24.6,12-36.9c8.4-27.9,14.8-56.3,15-85.5c0.2-29.3-4.4-57.6-19.7-83.3c-1.8-3-4-5.9-5.7-9c-0.8-1.4-0.9-3.2-1.3-4.9c1.8-0.1,3.9-0.8,5.4-0.2c6.7,3,13.6,5.9,19.9,9.6c19.1,11.3,35.8,25.5,50.8,41.8c7.9,8.6,12,19.2,13.1,30.8C404.4,114,405,124.6,405.8,135.2z"></path>
+          <path class="vela punta" d="M318.3,50.7c-12.7,6.8-25.3,12.9-37.3,20c-17.4,10.5-33.1,23.3-47.6,37.5c-9.1,8.9-16.6,10-28-1.3c-2.5-2.5-4.3-5.6-6.3-8.5c-8.3-12-4.6-24,1.5-35c16.1-29,41.5-43.6,74.3-45C295.3,17.5,312.5,31.2,318.3,50.7z"></path>
+        </g>
+        <g id="kRider">
+          <path class="rider" d="M142.8,472.4c-7.8-0.6-15.6-1.2-23.3-1.8c-21.9-1.9-43.7-4.6-64.5-12.5c-1.4-0.5-2.7-1.1-4.1-1.7c-15.8-7.4-17.2-13-15-31.2c0.4-3.8,4-8,7.3-10.4c10.4-7.6,22.9-10.9,35.4-13.1c13.3-2.4,26.9-3.7,40.3-5.6c0.8-0.1,1.6-0.4,2.8-0.6c-4.3-8-9.8-14.2-17.3-18.8c-25.6-15.3-51.1-30.8-76.6-46.2c-15-9.1-18.2-21.1-9.8-36.3C30.4,271.6,43,249,55.6,226.5c4.7-8.4,8.3-9.5,16.9-5.1c4.5,2.3,8.7,5,13.2,7.2c1.6,0.8,3.9,1.1,5.6,0.6c9.2-2.6,18.2-5.8,27.5-8.4c5.7-1.6,8.9-5,10.9-10.5c6.3-17.2,12.7-34.3,19.5-51.2c1.6-3.9,4.3-7.9,7.6-10.5c6.8-5.2,15.4-0.9,16.1,7.7c0.2,3.3-0.1,6.9-1.2,10c-7.1,19.8-14.5,39.6-21.9,59.3c-2.3,6.2-6.5,10.7-12.7,13.5c-10.5,4.7-20.9,9.7-30.1,14c-1.5,5.1-2.8,9.3-4,13.5c-0.6,0-1.1-0.1-1.7-0.1c-3.3-7.3-6.9-14.4-9.7-21.9c-1.9-5.1-5-8-10-8.7c5.3,11.6,10.8,23.4,15.8,35.3c1.7,4,4.3,5.8,8.2,6.1c6.3,0.4,12.7,0.8,19,0.9c15.1,0.1,30.1,0,45.9,0c-0.8-1.3-1.4-2.4-2.2-3.3c-6-7.7-12-15.4-18-23.1c-2.3-2.9-2.9-6.1-0.7-9.4c2-2.9,5-4.2,8.1-3.1c2.3,0.8,4.5,2.8,6.1,4.8c17.4,22,34.7,44.2,51.9,66.3c4.6,5.9,9.3,11.8,13.9,17.8c3.8,4.9,3.5,9.4-0.6,12.4c-3.6,2.7-7.9,1.7-11.5-2.9c-8.8-11.1-17.5-22.3-26.2-33.5c-1.7-2.2-3.4-3-6.3-3c-28.8,0.1-57.7,0.2-86.5,0c-4.5,0-8.9-1.9-13.4-2.9c0-0.6-0.1-1.1-0.1-1.7c-0.3,0.5-0.6,1-0.9,1.5c-5,6.7-5,6.7,1.4,11.9c18,14.6,36.3,29,53.9,44c5.5,4.7,9.9,10.9,13.8,17c3.9,6,6.7,12.8,9.8,19.3c1.3,2.7,2.8,3.9,6,3.9c21.3,0,42.4,2.2,63.2,7.3c18.2,4.4,35.6,10.7,50.8,22c8.5,6.3,8.5,13.1,0.1,19.3c-16.6,12.3-35.6,19-55.5,23.1c-13.3,2.7-26.8,3.8-40.3,5.6c-1.3,0.2-2.5,0.5-3.8,0.8C170,472.4,156.4,472.4,142.8,472.4z"></path>
+          <path class="cabeza" d="M61.2,187c-0.1-17,13.6-30.7,30.5-30.9c16.7-0.1,30.7,13.9,30.7,30.7c0,16.8-14.2,30.9-30.8,30.7C74.9,217.4,61.2,203.7,61.2,187z"></path>
+        </g>
+      </svg>
+      <p>Aquí el <b>levante</b> entra casi todas las tardes. Por eso Terranova es un clásico del <b>windsurf</b> y del <b>kitesurf</b>: se monta en la orilla y se navega sin buscar sitio.</p>
+    </div>
+
+    <figure class="banda rv" data-banda="img/playa-ancha.jpg">
+      <figcaption>Playa de Terranova–Burguera, Oliva.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= FULL: la casa ================= -->
+<section class="full" aria-label="La urbanización Garbí">
+  <div class="frame">
+    <div class="plx" data-foto="img/casa.jpg">
+      <div class="esc-casa">
+        <span class="sol"></span>
+        <span class="arena"></span>
+        <span class="bloque" id="bloque"></span>
+        <span class="som" style="left:47%; bottom:25%; background:linear-gradient(90deg,#E9762B,#F3A468)"></span>
+        <span class="som" style="left:63%; bottom:30%; background:linear-gradient(90deg,#F6D9C4,#E7BFA2); width:min(7vw,68px)"></span>
+        <span class="som" style="left:78%; bottom:24%; background:linear-gradient(90deg,#1E90A0,#57C0C4)"></span>
+        <span class="agua"></span>
+      </div>
+    </div>
+  </div>
+  <p class="chip"><b>La terraza cubierta, calle Faig 16.</b> Mesa larga de madera, sillas de enea y sombra todo el día. Aquí se desayuna, se come, se juega a cartas y se alarga la sobremesa hasta que refresca.</p>
+</section>
+
+<!-- ================= LA CASA EN NUMEROS ================= -->
+<section class="sect">
+  <div class="in">
+    <h2 class="state rv">Una casa que <em>no pide nada</em> a cambio.</h2>
+    <p class="after rv">Ni traslados, ni horarios, ni buscar sitio donde dejar la sombrilla. Sales por la puerta con las chanclas en la mano y no tienes que cruzar nada: la calle te lleva hasta la madera y la madera hasta el agua. Lo demás — la siesta, la ducha con arena, la cena tarde en la terraza — se organiza solo.</p>
+    <figure class="banda rv" data-banda="img/chanclas.jpg">
+      <figcaption>Se sale con las chanclas en la mano y no se vuelve a coger el coche.</figcaption>
+    </figure>
+    <div class="loose">
+      <div class="it rv"><p class="n"><span class="cnt" data-to="3">0</span> <small>dormitorios</small></p><p>Tres habitaciones independientes. La casa se reparte sola, sin que nadie acabe en el sofá.</p></div>
+      <div class="it rv"><p class="n"><span class="cnt" data-to="2">0</span> <small>min a la arena</small></p><p>La calle no acaba en una acera: se convierte en la pasarela que cruza las dunas. Se va y se vuelve descalzo.</p></div>
+      <div class="it rv"><p class="n"><span class="cnt" data-to="1750">0</span> <small>m de playa</small></p><p>Lo que mide Terranova–Burguera. Siempre hay un hueco donde no hay nadie.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GALERIA (aparece sola cuando hay fotos) ================= -->
+<section class="sect galeria" id="galeria" hidden aria-label="Fotos de la casa">
+  <div class="in">
+    <h2 class="state rv">Así es <em>por dentro</em>.</h2>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- ================= EQUIPAMIENTO ================= -->
+<section class="sect">
+  <div class="in">
+    <h2 class="state rv">Lo que hay dentro, <em>y en el bloque</em>.</h2>
+    <p class="after rv">Todo lo que hace falta en una semana de playa. Y nada de lo que no.</p>
+    <ul class="plain">
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M3 18v-7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7"/><path d="M3 18h18"/><path d="M3 14h18"/><path d="M7 9V7h4v2"/></svg><span>Tres dormitorios, uno de ellos con litera</span><span class="fix">3 dorm.</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3c2.5 3 1 5 0 6-1.5-1-2-3-1-4"/><path d="M12 21a6 6 0 0 0 6-6c0-3-2-5-4-7 .5 2.5-.5 4-2 4.5-1-1.5-1-3 0-5-3 2-6 4.5-6 7.5a6 6 0 0 0 6 6Z"/></svg><span>Salón con chimenea de leña y televisión</span><span class="fix">leña · TV</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M2 10h20"/><path d="M5 10v9"/><path d="M19 10v9"/><path d="M12 3v7"/><path d="M6 6h12"/></svg><span>Terraza cubierta con mesa larga para comer fuera</span><span class="fix">sombra todo el día</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 3v18"/><path d="M4 12h16"/></svg><span>Galería acristalada con butacas, la mejor luz de la casa</span><span class="fix">para la siesta</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="14" r="4"/><path d="M8 7h.01M12 7h.01"/></svg><span>Cocina equipada y lavadora</span><span class="fix">para la semana</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M12 2v20M4 7l16 10M20 7 4 17"/><path d="M12 6 9.5 8.5M12 6l2.5 2.5M12 18l-2.5-2.5M12 18l2.5-2.5"/></svg><span>Aire acondicionado en el salón</span><span class="fix">A/A</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3v3"/><circle cx="12" cy="13" r="2"/><path d="M12 11c0-3 3-4 4.5-2.5S16 13 12 13"/><path d="M12 15c0 3-3 4-4.5 2.5S8 13 12 13"/><path d="M10 13c-3 0-4-3-2.5-4.5S14 10 14 13"/></svg><span>Ventilador de techo en el salón y en los tres dormitorios</span><span class="fix">en todas</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><path d="M2.5 9a15 15 0 0 1 19 0"/><path d="M6 12.5a10 10 0 0 1 12 0"/><path d="M9.5 16a5 5 0 0 1 5 0"/><path d="M12 19.5h.01"/></svg><span>Wi-Fi, por si alguien tiene que fingir que trabaja</span><span class="fix">incluido</span></li>
+      <li class="rv"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h.01M12 7h.01M17 9h.01M8 13h.01M13 12h.01M17 14h.01M7 18h.01M12 17h.01M16 18h.01"/></svg><span>Suelo de terrazo original, fresco en agosto</span><span class="fix">de los de antes</span></li>
+    </ul>
+    <p class="after rv" style="margin-top:6vh">El reparto exacto de camas, los baños y la superficie están en la ficha de Booking, con las 23 fotos completas.</p>
+  </div>
+</section>
+
+<!-- ================= EL DIA: sol arrastrado por el scroll ================= -->
+<section class="daypin" id="daypin" style="height:420vh" aria-label="Un día en la casa">
+  <div class="stick">
+    <div id="cielo"></div>
+    <svg id="montgo" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true">
+      <path id="montgoP" d="M0 34 L11 32.2 L24 28.5 C 32 21, 40 11.5, 52 9.6 C 62 8.2, 70 11.6, 76.5 17.5 L82 24 L87.5 20.8 L93 26.5 L100 34 Z"></path>
+    </svg>
+    <div id="horizonte"></div>
+    <div id="marfondo"><span id="brillo"></span></div>
+    <span class="astro" id="sol"></span>
+    <span class="astro" id="luna"></span>
+    <div class="day-title"><h2>Un día aquí, de una primera luz a la siguiente.</h2></div>
+    <div class="day-hud">
+      <p class="reloj mono" id="reloj">07:30</p>
+      <div class="day-cap" id="dayCap">
+        <p data-t="0.000">El levante entra por la terraza antes que el ruido. <em>Todavía no hay nadie</em> en la arena.</p>
+        <p data-t="0.076">Desayuno fuera. A esta hora la playa es un pasillo largo y vacío para <em>andar sin rumbo</em>.</p>
+        <p data-t="0.253">Sombrilla clavada, nevera fría. El agua está tan quieta y tan clara que <em>se te ven los pies</em> de pie en la orilla.</p>
+        <p data-t="0.375">Se sube a comer y a dormir la siesta. Y si luego apetece, <em>tardeo en el chiringuito</em> sin coger el coche.</p>
+        <p data-t="0.510">Vuelta al agua cuando el sol afloja. Ahí enfrente, el <em>Montgó</em> se pone violeta.</p>
+        <p data-t="0.615">Ducha, mesa fuera, cena que no acaba. <em>Se oye el mar</em> otra vez porque ya no se oye nada más.</p>
+        <p data-t="0.750">La casa se apaga y el mar sigue ahí, más alto que de día. <em>No pasa nada más</em>, y ese es el motivo.</p>
+        <p data-t="1.000">Y a las siete y media vuelve a salir. <em>Este amanecer se ve desde la cama.</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================= ALREDEDORES ================= -->
+<section class="sect darkp" aria-label="Alrededores">
+  <div class="in">
+    <h2 class="state rv">A un cuarto de hora, <em>otro plan distinto</em>.</h2>
+    <p class="after rv">La casa está en la playa, pero Oliva tiene detrás una comarca entera. Todo esto se hace en una mañana y se vuelve a comer a casa.</p>
+    <ul class="dist">
+      <li class="rv"><a class="q" href="https://www.google.com/maps/search/?api=1&amp;query=Font+Salada+Oliva" target="_blank" rel="noopener">Font Salada<small>Manantial termal natural, 21–23 °C todo el año</small></a><span class="m">≈10 min</span></li>
+      <li class="rv"><a class="q" href="https://www.google.com/maps/search/?api=1&amp;query=Parc+Natural+de+la+Marjal+de+Pego-Oliva" target="_blank" rel="noopener">Marjal de Pego-Oliva<small>Parque natural · arrozales y aves acuáticas</small></a><span class="m">≈12 min</span></li>
+      <li class="rv"><a class="q" href="https://www.google.com/maps/search/?api=1&amp;query=Casco+antiguo+de+Oliva+Valencia" target="_blank" rel="noopener">Casco antiguo de Oliva<small>Calles empedradas, herencia árabe y medieval</small></a><span class="m">≈8 min</span></li>
+      <li class="rv"><a class="q" href="https://www.google.com/maps/search/?api=1&amp;query=Playa+de+Gandia" target="_blank" rel="noopener">Gandía<small>Puerto, restaurantes y tren a Valencia</small></a><span class="m">≈25 min</span></li>
+      <li class="rv"><a class="q" href="https://www.google.com/maps/search/?api=1&amp;query=Parc+Natural+del+Montgo+Denia" target="_blank" rel="noopener">Dénia y el Montgó<small>Castillo, cala y la carretera de la Marina Alta</small></a><span class="m">≈25 min</span></li>
+      <li class="rv"><a class="q" href="https://www.google.com/maps/search/?api=1&amp;query=Valencia+centro" target="_blank" rel="noopener">Valencia<small>Por la AP-7 / N-332</small></a><span class="m">≈1 h 10</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= MAPA ================= -->
+<section class="sect">
+  <div class="in">
+    <h2 class="state rv">Calle Faig 16. <em>Donde la calle se hace pasarela</em>.</h2>
+    <p class="after rv">No hay que cruzar ninguna carretera ni buscar por dónde se entra. Se baja la calle, la calle se convierte en pasarela de madera y la pasarela termina en la arena. Lo bastante cerca para ir descalzo; lo bastante dentro para dormir con la ventana abierta.</p>
+    <div class="mapa rv">
+      <svg viewBox="0 0 1000 520" role="img" aria-label="Croquis: calle Faig 16 respecto a la playa de Terranova">
+        <rect class="mp-suelo" x="0" y="0" width="1000" height="520"/>
+        <path class="mp-agua" d="M1000 0 L1000 520 L720 520 C 690 420, 760 300, 726 200 C 700 120, 760 60, 742 0 Z"/>
+        <path class="mp-arena" d="M742 0 C 760 60, 700 120, 726 200 C 760 300, 690 420, 720 520 L640 520 C 612 420, 676 300, 646 200 C 622 120, 678 60, 662 0 Z"/>
+        <path class="mp-duna" d="M662 0 C 678 60, 622 120, 646 200 C 676 300, 612 420, 640 520 L596 520 C 570 420, 630 300, 602 200 C 580 120, 632 60, 618 0 Z"/>
+        <path class="mp-via" d="M96 60 L96 470"/>
+        <path class="mp-via" d="M300 40 L300 490"/>
+        <path class="mp-via" d="M60 168 L580 168"/>
+        <path class="mp-via" d="M60 386 L590 386"/>
+        <path class="mp-faig" d="M300 276 L590 276"/>
+        <path class="mp-ruta" d="M420 276 L716 276"/>
+        <circle class="mp-pin" cx="420" cy="276" r="15"/>
+        <text class="mp-lab big" x="420" y="240" text-anchor="middle">Calle Faig 16</text>
+        <text class="mp-lab" x="566" y="308" text-anchor="end">c/ Faig</text>
+        <text class="mp-lab big" x="836" y="272" text-anchor="middle" transform="rotate(90 836 272)">Mar Mediterráneo</text>
+        <text class="mp-lab" x="678" y="472" text-anchor="middle" transform="rotate(90 678 472)">arena</text>
+        <text class="mp-lab" x="620" y="472" text-anchor="middle" transform="rotate(90 620 472)">dunas</text>
+        <text class="mp-lab" x="664" y="250" text-anchor="middle">pasarela · 2 min</text>
+        <text class="mp-lab" x="70" y="150" >a Oliva pueblo →</text>
+      </svg>
+    </div>
+    <dl class="ficha">
+      <div><dt>Dirección</dt><dd><a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Faig+16%2C+Oliva%2C+Valencia" target="_blank" rel="noopener">Calle Faig 16, Oliva</a><small>Playa de Terranova · 46780 Valencia</small></dd></div>
+      <div><dt>La casa</dt><dd>3 dormitorios<small>Salón con chimenea, terraza cubierta y galería</small></dd></div>
+      <div><dt>Reserva</dt><dd><a href="https://www.booking.com/hotel/es/apartamento-blau-terranova-garbi.es.html" target="_blank" rel="noopener">Apartamento Blau Terranova Garbi</a><small>Disponibilidad y precio en tiempo real</small></dd></div>
+    </dl>
+
+    <figure class="banda rv" data-banda="img/descalzo.jpg" style="margin:13vh 0 7vh"></figure>
+    <p class="mantra">A la casa se llega en coche.<br>Se vuelve <em>descalzo</em>.</p>
+
+    <div class="reserva rv">
+      <h3 class="state" style="max-width:16ch">¿Te lo quedas?</h3>
+      <a class="cta" href="https://www.booking.com/hotel/es/apartamento-blau-terranova-garbi.es.html" target="_blank" rel="noopener">Ver fechas y precio <span>↗ Booking</span></a>
+    <div class="contacto rv">
+      <p class="ct-txt">¿Prefieres no pasar por Booking? Escríbenos o llámanos y lo arreglamos directamente.</p>
+      <div class="ct-fila">
+        <a class="ct-wa" href="https://wa.me/34604529655" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2A9.9 9.9 0 0 0 2.1 11.9c0 1.75.46 3.46 1.34 4.97L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01a9.9 9.9 0 0 0 9.9-9.9A9.9 9.9 0 0 0 12.04 2Zm5.8 14.06c-.24.68-1.42 1.3-1.95 1.34-.5.05-.98.23-3.3-.69-2.77-1.09-4.53-3.93-4.67-4.11-.14-.19-1.11-1.48-1.11-2.82 0-1.34.7-2 .95-2.27a1 1 0 0 1 .72-.34c.18 0 .36 0 .52.01.17.01.39-.06.61.47.24.56.8 1.95.87 2.09.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.17-.29.37-.42.5-.14.14-.28.29-.12.57.16.28.72 1.18 1.54 1.92 1.06.94 1.95 1.24 2.23 1.38.28.14.44.12.6-.07.17-.19.7-.81.88-1.09.19-.28.37-.23.62-.14.25.09 1.62.76 1.9.9.28.14.46.21.53.33.07.12.07.68-.17 1.36Z"/></svg>
+          WhatsApp
+        </a>
+        <a class="ct-tel" href="tel:+34604529655">+34 604 529 655</a>
+        <span class="ct-firma">
+          <img src="img/sunsuite.png" alt="Sunsuite" onerror="this.style.display='none'">
+          Somos <b>Sunsuite</b>
+        </span>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="in">
+    <div class="meta">
+      <span>Blau Terranova · Garbí — Calle Faig 16, Oliva (Valencia)</span>
+      <a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+Faig+16%2C+Oliva%2C+Valencia" target="_blank" rel="noopener">Cómo llegar</a>
+      <a href="https://wa.me/34604529655" target="_blank" rel="noopener">WhatsApp · +34 604 529 655</a>
+      <a href="tel:+34604529655">Llamar</a>
+      <a href="https://www.booking.com/hotel/es/apartamento-blau-terranova-garbi.es.html" target="_blank" rel="noopener">Ficha y disponibilidad</a>
+      <span>Página informativa no oficial. Las reservas se gestionan en Booking.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mandos">
+<button class="giro" id="giro" type="button" aria-pressed="false" aria-label="Que la página se mueva al inclinar el móvil">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="8.4"/>
+    <path class="aguja" d="M12 6.2v11.6M8.4 9.4h7.2"/>
+  </svg>
+  <span>Mover</span>
+</button>
+<button class="son" id="son" type="button" aria-pressed="false" aria-label="Poner el sonido del mar">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path class="o1" d="M2 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>
+    <path class="o2" d="M2 10c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>
+    <path class="o3" d="M2 5c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>
+  </svg>
+  <span>Mar</span>
+</button>
+</div>
+<audio id="mar" src="audio/olas.mp3" loop preload="none"></audio>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Foto ampliada">
+  <button class="x" id="lbX" aria-label="Cerrar">&times;</button>
+  <img id="lbImg" alt="">
+  <p class="cap" id="lbCap"></p>
+</div>
+
+<script>
+(function(){
+  var mo = document.documentElement.classList.contains("mo");
+  var nav = document.getElementById("nav");
+
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  function easeO(t){ return 1-Math.pow(1-t,3); }
+
+  /* ============================================================
+     FOTOS  ·  lo unico que hay que tocar para poner las de verdad
+     ------------------------------------------------------------
+     1. Deja los archivos en blau-terranova/img/ con estos nombres.
+     2. Ya esta. Cada foto que exista entra sola; la que falte se
+        queda con la escena dibujada y la pagina no se rompe.
+
+     Portadas (se enganchan con data-foto en el HTML):
+       img/hero.jpg           dentro de las letras "el mar."
+       img/playa-amanecer.jpg  \
+       img/playa-mar.jpg        > fondos del primer scrolly
+       img/dunas.jpg           /
+       img/casa.jpg           escena grande del edificio
+       img/playa-ancha.jpg    dentro de las letras "TERRANOVA"
+       img/noche.jpg          \ fondos del segundo scrolly
+       img/terraza.jpg        /
+
+     Galeria: anade o quita lineas de esta lista. La seccion aparece
+     sola en cuanto carga al menos una, y se ordena como esta escrita.
+
+     Para no pedir 16 archivos que no existen en cada carga, primero se
+     sondean solo los tres de CENTINELA. Si no responde ninguno, la pagina
+     se queda con sus escenas dibujadas y ya no pide nada mas. Con que
+     este uno de los tres, busca el resto. Asi que hay que dejar al menos
+     una de estas: hero.jpg, casa.jpg o 01.jpg.
+     ============================================================ */
+  var CENTINELA = ["img/hero.jpg", "img/casa.jpg", "img/01.jpg"];
+  var GALERIA = [
+    ["img/01.jpg", "La galería acristalada"],
+    ["img/02.jpg", "Salón comedor"],
+    ["img/03.jpg", "El sofá y la chimenea"],
+    ["img/04.jpg", "La terraza cubierta"],
+    ["img/05.jpg", "Dormitorio principal"],
+    ["img/06.jpg", "Segundo dormitorio"],
+    ["img/07.jpg", "Tercer dormitorio"],
+    ["img/08.jpg", "La litera, con la playa en la ventana"],
+    ["img/09.jpg", "Otro dormitorio, otra ventana"]
+  ];
+
+  /* remedida diferida: cada foto que entra cambia alturas */
+  var remT = null;
+  function remedir(){
+    clearTimeout(remT);
+    remT = setTimeout(function(){ if (mo){ medir(); wake(); } }, 120);
+  }
+
+  /* ---------- portadas: probamos el archivo antes de pintarlo ---------- */
+  function ponFoto(el, src){
+    var probe = new Image();
+    probe.onload = function(){
+      var im = document.createElement("img");
+      im.className = "foto"; im.src = src; im.alt = ""; im.setAttribute("aria-hidden","true");
+      el.appendChild(im);
+      requestAnimationFrame(function(){ im.classList.add("on"); });
+      remedir();
+    };
+    probe.src = src;
+  }
+
+  function buscaFotos(){
+    document.querySelectorAll("[data-foto]").forEach(function(el){ ponFoto(el, el.dataset.foto); });
+
+    /* tipografia inversa sobre foto */
+    document.querySelectorAll("[data-foto-ko]").forEach(function(el){
+      var src = el.dataset.fotoKo, pr = new Image();
+      pr.onload = function(){
+        el.classList.add("confoto");
+        el.style.backgroundImage = "url('" + src + "')";
+      };
+      pr.src = src;
+    });
+
+    montaGaleria();
+    montaBandas();
+  }
+
+  /* ---------- bandas de foto: aparecen solo si el archivo existe ---------- */
+  function montaBandas(){
+    document.querySelectorAll("[data-banda]").forEach(function(fg){
+      var src = fg.dataset.banda, pr = new Image();
+      pr.onload = function(){
+        var im = document.createElement("img");
+        im.src = src; im.alt = ""; im.loading = "lazy";
+        fg.insertBefore(im, fg.firstChild);
+        fg.classList.add("on");
+        remedir();
+      };
+      pr.src = src;
+    });
+  }
+
+  /* ---------- centinela: si no hay fotos, esto es todo lo que se pide ---------- */
+  (function(){
+    var vivo = false;
+    CENTINELA.forEach(function(src){
+      var pr = new Image();
+      pr.onload = function(){ if (!vivo){ vivo = true; buscaFotos(); } };
+      pr.src = src;
+    });
+  })();
+
+  /* ---------- galeria + lightbox ---------- */
+  function montaGaleria(){
+    var grid = document.getElementById("grid"), sec = document.getElementById("galeria");
+    if (!grid) return;
+    var lb = document.getElementById("lb"), lbImg = document.getElementById("lbImg"),
+        lbCap = document.getElementById("lbCap"), lbX = document.getElementById("lbX");
+    var previo = null;
+
+    function abre(src, cap){
+      previo = document.activeElement;
+      lbImg.src = src; lbImg.alt = cap; lbCap.textContent = cap;
+      lb.hidden = false; lbX.focus();
+    }
+    function cierra(){
+      lb.hidden = true; lbImg.src = "";
+      if (previo) previo.focus();
+    }
+    lbX.addEventListener("click", cierra);
+    lb.addEventListener("click", function(e){ if (e.target === lb) cierra(); });
+    addEventListener("keydown", function(e){ if (e.key === "Escape" && !lb.hidden) cierra(); });
+
+    /* una sonda decide si la galería existe; las demás fotos entran con
+       loading=lazy. Antes se sondeaba una por una y eso las descargaba
+       todas de golpe: el lazy no servía de nada porque al crear la
+       miniatura la imagen ya estaba en caché. */
+    function monta(){
+      GALERIA.forEach(function(f){
+        var src = f[0], cap = f[1] || "";
+        var b = document.createElement("button");
+        b.className = "tile"; b.type = "button";
+        b.setAttribute("aria-label", "Ampliar: " + cap);
+        b.innerHTML = '<img src="' + src + '" alt="' + cap + '" loading="lazy" decoding="async">' +
+                      (cap ? '<figcaption>' + cap + '</figcaption>' : '');
+        b.querySelector("img").addEventListener("error", function(){
+          b.remove();
+          grid.classList.toggle("destacada", grid.children.length >= 5);
+          if (!grid.children.length) sec.hidden = true;
+          remedir();
+        });
+        b.addEventListener("click", function(){ abre(src, cap); });
+        grid.appendChild(b);
+      });
+      sec.hidden = false;
+      grid.classList.toggle("destacada", grid.children.length >= 5);
+      remedir();
+    }
+    (function sonda(i){
+      if (i >= Math.min(3, GALERIA.length)) return;
+      var pr = new Image();
+      pr.onload = monta;
+      pr.onerror = function(){ sonda(i + 1); };
+      pr.src = GALERIA[i][0];
+    })(0);
+  }
+
+  /* ---------- ventanas del bloque, generadas ---------- */
+  (function(){
+    var b = document.getElementById("bloque");
+    if (!b) return;
+    var html = "";
+    for (var f=0; f<5; f++){
+      html += '<b style="bottom:' + (7 + f*18) + '%"></b>';
+      for (var c=0; c<4; c++){
+        var op = 0.62 + ((f*4+c) % 4) * 0.11;
+        html += '<i style="left:' + (11 + c*21) + '%; bottom:' + (11 + f*18) + '%; width:12%; height:10%; opacity:' + op.toFixed(2) + '"></i>';
+      }
+    }
+    b.innerHTML = html;
+  })();
+
+  /* ---------- reveal de respaldo ---------- */
+  var rvs = [].slice.call(document.querySelectorAll(".rv"));
+  if ("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add("on"); io.unobserve(e.target); } });
+    }, {rootMargin:"0px 0px -12% 0px"});
+    rvs.forEach(function(el){ io.observe(el); });
+  } else {
+    rvs.forEach(function(el){ el.classList.add("on"); });
+  }
+
+  /* ---------- la inclinación del móvil ----------
+     iOS pide permiso y solo lo concede desde un gesto, así que va por
+     botón. Donde no hace falta permiso arranca sola. Dentro de un iframe
+     hace falta allow="gyroscope", que no controlamos: por eso el botón se
+     apaga solo si en dos segundos no ha llegado ni una lectura. */
+  var incl = { x:0, y:0, ax:0, ay:0, on:false, vivo:false };
+  (function(){
+    var giro = document.getElementById("giro");
+    if (!giro || !mo) return;
+    var haySensor = typeof DeviceOrientationEvent !== "undefined" && matchMedia("(pointer:coarse)").matches;
+    if (!haySensor) return;
+    var pide = typeof DeviceOrientationEvent.requestPermission === "function";
+    giro.classList.add("hay");
+
+    function lee(e){
+      if (e.gamma === null && e.beta === null) return;
+      incl.vivo = true;
+      var g = e.gamma || 0, b = e.beta || 0;
+      var ang = (screen.orientation && screen.orientation.angle) || window.orientation || 0;
+      if (Math.abs(ang) === 90){ var t = g; g = b; b = -t; }
+      incl.x = clamp(g / 26, -1, 1);
+      incl.y = clamp((b - 42) / 26, -1, 1);   /* 42° es como se sostiene el móvil leyendo */
+      wake();
+    }
+    function enciende(){
+      addEventListener("deviceorientation", lee, {passive:true});
+      incl.on = true; giro.setAttribute("aria-pressed", "true");
+      setTimeout(function(){ if (!incl.vivo) apaga(true); }, 3500);
+    }
+    function apaga(sinSensor){
+      removeEventListener("deviceorientation", lee);
+      incl.on = false; incl.x = incl.y = 0;
+      giro.setAttribute("aria-pressed", "false");
+      if (sinSensor) giro.classList.add("no");
+      wake();
+    }
+    giro.addEventListener("click", function(){
+      if (incl.on) return apaga(false);
+      if (pide){
+        DeviceOrientationEvent.requestPermission()
+          .then(function(r){ if (r === "granted") enciende(); else giro.classList.add("no"); })
+          .catch(function(){ giro.classList.add("no"); });
+      } else enciende();
+    });
+    if (!pide) enciende();
+  })();
+
+  /* ---------- el sonido del mar ----------
+     entra solo al empezar a bajar, muy bajo y con un fundido largo.
+     el scroll por sí mismo no desbloquea el audio: los navegadores exigen
+     un gesto real. En el móvil eso da igual, porque el dedo que arranca
+     el scroll ya es un toque; en escritorio la rueda no cuenta, así que
+     se sigue esperando al primer clic o tecla. Si alguien lo apaga, no
+     vuelve a arrancar solo nunca más. */
+  (function(){
+    var btn = document.getElementById("son"), au = document.getElementById("mar");
+    if (!btn || !au) return;
+    var CLAVE = "blau-mar", TOPE = 0.20, fundido = null, listo = false;
+
+    au.addEventListener("canplay", function(){ listo = true; btn.classList.add("hay"); });
+    au.addEventListener("error", function(){ btn.classList.remove("hay"); });
+    au.preload = "metadata"; au.load();
+
+    function funde(hacia, paso, alAcabar){
+      clearInterval(fundido);
+      fundido = setInterval(function(){
+        var d = hacia - au.volume;
+        if (Math.abs(d) < 0.006){ au.volume = hacia; clearInterval(fundido); if (alAcabar) alAcabar(); return; }
+        au.volume = Math.max(0, Math.min(1, au.volume + d*paso));
+      }, 40);
+    }
+    function pon(lento){
+      au.volume = 0;
+      var pr = au.play();
+      if (pr && pr.catch) pr.catch(function(){ btn.setAttribute("aria-pressed","false"); });
+      btn.setAttribute("aria-pressed","true");
+      try{ localStorage.setItem(CLAVE, "1"); }catch(e){}
+      funde(TOPE, lento ? 0.035 : 0.12);      /* al entrar solo, se cuela despacio */
+    }
+    function quita(){
+      vetado = true;                          /* si lo apagas, no vuelve solo */
+      btn.setAttribute("aria-pressed","false");
+      try{ localStorage.setItem(CLAVE, "0"); }catch(e){}
+      funde(0, 0.12, function(){ au.pause(); });
+    }
+    btn.addEventListener("click", function(){
+      if (au.paused){ vetado = false; hecho = true; suelta(); pon(false); } else quita();
+    });
+    document.addEventListener("visibilitychange", function(){
+      if (document.hidden && !au.paused) au.pause();
+      else if (!document.hidden && btn.getAttribute("aria-pressed") === "true" && au.paused) au.play().catch(function(){});
+    });
+    /* ---- entrada automática al empezar a bajar ---- */
+    var vetado = false, hecho = false, pedido = false;
+    try{ vetado = localStorage.getItem(CLAVE) === "0"; }catch(e){}
+
+    function intenta(){
+      if (hecho || vetado) return;
+      if (!pedido){ pedido = true; au.preload = "auto"; au.load(); }
+      if (!listo) return;                     /* aún sin datos: ya lo intentará el siguiente gesto */
+      au.volume = 0;
+      var pr = au.play();
+      if (pr && pr.then){
+        pr.then(function(){ if (!vetado){ hecho = true; suelta(); marca(); } })
+          .catch(function(){});               /* sin gesto todavía: seguimos esperando */
+      } else { hecho = true; suelta(); marca(); }
+    }
+    function marca(){
+      btn.setAttribute("aria-pressed", "true");
+      try{ localStorage.setItem(CLAVE, "1"); }catch(e){}
+      funde(TOPE, 0.035);
+    }
+    function alBajar(){ if (pageYOffset > 60) intenta(); }
+    function suelta(){
+      removeEventListener("scroll", alBajar);
+      ["pointerdown","touchstart","keydown"].forEach(function(ev){
+        removeEventListener(ev, intenta, {passive:true});
+      });
+    }
+    if (!vetado){
+      addEventListener("scroll", alBajar, {passive:true});
+      ["pointerdown","touchstart","keydown"].forEach(function(ev){
+        addEventListener(ev, intenta, {passive:true});
+      });
+      au.addEventListener("canplay", function(){ if (pedido) intenta(); });
+    }
+  })();
+
+  /* ---------- contadores ---------- */
+  function setCnt(c, t){
+    var to = parseFloat(c.dataset.to);
+    c.textContent = String(Math.round(to*t)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  /* ---------- paleta del dia ---------- */
+  /* cada parada: [t, cieloArriba, cieloAbajo, mar, monte] · 24 h completas */
+  var DIA = [
+    [0.000, [ 44, 92,148], [248,196,150], [ 26, 90,110], [ 32, 48, 70]],  /* 07:30 */
+    [0.100, [ 46,134,200], [207,233,244], [ 14,124,140], [ 74, 98,116]],  /* 09:54 */
+    [0.280, [ 40,142,216], [214,240,248], [ 17,150,164], [ 98,124,136]],  /* 14:13 */
+    [0.450, [ 70,140,196], [246,224,180], [ 20,130,144], [ 86,102,118]],  /* 18:18 */
+    [0.560, [130, 84,124], [240,132, 58], [ 92, 86,110], [ 92, 58, 96]],  /* 20:56 violeta */
+    [0.660, [ 26, 32, 64], [ 56, 52, 86], [ 22, 34, 52], [ 30, 26, 48]],  /* 23:20 */
+    [0.800, [  6, 10, 20], [ 16, 26, 40], [  8, 20, 32], [  9, 12, 22]],  /* 02:42 */
+    [0.950, [ 26, 44, 80], [ 92, 90,120], [ 18, 38, 56], [ 22, 30, 48]],  /* 06:18 */
+    [1.000, [ 58,110,160], [250,190,140], [ 30, 96,116], [ 40, 54, 76]]   /* 07:30 */
+  ];
+  function mezcla(t){
+    var i = 0;
+    while (i < DIA.length-2 && t > DIA[i+1][0]) i++;
+    var a = DIA[i], b = DIA[i+1];
+    var u = clamp((t-a[0])/(b[0]-a[0]), 0, 1);
+    function c(ia){
+      return "rgb(" + Math.round(lerp(a[ia][0],b[ia][0],u)) + "," +
+                      Math.round(lerp(a[ia][1],b[ia][1],u)) + "," +
+                      Math.round(lerp(a[ia][2],b[ia][2],u)) + ")";
+    }
+    return {arriba:c(1), abajo:c(2), mar:c(3), monte:c(4)};
+  }
+  function reloj(t){
+    var m = Math.round(450 + t*1440) % 1440;          /* 07:30 -> 07:30 del día siguiente */
+    var h = Math.floor(m/60) % 24, mm = m % 60;
+    return (h<10?"0":"") + h + ":" + (mm<10?"0":"") + mm;
+  }
+
+  var stickH = 0;
+  var caps = [].slice.call(document.querySelectorAll("#dayCap p"));
+  var capT = caps.map(function(p){ return parseFloat(p.dataset.t); });
+
+  /* cuánta luz de día hay: 1 de día, 0 de noche */
+  function luzDia(t){
+    if (t < 0.52) return 1;
+    if (t < 0.66) return 1 - (t-0.52)/0.14;
+    if (t < 0.92) return 0;
+    return (t-0.92)/0.08;
+  }
+
+  function pintaDia(t){
+    var col = mezcla(t);
+    var cielo = document.getElementById("cielo"), mar = document.getElementById("marfondo");
+    cielo.style.background = "linear-gradient(180deg," + col.arriba + "," + col.abajo + ")";
+    mar.style.background = col.mar;
+    var mP = document.getElementById("montgoP");
+    if (mP){ mP.setAttribute("fill", col.monte);
+             document.getElementById("montgo").style.opacity = String(0.22 + 0.74*luzDia(t)); }
+
+    var h = stickH || innerHeight, horiz = h*0.66;
+    var sol = document.getElementById("sol"), luna = document.getElementById("luna"),
+        bri = document.getElementById("brillo");
+    var minuto = 450 + t*1440;
+
+    /* dos arcos de sol: el del día y el amanecer del día siguiente */
+    var su  = (minuto - 410) / 870;              /* sale 06:50, se pone 21:20 */
+    var su2 = (minuto - 1850) / 870;             /* y vuelve a salir */
+    var arco = (su >= 0 && su <= 1) ? su : (su2 >= 0 ? su2 : null);
+    if (arco !== null){
+      var alt = Math.sin(clamp(arco,0,1)*Math.PI), xs = 94 - arco*88;  /* sale del mar, se pone tierra adentro */
+      sol.style.transform = "translate(-50%,-50%) translate(" + xs + "vw," + (horiz - alt*h*0.40) + "px)";
+      sol.style.opacity = String(clamp(alt*7, 0, 1));
+      if (bri){ bri.style.left = xs + "vw"; bri.style.opacity = String(clamp(alt*2.4, 0, 0.9)); }
+    } else {
+      sol.style.opacity = "0";
+      if (bri) bri.style.opacity = "0";
+    }
+
+    /* la luna cubre el hueco entre una puesta y la siguiente salida */
+    var lu = (minuto - 1250) / 650;
+    if (lu >= 0 && lu <= 1){
+      var la = Math.sin(lu*Math.PI);
+      luna.style.transform = "translate(-50%,-50%) translate(" + (88 - lu*76) + "vw," +
+                             (horiz - la*h*0.34) + "px)";
+      luna.style.opacity = String(clamp(la*4, 0, 1));
+    } else luna.style.opacity = "0";
+
+    document.getElementById("reloj").textContent = reloj(t);
+    for (var i=0;i<caps.length;i++){
+      /* cada frase manda hasta el punto medio con su vecina; solo se cruzan en la banda */
+      var lo = i === 0 ? -1 : (capT[i-1]+capT[i])/2;
+      var hi = i === caps.length-1 ? 2 : (capT[i]+capT[i+1])/2;
+      var banda = 0.005;   /* relevo corto: dos frases nunca se leen a la vez */
+      var o = Math.min(clamp((t-lo+banda)/(2*banda), 0, 1), clamp((hi+banda-t)/(2*banda), 0, 1));
+      caps[i].style.opacity = String(o);
+      caps[i].style.transform = "translateY(" + clamp((t-capT[i])*-900, -80, 80) + "px)";
+    }
+  }
+
+  /* ================== MOTOR DE SCRUB ================== */
+  var Y = 0, SY = 0;
+  var mods = [];
+
+  function medir(){
+    mods = [];
+    if (!mo) return;
+
+    /* hero */
+    var heroIn = document.getElementById("heroIn"),
+        heroKo = document.getElementById("heroKo"),
+        heroSea = document.getElementById("heroSea");
+    mods.push({ el:document.body, top:0, h:innerHeight, fn:function(p){
+      heroIn.style.opacity = String(clamp(1 - p*1.25, 0, 1));
+      heroIn.style.transform = "translateY(" + (-p*52) + "px)";
+      heroKo.style.backgroundPosition = (40 + p*34 + incl.ax*5) + "% " + (50 + p*22 + incl.ay*4) + "%";  /* de mar a duna dentro de las letras */
+      heroSea.style.transform = "translate3d(" + (-p*14) + "%," + (p*40) + "px,0)";
+    }});
+
+    /* scrollys: mensajes y fondos fundidos en continuo */
+    document.querySelectorAll(".scrolly").forEach(function(sc){
+      var msgs = sc.querySelectorAll(".msg"), bgs = sc.querySelectorAll(".bg"), n = msgs.length;
+      mods.push({ el:sc, fn:function(p){
+        for (var i=0;i<n;i++){
+          var c = (i+0.5)/n, w = 0.5/n;
+          var d = (p-c)/w;
+          if (i === 0) d = Math.max(d, 0);            /* el primero no entra desde la nada */
+          if (i === n-1) d = Math.min(d, 0);          /* el ultimo no se va antes de tiempo */
+          var vis = clamp(1-Math.abs(d),0,1);
+          var o = Math.pow(vis,1.5);
+          msgs[i].style.opacity = String(o);
+          msgs[i].style.transform = "translateY(" + (-d*72) + "px) scale(" + (0.965+0.035*o) + ")";
+          if (bgs[i]){
+            var db = (p-c)/(w*1.6);
+            if (i === 0) db = Math.max(db, 0);
+            if (i === n-1) db = Math.min(db, 0);
+            var vb = clamp(1-Math.abs(db),0,1);
+            bgs[i].style.opacity = String(Math.pow(vb,1.2));
+            bgs[i].style.transform = "translate3d(0," + (db*34) + "px,0) scale(" + (1.07-0.05*vb) + ")";
+          }
+        }
+      }});
+    });
+
+    /* full-bleed: revelado por clip + parallax */
+    document.querySelectorAll(".full").forEach(function(f){
+      var frame = f.querySelector(".frame"), plx = f.querySelector(".plx");
+      mods.push({ el:f, entra:true, fn:function(p){
+        var rev = easeO(clamp(p*1.6,0,1));
+        var ins = (1-rev)*10;
+        frame.style.clipPath = "inset(" + ins + "% " + ins*0.7 + "% round " + (1-rev)*26 + "px)";
+        plx.style.transform = "translate3d(" + (incl.ax*14) + "px," + ((p-0.5)*-84 + incl.ay*10) + "px,0)";
+      }});
+    });
+
+    /* el dia */
+    var dp = document.getElementById("daypin");
+    if (dp) stickH = dp.querySelector(".stick").clientHeight;
+    if (dp) mods.push({ el:dp, fn:function(p){ pintaDia(clamp(p*1.04,0,1)); }});
+
+    /* bandas de foto: un parallax corto al pasar */
+    document.querySelectorAll(".banda").forEach(function(fg){
+      mods.push({ el:fg, entra:true, fn:function(p){
+        var im = fg.querySelector("img");
+        if (im) im.style.transform = "scale(1.12) translate(" + (incl.ax*12) + "px," + ((p-0.5)*-44 + incl.ay*8) + "px)";
+      }});
+    });
+
+    /* el kite: la cometa bascula en la ventana de viento y el rider talonea */
+    var kite = document.getElementById("kite");
+    if (kite){
+      var vela = document.getElementById("kVela"), rider = document.getElementById("kRider"),
+          rachas = [document.getElementById("kR1"), document.getElementById("kR2"), document.getElementById("kR3")];
+      mods.push({ el:kite.closest("section"), entra:true, fn:function(p){
+        var f = p*Math.PI*5, sa = Math.sin(f), sb = Math.sin(f + 1.15), sc = Math.sin(f*1.7);
+        /* la vela pivota sobre el rider, que es donde estarían las líneas */
+        vela.setAttribute("transform",
+          "rotate(" + (sa*7 + incl.ax*4).toFixed(2) + " 150 440) translate(" + (sb*5).toFixed(1) + "," + (sa*-7).toFixed(1) + ")" +
+          " scale(" + (1 + sc*0.018).toFixed(4) + ")");
+        rider.setAttribute("transform",
+          "rotate(" + (sb*2.4).toFixed(2) + " 165 450) translate(0," + (sc*4).toFixed(1) + ")");
+        rachas.forEach(function(r, i){
+          if (!r) return;
+          var d = ((p*300 + i*70) % 190) - 55;
+          r.setAttribute("transform", "translate(" + d.toFixed(1) + ",0)");
+          r.style.opacity = String(0.18 + 0.55*Math.abs(Math.sin(f*0.5 + i*1.1)));
+        });
+      }});
+    }
+
+    /* kobig */
+    var bk = document.getElementById("bigKo");
+    if (bk) mods.push({ el:bk.closest("section"), entra:true, fn:function(p){
+      bk.style.backgroundPosition = (30 + p*44) + "% " + (60 - p*30) + "%";
+    }});
+
+    /* contadores */
+    document.querySelectorAll(".cnt").forEach(function(c){
+      mods.push({ el:c.closest("section")||c, entra:true, fn:function(p){ setCnt(c, easeO(clamp(p*1.9,0,1))); }});
+    });
+
+    /* medir top/h reales */
+    mods.forEach(function(m){
+      if (m.el === document.body) return;
+      var r = m.el.getBoundingClientRect();
+      m.top = r.top + pageYOffset; m.h = r.height;
+    });
+  }
+
+  /* ---------- bucle ---------- */
+  var running = false;
+  var K = matchMedia("(pointer:coarse)").matches ? 0.22 : 0.14;
+  function frame(){
+    SY += (Y-SY)*K;
+    if (Math.abs(Y-SY) < 0.3) SY = Y;
+    incl.ax += (incl.x - incl.ax)*0.07;
+    incl.ay += (incl.y - incl.ay)*0.07;
+    var quieto = Math.abs(incl.x-incl.ax) < 0.0015 && Math.abs(incl.y-incl.ay) < 0.0015;
+    if (quieto){ incl.ax = incl.x; incl.ay = incl.y; }
+    var vh = innerHeight;
+    nav.classList.toggle("scrolled", SY > vh*0.6);
+    mods.forEach(function(m){
+      var p;
+      if (m.el === document.body){ p = clamp(SY/(vh*0.95),0,1); }
+      else if (m.entra){ p = clamp((SY+vh - m.top)/(vh + m.h*0.6), 0, 1); }
+      else { p = clamp((SY - m.top)/(m.h - vh), 0, 1); }
+      m.fn(p);
+    });
+    if (SY !== Y || !quieto){ requestAnimationFrame(frame); }
+    else { running = false; }
+  }
+  function wake(){
+    Y = pageYOffset;
+    if (!running){ running = true; requestAnimationFrame(frame); }
+  }
+  addEventListener("scroll", wake, {passive:true});
+  addEventListener("resize", function(){ medir(); wake(); }, {passive:true});
+  addEventListener("load", function(){ medir(); wake(); });
+
+  if (!mo){
+    /* sin motor: estado legible y quieto */
+    document.querySelectorAll(".cnt").forEach(function(c){ setCnt(c,1); });
+    nav.classList.add("scrolled");
+  } else {
+    pintaDia(0);
+    medir();
+    wake();
+  }
+})();
+</script>
+
+</body>
+</html>
