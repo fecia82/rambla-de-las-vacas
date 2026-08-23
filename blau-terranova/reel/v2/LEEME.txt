@@ -1,0 +1,63 @@
+EL REEL, SEGUNDA VERSIÓN
+========================
+
+  blau-terranova-reel-2.mp4   1080x1920 · 26 s · 30 fps · con sonido
+  portada.jpg                 el cartel, sacado del segundo 1,45
+
+Al subirlo a Instagram, elige portada.jpg como portada. El primer fotograma
+del vídeo es un velo de luz a propósito (así el bucle no tiene costura), y de
+cartel quedaría un folio en blanco.
+
+CÓMO ESTÁ PENSADO
+-----------------
+Enganchar en el primer segundo y transmitir calma tiran en direcciones
+opuestas: lo que engancha suele ser el movimiento brusco, y eso es justo lo
+contrario de la tranquilidad. Aquí se resuelve enganchando con la IMAGEN, no
+con el corte. El vídeo abre con la pasarela muriendo en el mar y la frase
+"Aquí se acaba el asfalto": a los 0,3 s ya se ve la playa, a 1,05 s está la
+frase entera. A partir de ahí no vuelve a haber una sola transición seca.
+
+  0,0 s   un destello de luz que se abre
+  0,2 s   la pasarela entre las dunas · "Aquí se acaba / el asfalto."
+  2,5 s   OLIVA · PLAYA DE TERRANOVA
+  5,0 s   la terraza cubierta · "Comer fuera. / Sin prisa."
+  9,4 s   el salón, con la chimenea · "Después, el sofá."
+ 13,6 s   la litera · "Tres dormitorios. / Uno con litera."
+ 17,8 s   la arena al atardecer · "Se vuelve descalzo."
+ 23,0 s   el cierre, con el teléfono
+ 25,6 s   vuelve la luz del principio: el bucle no se nota
+
+Los planos se encadenan con un solape de 0,95 s y el movimiento NO se detiene
+en el cambio: cada foto recorre su curva entera aunque ya se esté fundiendo.
+Medido fotograma a fotograma, el salto mediano es de 0,98 sobre 255; los
+únicos picos son el destello inicial y la entrada del cierre, los dos
+buscados. Encima van cuatro capas: la temperatura del día (azul al principio,
+cálida al final, con la mano muy suelta porque la foto del atardecer ya viene
+naranja), un resplandor que se desplaza, una viñeta que respira y dos capas de
+grano que saltan cada fotograma para que no parezcan suciedad pegada al
+cristal. La letra no entra: se asienta, cerrando el interletraje.
+
+El sonido es el mismo mar de la web, normalizado a -16 LUFS para que se oiga
+en un móvil, con entrada y salida en fundido.
+
+REHACERLO
+---------
+  FF=/ruta/a/ffmpeg sh preparar.sh      # deja las fotos ampliadas en px/
+  node rodar.js previo                  # unos pocos fotogramas para mirar
+  node rodar.js rodar                   # los 780, tarda unos 4 minutos
+  ffmpeg -framerate 30 -i frames/f%05d.jpg -ss 4 -t 26 -i ../../audio/olas.mp3 \
+    -filter_complex "[1:a]loudnorm=I=-16:TP=-1.5:LRA=11,\
+afade=t=in:st=0:d=1.4,afade=t=out:st=24.2:d=1.8[a]" \
+    -map 0:v -map "[a]" -c:v libx264 -preset slow -crf 23 -maxrate 9M -bufsize 18M \
+    -x264-params aq-mode=3:psy-rd=1.0 -pix_fmt yuv420p -profile:v high -level 4.0 -g 60 \
+    -c:a aac -b:a 160k -ar 44100 -shortest -movflags +faststart blau-terranova-reel-2.mp4
+
+Todo el montaje está en film.html: los planos, los tiempos y los textos son
+seis líneas de tabla al principio del script. Cambiar una frase o alargar un
+plano es editar un número.
+
+QUÉ FALTA PARA MEJORARLO
+------------------------
+Una foto de la calle Faig mirando hacia la pasarela. Es la idea que sostiene
+todo — la calle se acaba y empieza la arena — y no hay ninguna imagen de eso.
+Con ella, el primer plano sería el de verdad.

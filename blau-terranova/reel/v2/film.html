@@ -1,0 +1,220 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><style>
+:root{--paper:#FBF7F1;--ink:#101820;--sun:#E9762B;--shell:#F7DCC7;
+  --sans:"Liberation Sans","DejaVu Sans",Arial,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#0B1116;font-family:var(--sans)}
+
+/* ---------- los planos: se funden encadenados, sin cortes secos ---------- */
+.plano{position:absolute;inset:0;overflow:hidden;opacity:0;will-change:opacity}
+.plano img{position:absolute;left:50%;top:50%;width:1080px;height:1920px;object-fit:cover;
+  transform-origin:center;will-change:transform}
+.vel{position:absolute;inset:0}
+
+/* ---------- capas de atmósfera, todas por encima de la foto ---------- */
+#temp{position:absolute;inset:0;z-index:3;mix-blend-mode:soft-light;will-change:background,opacity}
+#bloom{position:absolute;inset:0;z-index:4;will-change:transform,opacity;pointer-events:none}
+#vineta{position:absolute;inset:0;z-index:5;will-change:opacity;
+  background:radial-gradient(122% 84% at 50% 44%,rgba(0,0,0,0) 46%,rgba(0,0,0,.42) 100%)}
+#grano,#grano2{position:absolute;inset:-30%;z-index:6;pointer-events:none;
+  background-image:url("grano.png");background-repeat:repeat;will-change:transform,opacity}
+#grano{opacity:.05;mix-blend-mode:overlay}
+#grano2{opacity:.028;mix-blend-mode:soft-light;background-size:1024px 1024px}
+
+/* ---------- tipografía: se asienta, no entra ---------- */
+.capa{position:absolute;left:92px;right:92px;z-index:8;will-change:opacity}
+.capa .l{display:block;color:#fff;text-shadow:0 6px 42px rgba(0,0,0,.5);will-change:opacity,letter-spacing}
+.arriba{top:326px}
+.abajo{bottom:492px}
+.geo{top:598px}
+.gancho .l{font-size:98px;font-weight:700;line-height:1.03;letter-spacing:-.03em}
+.frase .l{font-size:80px;font-weight:700;line-height:1.05;letter-spacing:-.028em}
+.pie .l{font-size:31px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#fff;
+  text-shadow:0 3px 26px rgba(0,0,0,.6)}
+.raya{height:5px;background:var(--sun);margin-top:42px;width:0;will-change:width;opacity:1}
+
+/* ---------- cierre ---------- */
+#cierre{position:absolute;inset:0;background:var(--paper);z-index:9;opacity:0;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 92px}
+#cierre .marca{font-size:88px;font-weight:700;letter-spacing:-.035em;color:var(--ink);line-height:1.04;
+  will-change:opacity,letter-spacing}
+#cierre .marca b{color:var(--sun)}
+#cierre .dir{margin-top:32px;font-size:39px;color:#4E5A62}
+#cierre .tel{margin-top:78px;font-size:54px;font-weight:700;color:var(--ink)}
+#cierre .tel small{display:block;font-size:27px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:#98A2A8;margin-bottom:18px}
+#cierre img{width:360px;margin-top:84px}
+
+/* la luz que abre y cierra: hace que el bucle no tenga costura */
+#flash{position:absolute;inset:0;z-index:10;background:#FFF9F0;opacity:0;pointer-events:none}
+</style></head><body>
+
+<div class="plano" id="p0"><img src="px/hero.jpg"><div class="vel"></div></div>
+<div class="plano" id="p1"><img src="px/04.jpg"><div class="vel"></div></div>
+<div class="plano" id="p2"><img src="px/03.jpg"><div class="vel"></div></div>
+<div class="plano" id="p3"><img src="px/08.jpg"><div class="vel"></div></div>
+<div class="plano" id="p4"><img src="px/descalzo.jpg"><div class="vel"></div></div>
+
+<div id="temp"></div>
+<div id="bloom"></div>
+<div id="vineta"></div>
+<div id="grano"></div>
+<div id="grano2"></div>
+
+<div class="capa arriba gancho" id="t0">
+  <span class="l" id="t0a">Aquí se acaba</span>
+  <span class="l" id="t0b">el asfalto.</span>
+  <div class="raya" id="t0r"></div>
+</div>
+<div class="capa geo pie" id="tg"><span class="l" id="tga">Oliva · Playa de Terranova</span></div>
+<div class="capa abajo frase" id="t1">
+  <span class="l" id="t1a">Comer fuera.</span>
+  <span class="l" id="t1b">Sin prisa.</span>
+</div>
+<div class="capa abajo frase" id="t2"><span class="l" id="t2a">Después, el sofá.</span></div>
+<div class="capa abajo frase" id="t3">
+  <span class="l" id="t3a">Tres dormitorios.</span>
+  <span class="l" id="t3b">Uno con litera.</span>
+</div>
+<div class="capa abajo frase" id="t4"><span class="l" id="t4a">Se vuelve descalzo.</span></div>
+
+<div id="cierre">
+  <p class="marca" id="cm">Blau Terranova · <b>Garbí</b></p>
+  <p class="dir">Calle Faig 16 · Oliva (Valencia)</p>
+  <p class="tel"><small>Reserva directa</small>+34 604 529 655</p>
+  <img src="../../img/sunsuite.png" alt="">
+</div>
+
+<div id="flash"></div>
+
+<script>
+/* un plano por escena, encadenados con solape: nunca hay corte seco.
+   el velo de cada plano oscurece arriba y abajo lo justo para que la letra lea. */
+/* Dos mandos por plano, y ninguno se puede pasar de la raya:
+     op  = qué trozo de la foto se ve (object-position, en %). Aprovecha todo
+           el sobrante que deja el recorte 9:16, sea grande o pequeño.
+     pan = la deriva fina, en unidades de -1 a 1. Se traduce a píxeles contra
+           el margen REAL que deja el zoom, así que nunca asoma el fondo. */
+var PLANOS = [
+  { el:"p0", t0: 0.0,  t1: 5.0,  z:[1.15,1.03], op:[[50,50],[50,50]], pan:[[0,.55],[0,-.55]], vel:"rgba(11,20,30,.32)" },
+  { el:"p1", t0: 5.0,  t1: 9.4,  z:[1.05,1.15], op:[[62,50],[88,50]], pan:[[0,-.30],[0,.30]], vel:"rgba(16,24,32,.30)" },
+  { el:"p2", t0: 9.4,  t1:13.6,  z:[1.07,1.16], op:[[24,50],[ 8,50]], pan:[[0,.35],[0,-.35]], vel:"rgba(16,24,32,.32)" },
+  { el:"p3", t0:13.6,  t1:17.8,  z:[1.16,1.06], op:[[52,50],[33,50]], pan:[[0,.10],[0,-.60]], vel:"rgba(16,24,32,.30)" },
+  { el:"p4", t0:17.8,  t1:23.0,  z:[1.12,1.02], op:[[52,50],[45,50]], pan:[[0,.40],[0,-.55]], vel:"rgba(24,16,12,.40)" }
+];
+var SOLAPE = 0.95;
+/* ent: cuánto tarda en aparecer. asen: cuánto tarda la letra en cerrar el interletraje. */
+var TEXTOS = [
+  { el:"t0", t0: 0.18, t1: 4.50, hijos:["t0a","t0b"], raya:"t0r", ent:0.55, asen:0.80, paso:0.34 },
+  { el:"tg", t0: 2.45, t1: 4.60, hijos:["tga"],                   ent:0.75, asen:1.30, paso:0    },
+  { el:"t1", t0: 5.75, t1: 8.90, hijos:["t1a","t1b"],             ent:0.85, asen:1.00, paso:0.40 },
+  { el:"t2", t0:10.10, t1:13.10, hijos:["t2a"],                   ent:0.85, asen:1.00, paso:0    },
+  { el:"t3", t0:14.30, t1:17.30, hijos:["t3a","t3b"],             ent:0.85, asen:1.00, paso:0.40 },
+  { el:"t4", t0:18.55, t1:22.60, hijos:["t4a"],                   ent:0.85, asen:1.00, paso:0    }
+];
+var CIERRE = 23.0, FIN = 26.0;
+
+var D = {};
+["temp","bloom","vineta","grano","grano2","cierre","cm","flash"].forEach(function(k){ D[k]=document.getElementById(k); });
+PLANOS.forEach(function(P){
+  P.n = document.getElementById(P.el); P.img = P.n.querySelector("img");
+  P.nw = P.img.naturalWidth || 1080; P.nh = P.img.naturalHeight || 1920;
+  P.n.querySelector(".vel").style.background =
+    "linear-gradient(180deg," + P.vel + " 0%, rgba(0,0,0,0) 32%, rgba(0,0,0,0) 54%, " + P.vel + " 100%)";
+});
+TEXTOS.forEach(function(T){ T.n = document.getElementById(T.el); });
+
+function cl(v,a,b){ return v<a?a:(v>b?b:v); }
+function suave(t){ return t*t*(3-2*t); }
+function respira(t){ return 0.5 - 0.5*Math.cos(t); }   /* como una inspiración */
+function salida(t){ return 1-Math.pow(1-t,3); }
+function mez(a,b,t){ return a+(b-a)*t; }
+
+/* la luz del día: azul limpio al principio, cálida al final. Con la mano MUY
+   suelta: la foto del atardecer ya viene naranja de origen y se empasta. */
+var TEMP = [[0,[96,140,176],0.30],[0.34,[128,156,178],0.19],[0.66,[196,158,120],0.19],[1,[222,150,96],0.25]];
+function tinteDia(k){
+  var i=0; while(i<TEMP.length-2 && k>TEMP[i+1][0]) i++;
+  var a=TEMP[i], b=TEMP[i+1], u=cl((k-a[0])/(b[0]-a[0]),0,1);
+  return { c:"rgb("+Math.round(mez(a[1][0],b[1][0],u))+","+Math.round(mez(a[1][1],b[1][1],u))+","+
+                    Math.round(mez(a[1][2],b[1][2],u))+")", o:mez(a[2],b[2],u) };
+}
+
+function pinta(t){
+  var k = cl(t/FIN, 0, 1);
+
+  PLANOS.forEach(function(P){
+    var ent = cl((t - (P.t0 - (P.t0>0?SOLAPE:0))) / (P.t0>0?SOLAPE:0.35), 0, 1);
+    var sal = cl((t - P.t1) / SOLAPE, 0, 1);
+    var o = suave(ent) * (1 - suave(sal));
+    P.n.style.opacity = o.toFixed(3);
+    if (o <= 0.001) return;
+    /* el movimiento no para en el corte: cada plano recorre su curva entera */
+    var q = cl((t - (P.t0 - SOLAPE)) / ((P.t1 + SOLAPE) - (P.t0 - SOLAPE)), 0, 1);
+    var e = respira(q * Math.PI);                    /* acelera y frena, como el aire */
+    var m = q*0.65 + e*0.35;
+    var S = mez(P.z[0], P.z[1], m);
+    P.img.style.objectPosition = mez(P.op[0][0],P.op[1][0],m).toFixed(2) + "% " +
+                                 mez(P.op[0][1],P.op[1][1],m).toFixed(2) + "%";
+    /* el margen que deja el zoom, y ni un píxel más: el translate va después
+       del scale, así que hay que dividirlo por S para que cuadre. */
+    var mx = 540*(S-1)/S, my = 960*(S-1)/S;
+    P.img.style.transform = "translate(-50%,-50%) scale(" + S.toFixed(4) +
+      ") translate(" + (mez(P.pan[0][0],P.pan[1][0],m)*mx).toFixed(1) + "px," +
+                       (mez(P.pan[0][1],P.pan[1][1],m)*my).toFixed(1) + "px)";
+  });
+
+  TEXTOS.forEach(function(T){
+    var ent = cl((t - T.t0) / T.ent, 0, 1);
+    var sal = cl((t - T.t1) / 0.7, 0, 1);
+    var vis = suave(ent) * (1 - suave(sal));
+    T.n.style.opacity = vis.toFixed(3);
+    if (vis <= 0.001) return;
+    T.hijos.forEach(function(h, i){
+      var a = cl((t - (T.t0 + i*T.paso)) / T.asen, 0, 1), s = salida(a);
+      var el = document.getElementById(h);
+      el.style.opacity = (s * (1 - suave(sal))).toFixed(3);
+      /* la letra se asienta: entra abierta y cierra hasta su sitio */
+      var fin = (T.el === "tg") ? 0.26 : -0.03;
+      el.style.letterSpacing = (mez(0.15, fin, s)).toFixed(4) + "em";
+    });
+    if (T.raya){
+      var r = cl((t - (T.t0+0.45)) / 1.2, 0, 1);
+      document.getElementById(T.raya).style.width = (salida(r) * 244) + "px";
+    }
+  });
+
+  /* atmósfera */
+  var td = tinteDia(k);
+  D.temp.style.background = td.c;
+  D.temp.style.opacity = td.o.toFixed(3);
+
+  var bl = 0.08 + 0.13*respira(k*Math.PI*2.2);
+  D.bloom.style.opacity = bl.toFixed(3);
+  D.bloom.style.background = "radial-gradient(46% 30% at " + (18 + k*64).toFixed(1) + "% " +
+    (26 + Math.sin(k*Math.PI*1.6)*16).toFixed(1) + "%, rgba(255,214,150,.8), rgba(255,190,120,0) 70%)";
+
+  D.vineta.style.opacity = (0.46 + 0.14*respira(k*Math.PI*3.1)).toFixed(3);
+
+  /* el grano salta cada fotograma: si no, parece suciedad pegada al cristal */
+  var f = Math.round(t*30);
+  D.grano.style.transform  = "translate(" + ((f*137)%512) + "px," + ((f*89)%512) + "px)";
+  D.grano2.style.transform = "translate(" + (-(f*211)%1024) + "px," + ((f*53)%1024) + "px)";
+
+  /* cierre */
+  var c = cl((t - CIERRE) / 1.1, 0, 1);
+  D.cierre.style.opacity = suave(c).toFixed(3);
+  D.cm.style.letterSpacing = mez(0.08, -0.035, suave(c)).toFixed(4) + "em";
+
+  /* abre desde la luz y vuelve a ella: al repetirse el vídeo no hay costura */
+  /* el primer fotograma no puede ser un folio en blanco: Instagram lo usa de
+     portada. Se abre con velo, pero la playa ya se adivina. */
+  var abre = 0.86 * (1 - salida(cl(t/0.22, 0, 1)));
+  var vuelve = suave(cl((t - (FIN-0.36))/0.36, 0, 1)) * 0.92;
+  D.flash.style.opacity = Math.max(abre, vuelve).toFixed(3);
+}
+window.pinta = pinta;
+window.listo = Promise.all([].map.call(document.images, function(im){
+  return im.complete ? 1 : new Promise(function(r){ im.onload = im.onerror = r; });
+}));
+pinta(0);
+</script></body></html>
