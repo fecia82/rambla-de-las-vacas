@@ -881,57 +881,83 @@ html:not(.mo) .foto{opacity:1}
   })();
 
   /* ---------- el sonido del mar ----------
-     nunca arranca solo: los navegadores lo bloquean y además sería una
-     grosería. el botón recuerda la elección y, si estaba puesto, espera
-     al primer gesto del visitante para volver a sonar. */
+     entra solo al empezar a bajar, muy bajo y con un fundido largo.
+     el scroll por sí mismo no desbloquea el audio: los navegadores exigen
+     un gesto real. En el móvil eso da igual, porque el dedo que arranca
+     el scroll ya es un toque; en escritorio la rueda no cuenta, así que
+     se sigue esperando al primer clic o tecla. Si alguien lo apaga, no
+     vuelve a arrancar solo nunca más. */
   (function(){
     var btn = document.getElementById("son"), au = document.getElementById("mar");
     if (!btn || !au) return;
-    var CLAVE = "blau-mar", TOPE = 0.34, fundido = null, listo = false;
+    var CLAVE = "blau-mar", TOPE = 0.20, fundido = null, listo = false;
 
     au.addEventListener("canplay", function(){ listo = true; btn.classList.add("hay"); });
     au.addEventListener("error", function(){ btn.classList.remove("hay"); });
     au.preload = "metadata"; au.load();
 
-    function funde(hacia, alAcabar){
+    function funde(hacia, paso, alAcabar){
       clearInterval(fundido);
       fundido = setInterval(function(){
         var d = hacia - au.volume;
-        if (Math.abs(d) < 0.012){ au.volume = hacia; clearInterval(fundido); if (alAcabar) alAcabar(); return; }
-        au.volume = Math.max(0, Math.min(1, au.volume + d*0.12));
+        if (Math.abs(d) < 0.006){ au.volume = hacia; clearInterval(fundido); if (alAcabar) alAcabar(); return; }
+        au.volume = Math.max(0, Math.min(1, au.volume + d*paso));
       }, 40);
     }
-    function pon(){
+    function pon(lento){
       au.volume = 0;
       var pr = au.play();
       if (pr && pr.catch) pr.catch(function(){ btn.setAttribute("aria-pressed","false"); });
       btn.setAttribute("aria-pressed","true");
       try{ localStorage.setItem(CLAVE, "1"); }catch(e){}
-      funde(TOPE);
+      funde(TOPE, lento ? 0.035 : 0.12);      /* al entrar solo, se cuela despacio */
     }
     function quita(){
+      vetado = true;                          /* si lo apagas, no vuelve solo */
       btn.setAttribute("aria-pressed","false");
       try{ localStorage.setItem(CLAVE, "0"); }catch(e){}
-      funde(0, function(){ au.pause(); });
+      funde(0, 0.12, function(){ au.pause(); });
     }
     btn.addEventListener("click", function(){
-      if (au.paused) pon(); else quita();
+      if (au.paused){ vetado = false; hecho = true; suelta(); pon(false); } else quita();
     });
     document.addEventListener("visibilitychange", function(){
       if (document.hidden && !au.paused) au.pause();
       else if (!document.hidden && btn.getAttribute("aria-pressed") === "true" && au.paused) au.play().catch(function(){});
     });
-    /* si ya lo tenía puesto, se reanuda en cuanto toque cualquier cosa */
-    var queria = false;
-    try{ queria = localStorage.getItem(CLAVE) === "1"; }catch(e){}
-    if (queria){
-      var unaVez = function(){
-        document.removeEventListener("pointerdown", unaVez);
-        document.removeEventListener("keydown", unaVez);
-        if (listo) pon();
-      };
-      document.addEventListener("pointerdown", unaVez, {once:true});
-      document.addEventListener("keydown", unaVez, {once:true});
+    /* ---- entrada automática al empezar a bajar ---- */
+    var vetado = false, hecho = false, pedido = false;
+    try{ vetado = localStorage.getItem(CLAVE) === "0"; }catch(e){}
+
+    function intenta(){
+      if (hecho || vetado) return;
+      if (!pedido){ pedido = true; au.preload = "auto"; au.load(); }
+      if (!listo) return;                     /* aún sin datos: ya lo intentará el siguiente gesto */
+      au.volume = 0;
+      var pr = au.play();
+      if (pr && pr.then){
+        pr.then(function(){ if (!vetado){ hecho = true; suelta(); marca(); } })
+          .catch(function(){});               /* sin gesto todavía: seguimos esperando */
+      } else { hecho = true; suelta(); marca(); }
+    }
+    function marca(){
+      btn.setAttribute("aria-pressed", "true");
+      try{ localStorage.setItem(CLAVE, "1"); }catch(e){}
+      funde(TOPE, 0.035);
+    }
+    function alBajar(){ if (pageYOffset > 60) intenta(); }
+    function suelta(){
+      removeEventListener("scroll", alBajar);
+      ["pointerdown","touchstart","keydown"].forEach(function(ev){
+        removeEventListener(ev, intenta, {passive:true});
+      });
+    }
+    if (!vetado){
+      addEventListener("scroll", alBajar, {passive:true});
+      ["pointerdown","touchstart","keydown"].forEach(function(ev){
+        addEventListener(ev, intenta, {passive:true});
+      });
+      au.addEventListener("canplay", function(){ if (pedido) intenta(); });
     }
   })();
 
