@@ -37,11 +37,11 @@ button{font:inherit; color:inherit}
 .sheet{position:absolute; left:0; top:0; width:1600px; height:1000px; transform-origin:0 0; opacity:0}
 .sheet.on{opacity:1}
 .shadow,.paper,.tooth{position:absolute; left:-180px; top:-200px; width:1960px; height:1420px}
-.shadow{border-radius:6px; box-shadow:0 26px 60px rgba(0,0,0,.5), 0 4px 10px rgba(0,0,0,.35); background:rgba(0,0,0,.2); transform:translate(6px,10px) scale(.994)}
+.shadow{border-radius:6px; background:rgba(0,0,0,.42); transform:translate(10px,16px)}
 .paper{background-color:var(--paper); background-image:var(--paper-img,none); background-size:420px 420px;
-  -webkit-mask-image:var(--deckle,none); mask-image:var(--deckle,none); -webkit-mask-size:100% 100%; mask-size:100% 100%}
+  -webkit-clip-path:var(--deckle,none); clip-path:var(--deckle,none)}
 .tooth{pointer-events:none; mix-blend-mode:multiply; background-image:var(--tooth-img,none); background-size:420px 420px; opacity:.9;
-  -webkit-mask-image:var(--deckle,none); mask-image:var(--deckle,none); -webkit-mask-size:100% 100%; mask-size:100% 100%}
+  -webkit-clip-path:var(--deckle,none); clip-path:var(--deckle,none)}
 .lay{position:absolute; left:0; top:0; width:1600px; height:1000px; display:block; mix-blend-mode:multiply; transition:opacity 1.6s ease, transform 2.6s cubic-bezier(.6,0,.3,1)}
 .lay.fxl{mix-blend-mode:normal}
 .lay.hid{opacity:0}
@@ -385,7 +385,7 @@ function renderOp(ctx,op,from,to){
 var SX=-180,SY=-200,SW=1960,SH=1420,VIEW={};
 function measureView(){var st=document.getElementById('stage'),w=st.clientWidth,h=st.clientHeight,dpr=Math.min(2,window.devicePixelRatio||1),portrait=h>w*1.1;
   var s0=portrait?w/1020:Math.min(w/SW,(h-44)/SH)*.97;
-  VIEW={w:w,h:h,dpr:dpr,s0:s0,portrait:portrait,R:Math.min(1.45,Math.max(.6,s0*1.7*dpr))}}
+  VIEW={w:w,h:h,dpr:dpr,s0:s0,portrait:portrait,R:Math.min(w<900?1.05:1.45,Math.max(.6,s0*1.7*dpr))}}
 function camXform(c){var s=VIEW.s0*(c.z||1),W=VIEW.w,H=VIEW.h-40,tx=W/2-c.x*s,ty=H/2-c.y*s,m=30;
   if(SW*s>W-2*m)tx=Math.min(-SX*s+m,Math.max(W-(SX+SW)*s-m,tx));else tx=(W-SW*s)/2-SX*s;
   if(SH*s>H-2*m)ty=Math.min(-SY*s+m,Math.max(H-(SY+SH)*s-m,ty));else ty=(H-SH*s)/2-SY*s;
@@ -818,11 +818,15 @@ function buildGraph(c){
   var revOut=c.createGain();revOut.gain.value=.55;revIn.connect(conv);conv.connect(tone);tone.connect(revOut);revOut.connect(master)}
 function A(){
   if(!ac){var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;ac=new C();buildGraph(ac);Object.keys(RAW).forEach(decodeKey)}
-  if(ac.state==='suspended')ac.resume();return ac}
+  if(ac.state==='suspended'){try{var rp=ac.resume();if(rp&&rp.catch)rp.catch(function(){})}catch(e){}}return ac}
 
 /* ----- muestras: se descargan al abrir la página y se decodifican al primer toque ----- */
-function decodeKey(key){var ab=RAW[key];if(!ab||!ac)return;delete RAW[key];
-  try{ac.decodeAudioData(ab,function(b){BUF[key]=b},function(){})}catch(e){}}
+var DQ=[],dActive=0;
+function decodeKey(key){if(!RAW[key]||!ac)return;DQ.push(key);pump()}
+function mono(b){if(b.numberOfChannels<2)return b;try{var m=ac.createBuffer(1,b.length,b.sampleRate),o=m.getChannelData(0),l=b.getChannelData(0),r=b.getChannelData(1);for(var i=0;i<o.length;i++)o[i]=(l[i]+r[i])*.5;return m}catch(e){return b}}
+function pump(){while(dActive<2&&DQ.length){var key=DQ.shift(),ab=RAW[key];delete RAW[key];if(!ab)continue;dActive++;
+  (function(k){var done=false;function fin(b){if(done)return;done=true;if(b)BUF[k]=mono(b);dActive--;setTimeout(pump,0)}
+    try{var p=ac.decodeAudioData(ab,fin,function(){fin(null)});if(p&&p.catch)p.catch(function(){fin(null)})}catch(e){fin(null)}})(key)}}
 (function prefetch(){
   var list=[];[60,57,63,54,66,51,69,48,72,45,75,42,78,39,81,36,84,33,87,30,90,27,93,24,96].forEach(function(m){list.push('p6-'+m,'p10-'+m)});
   list=list.filter(function(k){var p=k.split('-');return +p[1]>=SAMP[p[0]][0]});
@@ -978,7 +982,7 @@ function setSound(on){soundOn=on;document.getElementById('snd').setAttribute('ar
   if(on){unlock();var c=A();if(!c)return;master.gain.cancelScheduledValues(c.currentTime);master.gain.setTargetAtTime(1,c.currentTime,.2);
     if(!MUS.timer)MUS.timer=setInterval(musicTick,60);if(MUS.scene>=0)musicCue(MUS.scene)}
   else{if(ac){master.gain.cancelScheduledValues(ac.currentTime);master.gain.setTargetAtTime(0,ac.currentTime,.2)}if(iosEl)iosEl.pause();MUS.cur=null;MUS.stings=[]}}
-document.addEventListener('visibilitychange',function(){if(!ac)return;if(document.hidden)ac.suspend();else if(soundOn)ac.resume()});
+document.addEventListener('visibilitychange',function(){if(!ac)return;if(document.hidden)ac.suspend();else if(soundOn){try{var rp=ac.resume();if(rp&&rp.catch)rp.catch(function(){})}catch(e){}}});
 
 /* ---------- papel de acuarela: grano frío, grueso, y barbas en los bordes ---------- */
 (function(){try{
@@ -994,12 +998,10 @@ document.addEventListener('visibilitychange',function(){if(!ac)return;if(documen
     g.putImageData(im,0,0);return c.toDataURL('image/png')}
   var paper=tex(function(s,v,q){var l=.955+.05*s-.012*q;return [251*l,250*l,246*l]});
   var tooth=tex(function(s,v,q){var l=1-.09*(1-s)-.04*(1-v)-.015*q;return [255*l,253*l,249*l]});
-  var dc=document.createElement('canvas'),W=980,Hh=710;dc.width=W;dc.height=Hh;var g=dc.getContext('2d'),e=vn(4000,64,24,11),e2=vn(4000,64,5,12);
-  g.fillStyle='#fff';g.beginPath();var k=0,P=[];
-  function edge(x0,y0,x1,y1,nx,ny){var L=Math.hypot(x1-x0,y1-y0),n=Math.ceil(L/3);for(var i=0;i<n;i++){var t=i/n,j=2+6*e(k,1)+3*e2(k,2);k+=3;P.push([x0+(x1-x0)*t+nx*j,y0+(y1-y0)*t+ny*j])}}
-  edge(0,0,W,0,0,1);edge(W,0,W,Hh,-1,0);edge(W,Hh,0,Hh,0,-1);edge(0,Hh,0,0,1,0);
-  P.forEach(function(p,i){i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])});g.closePath();g.fill();
-  var st=document.documentElement.style;st.setProperty('--paper-img','url('+paper+')');st.setProperty('--tooth-img','url('+tooth+')');st.setProperty('--deckle','url('+dc.toDataURL('image/png')+')');
+  var e=vn(4000,64,24,11),e2=vn(4000,64,5,12),k=0,P=[];
+  function edge(x0,y0,x1,y1,nx,ny){var n=60;for(var i=0;i<n;i++){var t=i/n,j=.12+.35*e(k,1)+.18*e2(k,2);k+=7;P.push(((x0+(x1-x0)*t+nx*j)).toFixed(2)+'% '+((y0+(y1-y0)*t+ny*j*1.38)).toFixed(2)+'%')}}
+  edge(0,0,100,0,0,1);edge(100,0,100,100,-1,0);edge(100,100,0,100,0,-1);edge(0,100,0,0,1,0);
+  var st=document.documentElement.style;st.setProperty('--paper-img','url('+paper+')');st.setProperty('--tooth-img','url('+tooth+')');st.setProperty('--deckle','polygon('+P.join(',')+')');
 }catch(err){}})();
 
 /* ---------- motor ---------- */
@@ -1066,7 +1068,7 @@ function nextLine(){
 /* tocar: termina de escribir la frase; si ya está escrita, pasa a la siguiente */
 function advance(){
   if(!started)return;
-  if(soundOn&&ac&&ac.state!=='running')ac.resume();
+  if(soundOn&&ac&&ac.state!=='running'){try{var rp=ac.resume();if(rp&&rp.catch)rp.catch(function(){})}catch(e){}}
   var b=blocks[blocks.length-1];
   if(b&&performance.now()<writeEnd){b.el.classList.add('done');writeEnd=0;return}
   nextLine();
@@ -1092,19 +1094,20 @@ document.getElementById('stage').addEventListener('click',function(e){if(e.targe
 document.getElementById('next').addEventListener('click',function(){advance()});
 document.getElementById('prev').addEventListener('click',prev);
 document.getElementById('play').addEventListener('click',function(){setPlaying(!playing)});
-document.getElementById('snd').addEventListener('click',function(){setSound(!soundOn)});
+document.getElementById('snd').addEventListener('click',function(){try{setSound(!soundOn)}catch(e){}});
 document.addEventListener('keydown',function(e){
   if(!started)return;
   if(e.key===' '){e.preventDefault();setPlaying(!playing)}
   else if(e.key==='ArrowRight'){advance()}
   else if(e.key==='ArrowLeft'){prev()}
 });
-function begin(withSound){document.getElementById('intro').hidden=true;setSound(!!withSound);setPlaying(true);goScene(0)}
+function begin(withSound){document.getElementById('intro').hidden=true;try{setSound(!!withSound)}catch(e){soundOn=false}setPlaying(true);goScene(0)}
 document.getElementById('startSnd').addEventListener('click',function(){begin(true)});
 document.getElementById('startMute').addEventListener('click',function(){begin(false)});
 document.getElementById('again').addEventListener('click',function(){setPlaying(true);goScene(0)});
 
 /* portada: la plaza de las Tendillas se pinta en la hoja, detrás del título */
+window.addEventListener('unhandledrejection',function(e){e.preventDefault()});
 measureView();setSound(false);
 var fontsReady=document.fonts&&document.fonts.load?Promise.all([document.fonts.load('40px "Caveat"'),document.fonts.load('600 40px "Caveat"'),document.fonts.load('40px "Nothing You Could Do"'),document.fonts.load('600 40px "Bodoni Moda"'),document.fonts.load('italic 40px "Bodoni Moda"')]):Promise.resolve();
 Promise.race([fontsReady,new Promise(function(r){setTimeout(r,2500)})]).catch(function(){}).then(function(){if(!started)show(2)});
