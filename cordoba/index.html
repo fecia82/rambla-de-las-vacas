@@ -8,7 +8,7 @@
 <title>La noche en que Córdoba nos devolvió el tiempo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400;1,6..96,500&family=Caveat:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Nothing+You+Could+Do&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400;1,6..96,500&family=Caveat:wght@400;500;600&family=Caveat+Brush&family=IBM+Plex+Mono:wght@400;500&family=Nothing+You+Could+Do&display=swap">
 <style>
 /* ============================================================
    LA NOCHE EN QUE CÓRDOBA NOS DEVOLVIÓ EL TIEMPO
@@ -74,6 +74,7 @@ button{font:inherit; color:inherit}
 .tx.prev{opacity:.38}
 .tx.out{opacity:0; filter:blur(3px)}
 .tx.chap{font-family:var(--display); font-style:italic; font-weight:400; font-size:88px; line-height:1; color:#8C4323}
+.tx.chap .w{clip-path:none}
 .tx.chap small{display:block; font-family:var(--mono); font-style:normal; font-size:17px; letter-spacing:.3em; text-transform:uppercase; color:#8A806E; margin-top:14px}
 /* la voz también actúa */
 .act-break em{display:inline-block; transition:transform 1.6s cubic-bezier(.5,0,.2,1) 1.2s}
@@ -104,7 +105,7 @@ button{font:inherit; color:inherit}
 .cover[hidden]{display:none}
 .cover .card{max-width:640px; text-align:center; display:grid; gap:20px; justify-items:center}
 .cover .kick{font-family:var(--mono); font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--light-2)}
-.cover h1{margin:0; font-family:var(--display); font-weight:400; font-size:clamp(34px,6vw,64px); line-height:1.02; letter-spacing:-.01em; text-wrap:balance; color:var(--light)}
+.cover h1{margin:0; font-family:"Caveat Brush",var(--hand); font-weight:400; line-height:1.1 !important; font-size:clamp(34px,6vw,64px); line-height:1.02; letter-spacing:-.01em; text-wrap:balance; color:var(--light)}
 .cover h1 em{color:var(--gold); font-weight:500}
 .cover p{margin:0; font-family:var(--hand); font-size:24px; line-height:1.3; color:var(--light-2); max-width:34ch; text-wrap:pretty}
 .cover .acts{display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
@@ -793,40 +794,42 @@ function tendillas(B){
   B.at(4);B.ink([[1130,760],[1250,740],[1360,700],[1480,690]],{w:3,c:C.thread,jit:2.5,speed:380,mode:'g'});
 }
 /* ============================================================
-   MÚSICA: solo un piano de cola de verdad (Salamander, grabado nota a nota)
-   Partitura original y adaptativa: Bach tocado a lo Gould para la rutina,
-   un nocturno a la manera de Chopin para Lucía, y los grandes gestos de cine
-   (arpegios que barren el teclado, acordes que cambian de color) escritos
-   para piano, a lo John Williams. Sin sintetizadores.
+   MÚSICA: un piano de cola de verdad (Salamander, grabado nota a nota)
+   · La rutina: el Preludio en do mayor de Bach (BWV 846), tocado recto y
+     sin pedal, a la manera de Glenn Gould. Se rompe con la línea.
+   · Lucía: un nocturno original en mi menor, a la manera de Chopin, que no
+     se repite: avanza con la historia (tema, variación con adornos, sección
+     en sol mayor, clímax en octavas y, al amanecer, mi mayor).
+   · Los golpes de cine, a lo John Williams, escritos para el mismo piano.
+   Interpretación: la melodía se adelanta un pelo al bajo, cada frase respira,
+   los acordes se arpegian, el pedal sostiene la armonía de cada compás.
    ============================================================ */
 var ac=null,soundOn=false,master=null,musicBus=null,revIn=null,iosEl=null;
 var SAMP={p10:[24,96],p6:[36,96]};
 var RAW={},BUF={};
 
-/* sala: cola de reverberación por bandas (los graves duran más que los agudos) y primeras reflexiones */
 function makeIR(c,sec){var sr=c.sampleRate,n=Math.floor(sr*sec),b=c.createBuffer(2,n,sr);
   for(var ch=0;ch<2;ch++){var d=b.getChannelData(ch),lo=0,hp=0,prev=0;
     for(var i=0;i<n;i++){var t=i/sr,w=Math.random()*2-1;lo=lo*.985+w*.015;hp=.7*(hp+w-prev);prev=w;var mid=w-lo-hp*.5;
-      d[i]=(lo*9*Math.exp(-t/1.05)+mid*.55*Math.exp(-t/.72)+hp*.22*Math.exp(-t/.32))*(t<.02?t/.02:1)}
-    [[.011,.5],[.019,.38],[.027,.3],[.041,.22],[.053,.16]].forEach(function(r){var k=Math.floor((r[0]+(ch?.003:0))*sr);d[k]+=r[1]*(ch?-.8:1)})}
+      d[i]=(lo*9*Math.exp(-t/1.15)+mid*.5*Math.exp(-t/.75)+hp*.18*Math.exp(-t/.3))*(t<.025?t/.025:1)}
+    [[.013,.45],[.021,.34],[.029,.27],[.043,.2],[.057,.14]].forEach(function(r){var k=Math.floor((r[0]+(ch?.004:0))*sr);d[k]+=r[1]*(ch?-.8:1)})}
   return b}
 function buildGraph(c){
-  var comp=c.createDynamicsCompressor();comp.threshold.value=-18;comp.knee.value=18;comp.ratio.value=2.2;comp.attack.value=.02;comp.release.value=.4;
+  var comp=c.createDynamicsCompressor();comp.threshold.value=-18;comp.knee.value=18;comp.ratio.value=2;comp.attack.value=.02;comp.release.value=.4;
   master=c.createGain();master.gain.value=0;master.connect(comp);comp.connect(c.destination);
-  musicBus=c.createGain();musicBus.gain.value=1;musicBus.connect(master);
-  var conv=c.createConvolver();conv.buffer=makeIR(c,3.2);revIn=c.createGain();
-  var tone=c.createBiquadFilter();tone.type='lowpass';tone.frequency.value=5200;
-  var revOut=c.createGain();revOut.gain.value=.55;revIn.connect(conv);conv.connect(tone);tone.connect(revOut);revOut.connect(master)}
+  musicBus=c.createGain();musicBus.gain.value=1.75;musicBus.connect(master);
+  var conv=c.createConvolver();conv.buffer=makeIR(c,3.4);revIn=c.createGain();
+  var tone=c.createBiquadFilter();tone.type='lowpass';tone.frequency.value=4800;
+  var revOut=c.createGain();revOut.gain.value=.95;revIn.connect(conv);conv.connect(tone);tone.connect(revOut);revOut.connect(master)}
 function A(){
   if(!ac){var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;ac=new C();buildGraph(ac);Object.keys(RAW).forEach(decodeKey)}
   if(ac.state==='suspended'){try{var rp=ac.resume();if(rp&&rp.catch)rp.catch(function(){})}catch(e){}}return ac}
 
-/* ----- muestras: se descargan al abrir la página y se decodifican al primer toque ----- */
+/* ----- muestras: se descargan al abrir y se decodifican de dos en dos ----- */
 var DQ=[],dActive=0;
 function decodeKey(key){if(!RAW[key]||!ac)return;DQ.push(key);pump()}
-function mono(b){if(b.numberOfChannels<2)return b;try{var m=ac.createBuffer(1,b.length,b.sampleRate),o=m.getChannelData(0),l=b.getChannelData(0),r=b.getChannelData(1);for(var i=0;i<o.length;i++)o[i]=(l[i]+r[i])*.5;return m}catch(e){return b}}
 function pump(){while(dActive<2&&DQ.length){var key=DQ.shift(),ab=RAW[key];delete RAW[key];if(!ab)continue;dActive++;
-  (function(k){var done=false;function fin(b){if(done)return;done=true;if(b)BUF[k]=mono(b);dActive--;setTimeout(pump,0)}
+  (function(k){var done=false;function fin(b){if(done)return;done=true;if(b)BUF[k]=b;dActive--;setTimeout(pump,0)}
     try{var p=ac.decodeAudioData(ab,fin,function(){fin(null)});if(p&&p.catch)p.catch(function(){fin(null)})}catch(e){fin(null)}})(key)}}
 (function prefetch(){
   var list=[];[60,57,63,54,66,51,69,48,72,45,75,42,78,39,81,36,84,33,87,30,90,27,93,24,96].forEach(function(m){list.push('p6-'+m,'p10-'+m)});
@@ -841,21 +844,19 @@ function nearest(code,midi){var lo=SAMP[code][0],hi=SAMP[code][1],best=null,bd=9
   return best===null?null:{m:best,b:BUF[code+'-'+best]}}
 function hasPiano(){return !!nearest('p10',60)||!!nearest('p6',60)}
 
-/* ----- una nota: muestra afinada, dos capas de intensidad, apagador y resonancia ----- */
+/* ----- una nota: capa suave o fuerte, color según intensidad, apagador natural ----- */
 function note(midi,t,dur,vel,send){
-  if(!ac)return;var code=vel<.5&&midi>=36?'p6':'p10',smp=nearest(code,midi)||nearest(code==='p6'?'p10':'p6',midi);if(!smp)return;
-  var rate=Math.pow(2,(midi-smp.m)/12),amp=(code==='p6'?1.35:1)*(.12+.88*Math.pow(vel,1.4))*.9;
+  if(!ac)return;var code=vel<.46&&midi>=36?'p6':'p10',smp=nearest(code,midi)||nearest(code==='p6'?'p10':'p6',midi);if(!smp)return;
+  var rate=Math.pow(2,(midi-smp.m)/12),amp=(code==='p6'?1.3:1)*(.1+.9*Math.pow(vel,1.35));
   var src=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain(),p=ac.createStereoPanner?ac.createStereoPanner():null;
   src.buffer=smp.b;src.playbackRate.value=rate;
-  f.type='lowpass';f.frequency.value=1400+vel*vel*9000+(midi-60)*40;f.Q.value=.2;
-  g.gain.setValueAtTime(amp,t);
-  var rel=midi<48?.9:midi<72?.55:.35,off=t+dur;
-  g.gain.setValueAtTime(amp,off);g.gain.setTargetAtTime(0,off,rel/3);
+  f.type='lowpass';f.frequency.value=Math.max(700,1200+vel*vel*9500+(midi-60)*45);f.Q.value=.15;
+  var off=t+dur,rel=midi<45?1.1:midi<70?.6:.38;
+  g.gain.setValueAtTime(amp,t);g.gain.setValueAtTime(amp,off);g.gain.setTargetAtTime(0,off,rel/3);
   src.connect(f);f.connect(g);
-  var out=g;if(p){p.pan.value=Math.max(-.6,Math.min(.6,(midi-62)/44));g.connect(p);out=p}
-  out.connect(musicBus);
-  var s=ac.createGain();s.gain.value=send;out.connect(s);s.connect(revIn);
-  src.start(t);src.stop(Math.min(t+smp.b.duration/rate,off+rel*2.5)+.05)}
+  var out=g;if(p){p.pan.value=Math.max(-.55,Math.min(.55,(midi-62)/46));g.connect(p);out=p}
+  out.connect(musicBus);var s=ac.createGain();s.gain.value=send;out.connect(s);s.connect(revIn);
+  src.start(t);src.stop(Math.min(t+smp.b.duration/rate,off+rel*2.6)+.05)}
 
 /* ============================================================
    PARTITURA
@@ -863,92 +864,107 @@ function note(midi,t,dur,vel,send){
 function M(n){var m=/^([A-G])([#b]?)(-?\d)$/.exec(n);return {C:0,D:2,E:4,F:5,G:7,A:9,B:11}[m[1]]+(m[2]==='#'?1:m[2]==='b'?-1:0)+12*(+m[3]+1)}
 function phrase(str,b0,vel,o){o=o||{};var ev=[],b=b0;
   str.replace(/\|/g,' ').split(/\s+/).forEach(function(tok){if(!tok)return;var p=tok.split(':'),d=parseFloat(p[1]);
-    if(p[0]!=='r'){p[0].replace(/[\[\]]/g,'').split(',').forEach(function(n,k){ev.push({b:b+(o.roll?k*o.roll:0),n:M(n)+(o.oct||0),d:d*(o.leg||1),v:vel,s:o.send})})}
+    if(p[0]!=='r'){p[0].replace(/[\[\]]/g,'').split(',').forEach(function(n,k){ev.push({b:b+(o.roll?k*o.roll:0),n:M(n)+(o.oct||0),d:d*(o.leg||1.04),dd:d,v:vel,s:o.send,mel:o.mel})})}
     b+=d});
   return ev}
-function chord(names,b,d,vel,o){o=o||{};return names.map(function(n,k){return {b:b+(o.roll?k*o.roll:0),n:M(n),d:d,v:vel*(o.shape?o.shape[k]||1:1),s:o.send}})}
+function chord(names,b,d,vel,o){o=o||{};return names.map(function(n,k){return {b:b+(o.roll?k*o.roll:0),n:M(n),d:d,v:vel*(k===names.length-1&&o.top?1.15:1),s:o.send}})}
 function sweep(from,to,scale,b,step,vel,d){var ev=[],pcs=scale.map(function(n){return M(n+'0')%12}),a=M(from),z=M(to),dir=z>a?1:-1,k=0;
   for(var m=a;dir>0?m<=z:m>=z;m+=dir){if(pcs.indexOf(((m%12)+12)%12)>=0){ev.push({b:b+k*step,n:m,d:d||2,v:vel*(.7+.3*Math.sin(Math.PI*Math.min(1,k/18)))});k++}}return ev}
-/* sección: pulsos → segundos, con rubato que respira al final de cada frase de cuatro compases */
-function Sec(bpm,len,ev,o){o=o||{};var spb=60/bpm,rub=o.rub||0,send=o.send===undefined?.3:o.send;
-  function f(x){var q=x%16,slow=q>13?(q-13)/3:0;return 1+rub*(.42*slow*slow-(q>3&&q<11?.05:0))}
+/* sección: pulsos → segundos. Rubato: cada frase de cuatro compases se estira al final y empuja un poco en el centro */
+function Sec(bpm,len,ev,o){o=o||{};var spb=60/bpm,rub=o.rub||0,send=o.send===undefined?.3:o.send,ph=o.phrase||16;
+  function f(x){var q=x%ph,slow=q>ph-3?(q-(ph-3))/3:0,start=q<.5?.12:0;return 1+rub*(.5*slow*slow+start-(q>3&&q<ph-5?.05:0))}
   function T(b){if(!rub)return b*spb;var t=0,x=0;while(x+.125<=b){t+=spb*.125*f(x+.0625);x+=.125}return t+spb*(b-x)*f(x)}
-  ev.forEach(function(e){e.t=T(e.b);e.ds=Math.max(.06,T(e.b+e.d)-e.t);if(e.s===undefined)e.s=send});
+  ev.forEach(function(e){e.t=T(e.b)-(e.mel?.014:0);e.ds=Math.max(.06,T(e.b+e.d)-T(e.b));if(e.s===undefined)e.s=send});
   ev.sort(function(a,b){return a.t-b.t});
   return {ev:ev,len:len,dur:T(len),T:T,bpm:bpm,sub:o.sub||2}}
+function REST(beats){return function(){return Sec(60,beats,[],{})}}
 
-/* 1 · la rutina: invención a dos voces, seca y exacta, a lo Glenn Gould */
-function ROUTINE(){
-  var rh='C5 D5 E5 F5 D5 E5 C5 G5 C6 B5 A5 G5 F5 E5 D5 C5 B4 C5 D5 E5 C5 D5 B4 G5 B5 A5 G5 F5 E5 D5 C5 B4 A4 B4 C5 D5 B4 C5 A4 F5 A5 G5 F5 E5 D5 C5 B4 A4 G4 A4 B4 C5 D5 E5 F5 D5 G5 F5 E5 D5 C5 B4 A4 G4'.split(' ');
-  var lh='C3 E3 G3 E3 C3 E3 G3 C4 B2 D3 G3 D3 B2 D3 G3 B3 A2 C3 E3 C3 F2 A2 C3 F3 G2 B2 D3 F3 G2 B2 D3 G3'.split(' '),ev=[];
-  rh.forEach(function(n,k){ev.push({b:k*.25,n:M(n),d:.15,v:(k%4===0?.52:.42)+(k%16===8?.04:0)})});
-  lh.forEach(function(n,k){ev.push({b:k*.5,n:M(n),d:.32,v:k%2?.33:.4})});
-  return Sec(96,16,ev,{send:.12})}
-/* 2 · el calor: octavas graves que no se apagan y notas sueltas arriba */
-function HEAT(){return Sec(56,8,[].concat(chord(['E1','E2'],0,7.5,.4),chord(['B1'],4,3.5,.26),chord(['D#6'],5,1.2,.2),chord(['E6'],5.08,1.2,.18),chord(['B5'],6.6,1.2,.17),chord(['G3'],2.5,4,.2)),{send:.45,sub:2})}
-/* 3 · acompañamiento de nocturno: arpegios en tresillo con pedal */
-var VOICE={Em:['E2','B2','G3','B3'],AmE:['E2','C3','A3','C4'],AmC:['C3','E3','A3','C4'],B7D:['D#3','F#3','A3','B3'],Em2:['E2','B2','E3','G3'],
-  C:['C2','G2','E3','G3'],Fo:['F#2','C3','E3','A3'],B7:['B1','F#2','D#3','A3'],Em3:['E2','B2','G3','E4']};
-function arp(v,bar,vel){var ns=VOICE[v].map(M),pat=[0,1,2,3,2,1,0,1,2,3,2,1],ev=[];
-  pat.forEach(function(ix,k){ev.push({b:bar*4+k/3,n:ns[ix]+(k>=6&&ix===0?12:0),d:4-k/3+.15,v:(k===0?vel+.07:vel)*(k%3===0?1:.84)})});return ev}
-function INTRO(){return Sec(64,8,[].concat(arp('Em',0,.33),arp('AmE',1,.31)),{rub:.5,send:.32,sub:3})}
-/* 4 · el tema de Lucía: nocturno en mi menor (y en mi mayor al amanecer) */
-var MEL='B4:1.5 C5:.5 B4:1 E5:1 | D5:1 C5:1 A4:1 C5:1 | B4:1.5 A4:.5 F#4:1 D#5:1 | E5:2.5 B4:.5 E5:.5 F#5:.5 | G5:1.5 F#5:.5 E5:1 G5:1 | F#5:1.5 E5:.5 D#5:1 C5:1 | B4:1 D#5:.5 F#5:.5 A5:1.5 G5:.5 | G5:.5 F#5:.5 E5:.5 D#5:.5 E5:2';
-var PROG=['Em','AmC','B7D','Em2','C','Fo','B7','Em3'];
-function THEME(o){o=o||{};var lead=o.grand?.62:.5,ev=phrase(MEL,0,lead);
-  ev.forEach(function(e){var ph=(e.b%16)/16;e.v=lead*(.84+.26*Math.sin(Math.PI*ph))+(e.d>=1.5?.04:0)});
-  ev.push({b:15.9,n:M('F#5'),d:.1,v:.3});
-  PROG.forEach(function(c,bar){ev=ev.concat(arp(c,bar,o.grand?.36:.3))});
-  /* voz de tenor (la mano izquierda canta debajo, como un violonchelo) */
-  if(o.tenor)ev=ev.concat(phrase('G3:2 F#3:2 | E3:2 A3:2 | F#3:4 | G3:4 | E3:2 G3:2 | A3:2 C4:2 | B3:2 A3:2 | G3:4',0,.3));
-  /* octavas en la segunda frase, como en los nocturnos */
-  if(o.octaves||o.grand)ev=ev.concat(phrase('G5:1.5 F#5:.5 E5:1 G5:1 | F#5:1.5 E5:.5 D#5:1 C5:1 | B4:1 D#5:.5 F#5:.5 A5:1.5 G5:.5 | G5:.5 F#5:.5 E5:.5 D#5:.5 E5:2',16,o.grand?.46:.36,{oct:-12}));
-  if(o.grand){PROG.forEach(function(c,bar){ev.push({b:bar*4,n:M(VOICE[c][0])-12,d:4,v:.42})});
-    ev=ev.concat(chord(['E3','G3','B3','E4'],16,.1,.0),sweep('E2','E5',['E','F#','G','A','B','C','D'],31,.06,.4,2))}
+/* 1 · la rutina: J. S. Bach, Preludio en do mayor BWV 846 (compases 1–19), recto, a lo Gould */
+var BWV=[['C4','E4','G4','C5','E5'],['C4','D4','A4','D5','F5'],['B3','D4','G4','D5','F5'],['C4','E4','G4','C5','E5'],['C4','E4','A4','E5','A5'],['C4','D4','F#4','A4','D5'],['B3','D4','G4','D5','G5'],['B3','C4','E4','G4','C5'],['A3','C4','E4','G4','C5'],['D3','A3','D4','F#4','C5'],['G3','B3','D4','G4','B4'],['G3','Bb3','E4','G4','C#5'],['F3','A3','D4','A4','D5'],['F3','Ab3','D4','F4','B4'],['E3','G3','C4','G4','C5'],['E3','F3','A3','C4','F4'],['D3','F3','A3','C4','F4'],['G2','D3','G3','B3','F4'],['C3','E3','G3','C4','E4']];
+function ROUTINE(){var ev=[];BWV.forEach(function(ch,bar){var n=ch.map(M);
+  for(var h=0;h<2;h++){var b=bar*4+h*2,arc=.9+.1*Math.sin(Math.PI*((bar%4)+h/2)/4);
+    ev.push({b:b,n:n[0],d:2,v:.4*arc},{b:b+.25,n:n[1],d:1.75,v:.33*arc});
+    [2,3,4,2,3,4].forEach(function(ix,k){ev.push({b:b+.5+k*.25,n:n[ix],d:.2,v:(k===0||k===3?.4:.34)*arc})})}});
+  return Sec(72,BWV.length*4,ev,{send:.16,sub:2})}
+/* 2 · el calor: octavas graves que no se apagan, segundas menores arriba */
+function HEAT(){return Sec(50,16,[].concat(chord(['E1','E2'],0,7.5,.36),chord(['B1'],4,3.5,.22),chord(['D#6'],5,1.6,.17),chord(['E6'],5.1,1.6,.15),chord(['G3','F#3'],2.5,4,.16,{roll:.5}),
+  chord(['E1','E2'],8,7.5,.32),chord(['C2'],12,3.5,.22),chord(['A#5'],13,1.6,.16),chord(['B5'],13.1,1.6,.14),chord(['B4'],14.5,1.4,.15)),{send:.5,sub:2})}
+
+/* 3 · el nocturno de Lucía, en mi menor */
+var SCALE=[4,6,7,9,11,0,3];/* mi menor armónica: la sensible re# */
+function step(m,dir){var pc=((m%12)+12)%12,x=m;do{x+=dir}while(SCALE.indexOf(((x%12)+12)%12)<0);return x}
+var VOICE={Em:['E2','B2','G3','E4'],AmC:['C3','E3','A3','C4'],B7D:['D#3','F#3','A3','B3'],Em2:['E2','B2','E3','G3'],C:['C2','G2','E3','G3'],Fo:['F#2','C3','E3','A3'],B7:['B1','F#2','D#3','A3'],Em3:['E2','B2','G3','E4'],
+  G:['G2','D3','B3','D4'],Em4:['E2','B2','G3','B3'],C2:['C3','G3','C4','E4'],D7:['D3','A3','C4','F#4'],GB:['B2','G3','B3','D4'],Am7:['A2','E3','G3','C4'],B7b:['B1','F#2','A3','D#4'],AmE:['E2','C3','A3','C4']};
+function arp(v,b0,beats,vel){var ns=VOICE[v].map(M),pat=[0,1,2,3,2,1],ev=[],n=beats*3;
+  for(var k=0;k<n;k++){var ix=pat[k%6],b=b0+k/3,second=k>=6;ev.push({b:b,n:ns[ix]+(second&&ix===0?12:0),d:beats-k/3+.2,v:(k===0?vel*1.25:vel)*(k%3===0?1:.8)*(1-.08*Math.sin(Math.PI*k/n))})}
+  return ev}
+var MEL_A='B4:1.5 C5:.5 B4:1 E5:1 | D5:1 C5:1 A4:1 C5:1 | B4:1.5 A4:.5 F#4:1 D#5:1 | E5:2.5 B4:.5 E5:.5 F#5:.5 | G5:1.5 F#5:.5 E5:1 G5:1 | F#5:1.5 E5:.5 D#5:1 C5:1 | B4:1 D#5:.5 F#5:.5 A5:1.5 G5:.5 | G5:.5 F#5:.5 E5:.5 D#5:.5 E5:2';
+var PROG_A=['Em','AmC','B7D','Em2','C','Fo','B7','Em3'];
+var MEL_B='D5:1.5 E5:.5 D5:1 B4:1 | G5:2 F#5:1 E5:1 | E5:1.5 D5:.5 C5:1 E5:1 | D5:2 A4:1 C5:1 | B4:1.5 C5:.5 D5:1 G5:1 | E5:1.5 D5:.5 C5:1 B4:1 | C5:1 A4:1 F#5:1 A5:1 | G5:3 D5:1';
+var MEL_B2='D5:1.5 E5:.5 D5:1 B4:1 | G5:2 F#5:1 E5:1 | E5:1.5 D5:.5 C5:1 E5:1 | D5:2 A4:1 C5:1 | B4:1.5 C5:.5 D5:1 G5:1 | E5:1.5 D5:.5 C5:1 B4:1 | C5:1 E5:1 A5:1 C6:1 | B5:1 A5:1 F#5:1 D#5:1';
+var PROG_B=['G','Em4','C2','D7','GB','C2',['Am7','D7'],'G'],PROG_B2=['G','Em4','C2','D7','GB','C2',['Am7','D7'],'B7b'];
+function ornament(ev){var out=[];ev.forEach(function(e){
+  if(e.dd===1.5){var u=step(e.n,1),l=step(e.n,-1);out.push({b:e.b,n:e.n,d:1.05,v:e.v,mel:1});
+    [[u,1],[e.n,1.125],[l,1.25],[e.n,1.375]].forEach(function(x,i){out.push({b:e.b+x[1],n:x[0],d:.14,v:e.v*(.72+(i===3?.1:0)),mel:1})})}
+  else if(e.dd>=2){out.push({b:e.b-.09,n:step(e.n,1),d:.1,v:e.v*.6,mel:1},e)}
+  else out.push(e)});return out}
+function shape(ev,base,span){ev.forEach(function(e){var ph=(e.b%16)/16;e.v=base*(.82+.3*Math.sin(Math.PI*ph))+(e.dd>=1.5?.035:0);e.mel=1});return ev}
+function harmony(prog,vel,b0){var ev=[];prog.forEach(function(c,bar){if(typeof c==='string')ev=ev.concat(arp(c,b0+bar*4,4,vel));else ev=ev.concat(arp(c[0],b0+bar*4,2,vel),arp(c[1],b0+bar*4+2,2,vel))});return ev}
+function NOCT(o){o=o||{};var ev=[],b=0,lead=o.grand?.6:o.soft?.42:.5,acc=o.grand?.33:.27;
+  if(o.intro){ev=ev.concat(arp('Em',0,4,.26),arp('AmE',4,4,.25));b=8}
+  var part=o.part||'A',mel=phrase(part==='A'?MEL_A:part==='B'?MEL_B:MEL_B2,b,lead);
+  shape(mel,lead);if(o.orn)mel=ornament(mel);
+  ev=ev.concat(mel,harmony(part==='A'?PROG_A:part==='B'?PROG_B:PROG_B2,acc,b));
+  if(o.tenor)ev=ev.concat(phrase('G3:2 F#3:2 | E3:2 A3:2 | F#3:4 | G3:4 | E3:2 G3:2 | A3:2 C4:2 | B3:2 A3:2 | G3:4',b,.27));
+  if(o.grand){ev=ev.concat(phrase(MEL_A,b,.44,{oct:-12,mel:1}));PROG_A.forEach(function(c,bar){ev.push({b:b+bar*4,n:M(VOICE[c][0])-12,d:4,v:.4},{b:b+bar*4+2,n:M(VOICE[c][2])+12,d:2,v:.26})})}
   if(o.major)ev.forEach(function(e){var pc=((e.n%12)+12)%12;if(pc===7||pc===0||pc===2)e.n+=1});
-  return Sec(o.grand?58:62,32,ev,{rub:.75,send:.34,sub:3})}
-/* 5 · El Coto: la cadencia andaluza, tocada al piano como si fuera una guitarra */
-function ANDALUZ(){var V=[['A2','E3','A3','C4','E4'],['G2','D3','G3','B3','D4'],['F2','C3','F3','A3','C4'],['E2','B2','E3','G#3','B3']],pat=[0,2,3,4,3,2,1,3],ev=[];
-  V.forEach(function(v,bar){if(bar===3){ev=ev.concat(chord(v,12,2.4,.46,{roll:.05}));[['B3',14],['G#3',14.5],['E3',15],['B2',15.5]].forEach(function(p){ev.push({b:p[1],n:M(p[0]),d:1.2,v:.3})});return}
-    pat.forEach(function(ix,k){ev.push({b:bar*4+k*.5,n:M(v[ix]),d:k===0?4:.9,v:k===0?.44:.28+.04*(k%2)})})});
-  ev.push({b:1.9,n:M('B4'),d:.1,v:.22},{b:5.9,n:M('A4'),d:.1,v:.22});
-  return Sec(80,16,ev,{rub:.35,send:.3,sub:2})}
-/* 6 · coda en mi mayor: acorde arpegiado muy lento y luz arriba */
-function CODA(){return Sec(56,14,[].concat(chord(['E1','E2','B2','E3','G#3','B3','E4','G#4','B4','E5'],0,11,.42,{roll:.13}),
-  sweep('E5','E7',['E','F#','G#','B','C#'],3,.1,.24,3),chord(['G#6','B6','E7'],6,6,.2,{roll:.25})),{send:.45,sub:2})}
+  return Sec(o.bpm||(o.grand?54:58),b+32,ev,{rub:.85,send:.36,sub:3})}
+/* puente: si la escena sigue, el pianista se queda en la armonía, muy piano */
+var BRIDGES=[['Em','C','AmE','B7'],['Em4','C2','G','D7'],['Em','Fo','B7','Em2']],bridgeN=0;
+function BRIDGE(){var p=BRIDGES[bridgeN++%BRIDGES.length],ev=harmony(p,.2,0);
+  ev.push({b:4,n:M('B5'),d:3,v:.2,mel:1},{b:12,n:M('F#5'),d:3,v:.18,mel:1});return Sec(56,16,ev,{rub:.6,send:.42,sub:3})}
+/* 4 · El Coto: la cadencia andaluza al piano, con un quejío en la mano derecha */
+function ANDALUZ(){var V=[['A2','E3','A3','C4'],['G2','D3','G3','B3'],['F2','C3','F3','A3'],['E2','B2','E3','G#3']],ev=[];
+  V.forEach(function(v,bar){[0,2,3,1,3,2,3,1].forEach(function(ix,k){ev.push({b:bar*4+k*.5,n:M(v[ix]),d:k===0?4:1,v:k===0?.4:.24+.03*(k%2)})})});
+  ev=ev.concat(phrase('E5:.75 F5:.25 E5:1 D5:1 C5:1 | D5:.75 E5:.25 D5:1 C5:1 B4:1 | C5:.75 D5:.25 C5:1 B4:1 A4:1 | G#4:.25 A4:.25 G#4:.25 F4:.25 E4:3',0,.4,{mel:1}));
+  return Sec(76,16,ev,{rub:.4,send:.3,sub:2})}
+/* 5 · coda en mi mayor: acorde arpegiado muy lento y la melodía que se va */
+function CODA(){return Sec(52,14,[].concat(chord(['E1','E2','B2','E3','G#3','B3','E4','G#4','B4'],0,11,.36,{roll:.14,top:1}),
+  phrase('B5:1.5 G#5:.5 E5:1 B4:3',1.5,.3,{mel:1}),chord(['G#5','B5','E6'],8,5,.18,{roll:.3})),{send:.5,sub:2})}
 
-/* ----- momentos de cine, todos al piano ----- */
+/* ----- momentos de cine, al piano ----- */
 var MIN=['E','F#','G','A','B','C','D'];
 var STING={
-  brk:function(){return Sec(60,6,[].concat(chord(['B0','B1'],0,6,.72),chord(['D3','F3','G#3','B3'],.03,6,.58)),{send:.4})},
-  magic:function(){return Sec(64,8,[].concat(sweep('E2','E6',MIN,0,.07,.4,3),chord(['C4','G4','E5','C6'],2.5,4,.3,{roll:.08}),chord(['E6','G6','B6'],4.5,3,.2,{roll:.2})),{send:.5})},
-  lucia:function(){return Sec(64,6,[].concat(sweep('B6','B4',['E','G','A','B','D'],0,.12,.24,2.5),chord(['E3','B3'],0,5,.24)),{send:.5})},
-  memory:function(){return Sec(64,6,[].concat(phrase('E6:.33 B5:.33 G5:.33 E5:1 B5:2',0,.22)),{send:.5})},
-  strum:function(){return Sec(70,6,[].concat(chord(['A2','E3','A3','C4','E4'],0,1.6,.5,{roll:.04}),chord(['E2','B2','E3','G#3','B3','E4'],2,4,.55,{roll:.05})),{send:.35})},
-  harpUp:function(){return Sec(64,5,sweep('E3','E6',MIN,0,.07,.32,2.5),{send:.5})},
-  polaroid:function(){return Sec(62,7,[].concat(chord(['E2','B2','F#3','G3','B3'],0,6,.34,{roll:.12}),phrase('E6:.33 B5:.33 G5:.33 B5:.5 E6:2',1,.24)),{send:.5})},
-  horn:function(){return Sec(60,8,[].concat(phrase('B3:1 E4:1 G4:1.5 F#4:.5 E4:3',0,.46,{}),phrase('B3:1 E4:1 G4:1.5 F#4:.5 E4:3',0,.34,{oct:-12}),chord(['C2','G2'],0,4,.3),chord(['B1','F#2'],4,4,.3)),{send:.4})},
-  bells:function(){var ev=[],m=['E5','C5','D5','G4','G4','D5','E5','C5'];m.forEach(function(n,k){ev.push({b:k*.9,n:M(n),d:1.8,v:.34},{b:k*.9,n:M(n)-12,d:1.8,v:.24})});
-    for(var k=0;k<3;k++)ev.push({b:8.6+k*2,n:M('E1'),d:2,v:.5},{b:8.6+k*2,n:M('E2'),d:2,v:.36});return Sec(62,15,ev,{send:.5})},
-  finale:function(){return Sec(56,8,[].concat(chord(['E2','B2','G#3','E4','B4'],0,7,.36,{roll:.15}),phrase('B5:1 G#5:.5 E5:.5 B5:3',1.5,.3)),{send:.5})}
+  brk:function(){return Sec(60,6,[].concat(chord(['B0','B1'],0,6,.7),chord(['D3','F3','G#3','B3'],.03,6,.56)),{send:.4})},
+  magic:function(){return Sec(60,8,[].concat(sweep('E2','B5',MIN,0,.08,.34,3),chord(['C4','G4','E5','C6'],2.4,4,.28,{roll:.1,top:1}),chord(['E6','G6','B6'],4.6,3,.17,{roll:.22})),{send:.5})},
+  lucia:function(){return Sec(60,6,[].concat(sweep('B6','B4',['E','G','A','B','D'],0,.13,.2,2.5),chord(['E3','B3'],0,5,.2)),{send:.5})},
+  memory:function(){return Sec(60,6,phrase('E6:.4 B5:.4 G5:.4 E5:1.2 B5:2',0,.2,{mel:1}),{send:.55})},
+  strum:function(){return Sec(70,6,[].concat(chord(['A2','E3','A3','C4','E4'],0,1.6,.46,{roll:.045}),chord(['E2','B2','E3','G#3','B3','E4'],2,4,.52,{roll:.055,top:1})),{send:.35})},
+  harpUp:function(){return Sec(60,5,sweep('E3','E6',MIN,0,.08,.28,2.5),{send:.5})},
+  polaroid:function(){return Sec(58,7,[].concat(chord(['E2','B2','F#3','G3','B3'],0,6,.3,{roll:.14}),phrase('E6:.4 B5:.4 G5:.4 B5:.6 E6:2',1,.2,{mel:1})),{send:.5})},
+  horn:function(){return Sec(56,8,[].concat(phrase('B3:1 E4:1 G4:1.5 F#4:.5 E4:3',0,.42,{mel:1}),phrase('B3:1 E4:1 G4:1.5 F#4:.5 E4:3',0,.3,{oct:-12}),chord(['C2','G2'],0,4,.26),chord(['B1','F#2'],4,4,.26)),{send:.4})},
+  bells:function(){var ev=[],m=['E5','C5','D5','G4','G4','D5','E5','C5'];m.forEach(function(n,k){ev.push({b:k*.9,n:M(n),d:1.8,v:.32},{b:k*.9,n:M(n)-12,d:1.8,v:.22})});
+    for(var k=0;k<3;k++)ev.push({b:8.6+k*2,n:M('E1'),d:2,v:.46},{b:8.6+k*2,n:M('E2'),d:2,v:.32});return Sec(62,15,ev,{send:.5})},
+  finale:function(){return Sec(52,8,[].concat(chord(['E2','B2','G#3','E4','B4'],0,7,.32,{roll:.16,top:1}),phrase('B5:1 G#5:.5 E5:.5 B5:3',1.5,.26,{mel:1})),{send:.5})}
 };
 var STINGS={'0-3':'brk','2-1':'magic','3-2':'lucia','4-4':'memory','5-4':'strum','6-6':'harpUp','7-2':'polaroid','7-6':'horn','8-0':'bells','9-4':'harpUp','9-5':'finale'};
 var CUES=[
-  {seq:[],loop:ROUTINE},{seq:[],loop:HEAT},
-  {seq:[INTRO,INTRO,function(){return THEME({})}],loop:INTRO},
-  {seq:[INTRO,function(){return THEME({octaves:1})}],loop:INTRO},
-  {seq:[function(){return THEME({tenor:1})}],loop:INTRO},
+  {seq:[],loop:ROUTINE},
+  {seq:[],loop:HEAT},
+  {seq:[function(){return NOCT({intro:1,part:'A'})}],loop:BRIDGE},
+  {seq:[function(){return NOCT({part:'A',orn:1})}],loop:BRIDGE},
+  {seq:[function(){return NOCT({part:'B',soft:1})}],loop:BRIDGE},
   {seq:[],loop:ANDALUZ},
-  {seq:[function(){return THEME({tenor:1,octaves:1})}],loop:INTRO},
-  {seq:[INTRO,function(){return THEME({tenor:1})}],loop:INTRO},
-  {seq:[function(){return THEME({grand:1})}],loop:INTRO},
-  {seq:[function(){return THEME({major:1,tenor:1,octaves:1})},CODA],loop:null}
+  {seq:[function(){return NOCT({part:'A',tenor:1,orn:1})}],loop:BRIDGE},
+  {seq:[function(){return NOCT({part:'B2'})},function(){return NOCT({part:'A',soft:1})}],loop:BRIDGE},
+  {seq:[REST(10),function(){return NOCT({part:'A',grand:1})}],loop:BRIDGE},
+  {seq:[function(){return NOCT({part:'A',major:1,tenor:1,orn:1,bpm:54})},CODA],loop:null}
 ];
 
 /* ----- el atril: programa con antelación, cambia de pieza al final del compás ----- */
 var MUS={q:[],cur:null,t0:0,ix:0,loop:null,nextAt:0,stings:[],timer:null,scene:-1};
-function fire(e,t0){var t=t0+e.t+(Math.random()-.5)*.01,now=ac.currentTime;if(t<now-.03)return;t=Math.max(t,now+.005);
-  note(e.n,t,e.ds,Math.max(.05,Math.min(1,e.v*(.95+Math.random()*.08))),e.s)}
+function fire(e,t0){var t=t0+e.t+(Math.random()-.5)*.012,now=ac.currentTime;if(t<now-.03)return;t=Math.max(t,now+.005);
+  note(e.n,t,e.ds,Math.max(.05,Math.min(1,e.v*(.96+Math.random()*.07))),e.s)}
 function musicTick(){try{tickInner()}catch(e){MUS.cur=null}}
 function tickInner(){
   if(!ac||!soundOn||!hasPiano())return;var now=ac.currentTime,hz=now+.4;
@@ -965,9 +981,8 @@ function musicCue(i){MUS.scene=i;var c=CUES[i];cutAtBar();MUS.q=c.seq.slice();MU
 function musicSting(i,k){var name=STINGS[i+'-'+k];if(!name||!ac||!soundOn||!hasPiano())return;
   if(name==='brk'){MUS.q=[];MUS.loop=null;if(MUS.cur){MUS.cur.ev=MUS.cur.ev.slice(0,MUS.ix);MUS.cur.dur=0}}
   MUS.stings.push({s:STING[name](),t0:ac.currentTime+.05,ix:0})}
-/* rejilla de la música: la voz escribe cada palabra en una subdivisión del compás que suena */
-function musicGrid(leadMs){var now=performance.now(),per=.32;
-  if(ac&&soundOn&&MUS.cur&&ac.state==='running'){var s=MUS.cur;per=60/s.bpm/s.sub;while(per<.26)per*=2;
+function musicGrid(leadMs){var per=.32;
+  if(ac&&soundOn&&MUS.cur&&ac.state==='running'&&MUS.cur.ev.length){var s=MUS.cur;per=60/s.bpm/s.sub;while(per<.26)per*=2;
     var el=ac.currentTime-MUS.t0+leadMs/1000,k=Math.ceil(el/per),at=MUS.t0+k*per;return {per:per,delay:Math.max(leadMs,(at-ac.currentTime)*1000)}}
   return {per:per,delay:leadMs}}
 
@@ -1021,19 +1036,46 @@ function overlap(a,b){var p=30;return !(a[0]+a[2]+p<b[0]||b[0]+b[2]+p<a[0]||a[1]
 function lift(el){el.classList.add('out');setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el)},1700)}
 function place(el,at,w,rot){el.style.left=at[0]+'px';el.style.top=at[1]+'px';el.style.width=w+'px';if(rot)el.style.transform='rotate('+rot+'deg)';sheet.el.insertBefore(el,sheet.tooth);return [at[0],at[1],w,el.offsetHeight]}
 function remember(el,rect,keep){blocks=blocks.filter(function(b){if(overlap(b.rect,rect)||b.age>=1){lift(b.el);return false}b.el.classList.add('prev');b.age++;return true});blocks.push({el:el,rect:rect,age:keep?0:0})}
+/* palabras pintadas a la acuarela: veladuras, borde de pigmento, charcos de color y grano del papel */
+var PIG={k:[['#4A3322','#80502C'],['#A3283B','#C4552F']],w:[['#FFFCF2','#EFDFC0'],['#F7D88E','#E8B058']],l:[['#A3283B','#C65470'],['#6E1024','#A3283B']],
+  lw:[['#F8D3DA','#EDB0BF'],['#FFFFFF','#FBD7DE']],j:[['#26366A','#4460AE'],['#10204E','#2E3A6A']],jw:[['#D5E0F4','#AFC3E8'],['#FFFFFF','#DDE7F7']],
+  chap:[['#8C4323','#C27A2C'],['#8C4323','#C27A2C']],title:[['#F7F0E2','#E3CFA8'],['#F2C66C','#DC9A3E']]};
+function rgba(h,a){var n=parseInt(h.slice(1),16);return 'rgba('+(n>>16)+','+((n>>8)&255)+','+(n&255)+','+a+')'}
+function hashS(t){var h=7;for(var i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))|0;return h}
+function paintWord(txt,fs,ink,em,res){
+  var font=fs+'px "Caveat Brush","Caveat","Segoe Print","Bradley Hand",cursive';MC.font=font;
+  var w=Math.ceil(MC.measureText(txt).width),pad=Math.ceil(fs*.16),H=Math.ceil(fs*1.28),W=w+pad*2,R=res||Math.min(2,Math.max(1,VIEW.s0*1.9*VIEW.dpr));
+  var c=document.createElement('canvas');c.width=Math.ceil(W*R);c.height=Math.ceil(H*R);c.style.width=W+'px';c.style.height=H+'px';c.style.marginBottom=(-fs*.24)+'px';c.style.marginLeft=c.style.marginRight=(-pad*.85)+'px';
+  var g=c.getContext('2d');g.scale(R,R);g.font=font;g.textBaseline='alphabetic';
+  var base=Math.round(fs*.95),r=mulberry(hashS(txt)+fs*7),pp=(PIG[ink]||PIG.k)[em?1:0],gouache=/w$|title/.test(ink),k;
+  var gr=g.createLinearGradient(pad,0,pad+w,fs*.5);gr.addColorStop(0,pp[0]);gr.addColorStop(.3+r()*.4,pp[1]);gr.addColorStop(1,pp[0]);
+  g.fillStyle=gr;
+  for(k=0;k<5;k++){g.globalAlpha=gouache?.36:.27;g.fillText(txt,pad+(r()-.5)*fs*.04,base+(r()-.5)*fs*.04)}
+  g.globalAlpha=gouache?.2:.5;g.lineWidth=Math.max(.7,fs*.03);g.strokeStyle=gouache?'rgba(110,90,70,.55)':pp[1];g.strokeText(txt,pad+(r()-.5)*fs*.02,base);
+  g.globalCompositeOperation='source-atop';
+  for(k=0;k<Math.max(2,w/(fs*.7));k++){var x=pad+r()*w,y=base-fs*(.15+r()*.55),rr=fs*(.18+r()*.32),rg=g.createRadialGradient(x,y,0,x,y,rr);
+    rg.addColorStop(0,rgba(gouache?pp[0]:pp[1],gouache?.5:.6));rg.addColorStop(1,rgba(pp[1],0));g.globalAlpha=1;g.fillStyle=rg;g.fillRect(x-rr,y-rr,2*rr,2*rr)}
+  g.globalCompositeOperation='destination-out';g.fillStyle='#000';
+  for(k=0;k<Math.round(w*fs/24);k++){g.globalAlpha=.14+r()*.32;g.beginPath();g.arc(pad+r()*w,base+fs*.2-r()*fs*1.1,.3+r()*r()*1.6,0,6.283);g.fill()}
+  g.globalCompositeOperation='source-over';
+  if(em&&r()<.55){g.globalAlpha=.28;g.fillStyle=pp[1];g.beginPath();g.arc(pad+w+fs*.05,base-fs*.05,fs*(.04+r()*.05),0,6.283);g.fill()}
+  c.setAttribute('aria-hidden','true');return c}
+function paintInto(el,text,fs,ink,res){var parts=text.split(/(\*[^*]+\*)/),spans=[];
+  parts.forEach(function(part){if(!part)return;var em=part.charAt(0)==='*',host=el;
+    if(em){host=document.createElement('em');el.appendChild(host);part=part.slice(1,-1)}
+    part.split(/(\s+)/).forEach(function(wd){if(!wd)return;if(/^\s+$/.test(wd)){host.appendChild(document.createTextNode(' '));return}
+      var s=paintWord(wd,fs,ink,em,res);s.className='w';s.setAttribute('data-t',wd);host.appendChild(s);spans.push(s)})});
+  return spans}
 /* la voz escribe palabra a palabra, al compás del piano */
 function write(o,spec){
   var el=document.createElement('div');el.className='tx '+(spec.ink||'k')+(spec.big?' big':'')+(spec.act?' act-'+spec.act:'');
   var w=spec.w;if(VIEW.portrait)w=Math.min(Math.max(w,760),940);
-  var parts=o.x.split(/(\*[^*]+\*)/),spans=[];
-  parts.forEach(function(part){if(!part)return;var em=part.charAt(0)==='*',host=el;
-    if(em){host=document.createElement('em');el.appendChild(host);part=part.slice(1,-1)}
-    part.split(/(\s+)/).forEach(function(wd){if(!wd)return;if(/^\s+$/.test(wd)){host.appendChild(document.createTextNode(' '));return}
-      var s=document.createElement('span');s.className='w';s.textContent=wd;host.appendChild(s);spans.push(s)})});
+  var fs=spec.big?(VIEW.portrait?86:76):(VIEW.portrait?68:56);el.style.fontSize=fs+'px';
+  var spans=paintInto(el,o.x,fs,spec.ink||'k');
   var rect=place(el,spec.at,w,spec.rot);
   remember(el,rect);
   var stitchMs=900,grid=musicGrid(stitchMs+150),per=grid.per*1000,t=grid.delay;
-  spans.forEach(function(s){var len=s.textContent.replace(/[^\wáéíóúñü]/gi,'').length,slots=len>7?2:1;
+  spans.forEach(function(s){var len=s.getAttribute('data-t').replace(/[^\wáéíóúñü]/gi,'').length,slots=len>7?2:1;
     if(spec.big)slots+=1;
     s.style.animationDelay=t+'ms';s.style.animationDuration=Math.max(160,slots*per*.9)+'ms';t+=slots*per});
   sheet.stitch([rect[0]-16,rect[1]+(spec.big?44:32)],stitchMs);
@@ -1045,7 +1087,7 @@ function write(o,spec){
 }
 function chapter(i){
   var s=SCENES[i],el=document.createElement('div');el.className='tx chap';el.style.textAlign='right';
-  el.textContent=s.place;var sm=document.createElement('small');sm.textContent=pad(i+1)+' / '+pad(SCENES.length)+' · '+s.when;el.appendChild(sm);
+  paintInto(el,s.place,VIEW.portrait?96:88,'chap').forEach(function(c){c.style.clipPath='none';c.style.webkitClipPath='none';c.style.animation='none'});var sm=document.createElement('small');sm.textContent=pad(i+1)+' / '+pad(SCENES.length)+' · '+s.when;el.appendChild(sm);
   var rect=place(el,[VIEW.portrait?-120:760,1030],VIEW.portrait?860:880,0);blocks.push({el:el,rect:rect,age:0});
 }
 function goScene(i){
@@ -1113,8 +1155,10 @@ window.addEventListener('unhandledrejection',function(e){e.preventDefault()});
 window.addEventListener('error',function(e){try{var d=document.getElementById('diag');if(!d){d=document.createElement('div');d.id='diag';d.style.cssText='position:fixed;left:8px;top:8px;right:8px;z-index:99;font:12px/1.3 ui-monospace,Menlo,monospace;color:#F3ECE0;background:rgba(0,0,0,.6);padding:6px 8px;border-radius:6px;pointer-events:none';document.body.appendChild(d)}
   d.textContent='Error: '+(e.message||'')+' · línea '+(e.lineno||'?')+':'+(e.colno||'?')}catch(x){}});
 measureView();setSound(false);
-var fontsReady=document.fonts&&document.fonts.load?Promise.all([document.fonts.load('40px "Caveat"'),document.fonts.load('600 40px "Caveat"'),document.fonts.load('40px "Nothing You Could Do"'),document.fonts.load('600 40px "Bodoni Moda"'),document.fonts.load('italic 40px "Bodoni Moda"')]):Promise.resolve();
-Promise.race([fontsReady,new Promise(function(r){setTimeout(r,2500)})]).catch(function(){}).then(function(){if(!started)show(2)});
+function paintTitle(h){try{var fs=parseFloat(getComputedStyle(h).fontSize)||48,txt=h.getAttribute('data-text');if(!txt){txt=h.innerHTML.replace(/<em>/g,'*').replace(/<\/em>/g,'*');h.setAttribute('data-text',txt)}
+  h.innerHTML='';h.setAttribute('aria-label',txt.replace(/\*/g,''));paintInto(h,txt,Math.round(fs*1.05),'title',Math.min(3,window.devicePixelRatio||1)).forEach(function(c){c.style.clipPath='none';c.style.webkitClipPath='none';c.style.animation='none'})}catch(e){}}
+var fontsReady=document.fonts&&document.fonts.load?Promise.all([document.fonts.load('40px "Caveat Brush"'),document.fonts.load('40px "Caveat"'),document.fonts.load('600 40px "Caveat"'),document.fonts.load('40px "Nothing You Could Do"'),document.fonts.load('600 40px "Bodoni Moda"'),document.fonts.load('italic 40px "Bodoni Moda"')]):Promise.resolve();
+Promise.race([fontsReady,new Promise(function(r){setTimeout(r,2500)})]).catch(function(){}).then(function(){Array.prototype.forEach.call(document.querySelectorAll('.cover h1'),paintTitle);if(!started)show(2)});
 })();
 </script>
 </body>
