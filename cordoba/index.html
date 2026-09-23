@@ -57,9 +57,11 @@ button{font:inherit; color:inherit}
 .thread path{fill:none; stroke:var(--gold); stroke-width:3.2; stroke-linecap:round; transition:opacity 2s}
 .thread path.old{opacity:0}
 .thread circle{fill:var(--gold)}
-.tx{position:absolute; font-family:var(--hand); font-weight:500; font-size:42px; line-height:1.08; letter-spacing:.005em; transform-origin:0 0;
+.tx{position:absolute; font-family:var(--hand); font-weight:500; font-size:56px; line-height:1.06; letter-spacing:.005em; transform-origin:0 0;
   transition:opacity 1.6s ease, filter 1.6s ease, transform 8s ease}
-.tx.big{font-size:60px; line-height:1.02; font-weight:600}
+.tx.big{font-size:76px; line-height:1; font-weight:600}
+.portrait .tx{font-size:68px}
+.portrait .tx.big{font-size:86px}
 .tx.k{color:#3A2A20} .tx.k em{color:#9A3B24}
 .tx.w{color:#FFFCF3; text-shadow:0 0 1px rgba(20,10,0,.35)} .tx.w em{color:#F6D58A}
 .tx.l{color:#A3283B} .tx.l em{color:#6E1024}
@@ -72,7 +74,7 @@ button{font:inherit; color:inherit}
 .tx.done .w{animation:none; clip-path:none; -webkit-clip-path:none}
 .tx.prev{opacity:.38}
 .tx.out{opacity:0; filter:blur(3px)}
-.tx.chap{font-family:var(--display); font-style:italic; font-weight:400; font-size:78px; line-height:1; color:#8C4323}
+.tx.chap{font-family:var(--display); font-style:italic; font-weight:400; font-size:88px; line-height:1; color:#8C4323}
 .tx.chap small{display:block; font-family:var(--mono); font-style:normal; font-size:17px; letter-spacing:.3em; text-transform:uppercase; color:#8A806E; margin-top:14px}
 /* la voz también actúa */
 .act-break em{display:inline-block; transition:transform 1.6s cubic-bezier(.5,0,.2,1) 1.2s}
@@ -385,6 +387,7 @@ function renderOp(ctx,op,from,to){
 var SX=-180,SY=-200,SW=1960,SH=1420,VIEW={};
 function measureView(){var st=document.getElementById('stage'),w=st.clientWidth,h=st.clientHeight,dpr=Math.min(2,window.devicePixelRatio||1),portrait=h>w*1.1;
   var s0=portrait?w/1020:Math.min(w/SW,(h-44)/SH)*.97;
+  document.body.classList.toggle('portrait',portrait);
   VIEW={w:w,h:h,dpr:dpr,s0:s0,portrait:portrait,R:Math.min(w<900?1.05:1.45,Math.max(.6,s0*1.7*dpr))}}
 function camXform(c){var s=VIEW.s0*(c.z||1),W=VIEW.w,H=VIEW.h-40,tx=W/2-c.x*s,ty=H/2-c.y*s,m=30;
   if(SW*s>W-2*m)tx=Math.min(-SX*s+m,Math.max(W-(SX+SW)*s-m,tx));else tx=(W-SW*s)/2-SX*s;
@@ -860,7 +863,7 @@ function note(midi,t,dur,vel,send){
    PARTITURA
    ============================================================ */
 function M(n){var m=/^([A-G])([#b]?)(-?\d)$/.exec(n);return {C:0,D:2,E:4,F:5,G:7,A:9,B:11}[m[1]]+(m[2]==='#'?1:m[2]==='b'?-1:0)+12*(+m[3]+1)}
-function line(str,b0,vel,o){o=o||{};var ev=[],b=b0;
+function phrase(str,b0,vel,o){o=o||{};var ev=[],b=b0;
   str.replace(/\|/g,' ').split(/\s+/).forEach(function(tok){if(!tok)return;var p=tok.split(':'),d=parseFloat(p[1]);
     if(p[0]!=='r'){p[0].replace(/[\[\]]/g,'').split(',').forEach(function(n,k){ev.push({b:b+(o.roll?k*o.roll:0),n:M(n)+(o.oct||0),d:d*(o.leg||1),v:vel,s:o.send})})}
     b+=d});
@@ -894,14 +897,14 @@ function INTRO(){return Sec(64,8,[].concat(arp('Em',0,.33),arp('AmE',1,.31)),{ru
 /* 4 · el tema de Lucía: nocturno en mi menor (y en mi mayor al amanecer) */
 var MEL='B4:1.5 C5:.5 B4:1 E5:1 | D5:1 C5:1 A4:1 C5:1 | B4:1.5 A4:.5 F#4:1 D#5:1 | E5:2.5 B4:.5 E5:.5 F#5:.5 | G5:1.5 F#5:.5 E5:1 G5:1 | F#5:1.5 E5:.5 D#5:1 C5:1 | B4:1 D#5:.5 F#5:.5 A5:1.5 G5:.5 | G5:.5 F#5:.5 E5:.5 D#5:.5 E5:2';
 var PROG=['Em','AmC','B7D','Em2','C','Fo','B7','Em3'];
-function THEME(o){o=o||{};var lead=o.grand?.62:.5,ev=line(MEL,0,lead);
+function THEME(o){o=o||{};var lead=o.grand?.62:.5,ev=phrase(MEL,0,lead);
   ev.forEach(function(e){var ph=(e.b%16)/16;e.v=lead*(.84+.26*Math.sin(Math.PI*ph))+(e.d>=1.5?.04:0)});
   ev.push({b:15.9,n:M('F#5'),d:.1,v:.3});
   PROG.forEach(function(c,bar){ev=ev.concat(arp(c,bar,o.grand?.36:.3))});
   /* voz de tenor (la mano izquierda canta debajo, como un violonchelo) */
-  if(o.tenor)ev=ev.concat(line('G3:2 F#3:2 | E3:2 A3:2 | F#3:4 | G3:4 | E3:2 G3:2 | A3:2 C4:2 | B3:2 A3:2 | G3:4',0,.3));
+  if(o.tenor)ev=ev.concat(phrase('G3:2 F#3:2 | E3:2 A3:2 | F#3:4 | G3:4 | E3:2 G3:2 | A3:2 C4:2 | B3:2 A3:2 | G3:4',0,.3));
   /* octavas en la segunda frase, como en los nocturnos */
-  if(o.octaves||o.grand)ev=ev.concat(line('G5:1.5 F#5:.5 E5:1 G5:1 | F#5:1.5 E5:.5 D#5:1 C5:1 | B4:1 D#5:.5 F#5:.5 A5:1.5 G5:.5 | G5:.5 F#5:.5 E5:.5 D#5:.5 E5:2',16,o.grand?.46:.36,{oct:-12}));
+  if(o.octaves||o.grand)ev=ev.concat(phrase('G5:1.5 F#5:.5 E5:1 G5:1 | F#5:1.5 E5:.5 D#5:1 C5:1 | B4:1 D#5:.5 F#5:.5 A5:1.5 G5:.5 | G5:.5 F#5:.5 E5:.5 D#5:.5 E5:2',16,o.grand?.46:.36,{oct:-12}));
   if(o.grand){PROG.forEach(function(c,bar){ev.push({b:bar*4,n:M(VOICE[c][0])-12,d:4,v:.42})});
     ev=ev.concat(chord(['E3','G3','B3','E4'],16,.1,.0),sweep('E2','E5',['E','F#','G','A','B','C','D'],31,.06,.4,2))}
   if(o.major)ev.forEach(function(e){var pc=((e.n%12)+12)%12;if(pc===7||pc===0||pc===2)e.n+=1});
@@ -922,14 +925,14 @@ var STING={
   brk:function(){return Sec(60,6,[].concat(chord(['B0','B1'],0,6,.72),chord(['D3','F3','G#3','B3'],.03,6,.58)),{send:.4})},
   magic:function(){return Sec(64,8,[].concat(sweep('E2','E6',MIN,0,.07,.4,3),chord(['C4','G4','E5','C6'],2.5,4,.3,{roll:.08}),chord(['E6','G6','B6'],4.5,3,.2,{roll:.2})),{send:.5})},
   lucia:function(){return Sec(64,6,[].concat(sweep('B6','B4',['E','G','A','B','D'],0,.12,.24,2.5),chord(['E3','B3'],0,5,.24)),{send:.5})},
-  memory:function(){return Sec(64,6,[].concat(line('E6:.33 B5:.33 G5:.33 E5:1 B5:2',0,.22)),{send:.5})},
+  memory:function(){return Sec(64,6,[].concat(phrase('E6:.33 B5:.33 G5:.33 E5:1 B5:2',0,.22)),{send:.5})},
   strum:function(){return Sec(70,6,[].concat(chord(['A2','E3','A3','C4','E4'],0,1.6,.5,{roll:.04}),chord(['E2','B2','E3','G#3','B3','E4'],2,4,.55,{roll:.05})),{send:.35})},
   harpUp:function(){return Sec(64,5,sweep('E3','E6',MIN,0,.07,.32,2.5),{send:.5})},
-  polaroid:function(){return Sec(62,7,[].concat(chord(['E2','B2','F#3','G3','B3'],0,6,.34,{roll:.12}),line('E6:.33 B5:.33 G5:.33 B5:.5 E6:2',1,.24)),{send:.5})},
-  horn:function(){return Sec(60,8,[].concat(line('B3:1 E4:1 G4:1.5 F#4:.5 E4:3',0,.46,{}),line('B3:1 E4:1 G4:1.5 F#4:.5 E4:3',0,.34,{oct:-12}),chord(['C2','G2'],0,4,.3),chord(['B1','F#2'],4,4,.3)),{send:.4})},
+  polaroid:function(){return Sec(62,7,[].concat(chord(['E2','B2','F#3','G3','B3'],0,6,.34,{roll:.12}),phrase('E6:.33 B5:.33 G5:.33 B5:.5 E6:2',1,.24)),{send:.5})},
+  horn:function(){return Sec(60,8,[].concat(phrase('B3:1 E4:1 G4:1.5 F#4:.5 E4:3',0,.46,{}),phrase('B3:1 E4:1 G4:1.5 F#4:.5 E4:3',0,.34,{oct:-12}),chord(['C2','G2'],0,4,.3),chord(['B1','F#2'],4,4,.3)),{send:.4})},
   bells:function(){var ev=[],m=['E5','C5','D5','G4','G4','D5','E5','C5'];m.forEach(function(n,k){ev.push({b:k*.9,n:M(n),d:1.8,v:.34},{b:k*.9,n:M(n)-12,d:1.8,v:.24})});
     for(var k=0;k<3;k++)ev.push({b:8.6+k*2,n:M('E1'),d:2,v:.5},{b:8.6+k*2,n:M('E2'),d:2,v:.36});return Sec(62,15,ev,{send:.5})},
-  finale:function(){return Sec(56,8,[].concat(chord(['E2','B2','G#3','E4','B4'],0,7,.36,{roll:.15}),line('B5:1 G#5:.5 E5:.5 B5:3',1.5,.3)),{send:.5})}
+  finale:function(){return Sec(56,8,[].concat(chord(['E2','B2','G#3','E4','B4'],0,7,.36,{roll:.15}),phrase('B5:1 G#5:.5 E5:.5 B5:3',1.5,.3)),{send:.5})}
 };
 var STINGS={'0-3':'brk','2-1':'magic','3-2':'lucia','4-4':'memory','5-4':'strum','6-6':'harpUp','7-2':'polaroid','7-6':'horn','8-0':'bells','9-4':'harpUp','9-5':'finale'};
 var CUES=[
@@ -948,7 +951,8 @@ var CUES=[
 var MUS={q:[],cur:null,t0:0,ix:0,loop:null,nextAt:0,stings:[],timer:null,scene:-1};
 function fire(e,t0){var t=t0+e.t+(Math.random()-.5)*.01,now=ac.currentTime;if(t<now-.03)return;t=Math.max(t,now+.005);
   note(e.n,t,e.ds,Math.max(.05,Math.min(1,e.v*(.95+Math.random()*.08))),e.s)}
-function musicTick(){
+function musicTick(){try{tickInner()}catch(e){MUS.cur=null}}
+function tickInner(){
   if(!ac||!soundOn||!hasPiano())return;var now=ac.currentTime,hz=now+.4;
   for(var guard=0;guard<4;guard++){
     if(!MUS.cur){var mk=MUS.q.length?MUS.q.shift():MUS.loop;if(!mk)break;MUS.cur=mk();MUS.t0=Math.max(MUS.nextAt,now+.08);MUS.ix=0}
@@ -1022,7 +1026,7 @@ function remember(el,rect,keep){blocks=blocks.filter(function(b){if(overlap(b.re
 /* la voz escribe palabra a palabra, al compás del piano */
 function write(o,spec){
   var el=document.createElement('div');el.className='tx '+(spec.ink||'k')+(spec.big?' big':'')+(spec.act?' act-'+spec.act:'');
-  var w=spec.w;if(VIEW.portrait)w=Math.min(w,880);
+  var w=spec.w;if(VIEW.portrait)w=Math.min(Math.max(w,760),940);
   var parts=o.x.split(/(\*[^*]+\*)/),spans=[];
   parts.forEach(function(part){if(!part)return;var em=part.charAt(0)==='*',host=el;
     if(em){host=document.createElement('em');el.appendChild(host);part=part.slice(1,-1)}
@@ -1048,7 +1052,7 @@ function chapter(i){
 }
 function goScene(i){
   clearTimeout(timer);actTimers.forEach(clearTimeout);actTimers=[];started=true;document.getElementById('end').hidden=true;
-  idx=i;line=-1;blocks=[];show(i);chapter(i);musicCue(i);
+  idx=i;line=-1;blocks=[];show(i);chapter(i);try{musicCue(i)}catch(e){}
   segs.forEach(function(s,k){s.style.width=k<i?'100%':'0'});
   timer=setTimeout(nextLine,2600);
 }
@@ -1057,8 +1061,8 @@ function nextLine(){
   var L=LINES[idx];
   if(line<L.length-1){
     line++;var o=L[line],spec=VOICE_LAYOUT[idx][line]||{at:[TOP[0],TOP[1]],w:TOP[2],ink:'k'};
-    sheet.beat(line);musicSting(idx,line);
-    var wt=write(o,spec);
+    sheet.beat(line);try{musicSting(idx,line)}catch(e){}
+    var wt=4000;try{wt=write(o,spec)}catch(e){}
     lineT0=performance.now();writeEnd=lineT0+wt;
     lineDur=wt+1700+o.x.length*16+(spec.big?1400:0);
     if(playing)timer=setTimeout(nextLine,lineDur);
