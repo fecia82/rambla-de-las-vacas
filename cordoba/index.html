@@ -40,10 +40,9 @@ button{font:inherit; color:inherit}
 .shadow{border-radius:6px; background:rgba(0,0,0,.42); transform:translate(10px,16px)}
 .paper{background-color:var(--paper); background-image:var(--paper-img,none); background-size:420px 420px;
   -webkit-clip-path:var(--deckle,none); clip-path:var(--deckle,none)}
-.tooth{pointer-events:none; mix-blend-mode:multiply; background-image:var(--tooth-img,none); background-size:420px 420px; opacity:.9;
+.tooth{pointer-events:none; background-image:var(--tooth-img,none); background-size:420px 420px; opacity:.9;
   -webkit-clip-path:var(--deckle,none); clip-path:var(--deckle,none)}
-.lay{position:absolute; left:0; top:0; width:1600px; height:1000px; display:block; mix-blend-mode:multiply; transition:opacity 1.6s ease, transform 2.6s cubic-bezier(.6,0,.3,1)}
-.lay.fxl{mix-blend-mode:normal}
+.lay{position:absolute; left:0; top:0; width:1600px; height:1000px; display:block; transition:opacity 1.6s ease, transform 2.6s cubic-bezier(.6,0,.3,1)}
 .lay.hid{opacity:0}
 .lay.door.hid{transform:scaleX(.03)}
 .lay.flip{transition:transform .6s ease-in-out, opacity .01s}
@@ -388,7 +387,7 @@ var SX=-180,SY=-200,SW=1960,SH=1420,VIEW={};
 function measureView(){var st=document.getElementById('stage'),w=st.clientWidth,h=st.clientHeight,dpr=Math.min(2,window.devicePixelRatio||1),portrait=h>w*1.1;
   var s0=portrait?w/1020:Math.min(w/SW,(h-44)/SH)*.97;
   document.body.classList.toggle('portrait',portrait);
-  VIEW={w:w,h:h,dpr:dpr,s0:s0,portrait:portrait,R:Math.min(w<900?1.05:1.45,Math.max(.6,s0*1.7*dpr))}}
+  VIEW={w:w,h:h,dpr:dpr,s0:s0,portrait:portrait,R:Math.min(w<900?.9:1.45,Math.max(.6,s0*1.7*dpr))}}
 function camXform(c){var s=VIEW.s0*(c.z||1),W=VIEW.w,H=VIEW.h-40,tx=W/2-c.x*s,ty=H/2-c.y*s,m=30;
   if(SW*s>W-2*m)tx=Math.min(-SX*s+m,Math.max(W-(SX+SW)*s-m,tx));else tx=(W-SW*s)/2-SX*s;
   if(SH*s>H-2*m)ty=Math.min(-SY*s+m,Math.max(H-(SY+SH)*s-m,ty));else ty=(H-SH*s)/2-SY*s;
@@ -405,7 +404,6 @@ function Sheet(scene,cam){
   this.layers={};this.bt={};this.t0=performance.now();
   [{name:'base'}].concat(scene.layers||[]).forEach(function(sp){
     var c=document.createElement('canvas');c.className='lay'+(sp.anim?' '+sp.anim:'');
-    if(sp.blend==='normal')c.style.mixBlendMode='normal';
     if(sp.on&&sp.on.indexOf(-1)<0)c.classList.add('hid');
     if(sp.delay)c.style.transitionDelay=sp.delay+'s';
     if(sp.origin)c.style.transformOrigin=sp.origin[0]+'px '+sp.origin[1]+'px';
@@ -998,10 +996,10 @@ document.addEventListener('visibilitychange',function(){if(!ac)return;if(documen
   for(var y=0;y<N;y++)for(var x=0;x<N;x++){var v=.3*n1(x,y)+.34*n2(x,y)+.24*n3(x,y)+.12*n4(x,y);H[y*N+x]=Math.pow(v,1.3)}
   function h(x,y){return H[((y+N)%N)*N+((x+N)%N)]}
   function tex(fn){var c=document.createElement('canvas');c.width=c.height=N;var g=c.getContext('2d'),im=g.createImageData(N,N),d=im.data;
-    for(var y=0;y<N;y++)for(var x=0;x<N;x++){var s=Math.max(0,Math.min(1,.5+(h(x-1,y-1)-h(x+1,y+1))*5)),o=fn(s,h(x,y),r()),k=(y*N+x)*4;d[k]=o[0];d[k+1]=o[1];d[k+2]=o[2];d[k+3]=255}
+    for(var y=0;y<N;y++)for(var x=0;x<N;x++){var s=Math.max(0,Math.min(1,.5+(h(x-1,y-1)-h(x+1,y+1))*5)),o=fn(s,h(x,y),r()),k=(y*N+x)*4;d[k]=o[0];d[k+1]=o[1];d[k+2]=o[2];d[k+3]=o[3]===undefined?255:o[3]}
     g.putImageData(im,0,0);return c.toDataURL('image/png')}
   var paper=tex(function(s,v,q){var l=.955+.05*s-.012*q;return [251*l,250*l,246*l]});
-  var tooth=tex(function(s,v,q){var l=1-.09*(1-s)-.04*(1-v)-.015*q;return [255*l,253*l,249*l]});
+  var tooth=tex(function(s,v,q){return [90,72,52,Math.round(255*(.2*(1-s)+.07*(1-v)+.03*q))]});
   var e=vn(4000,64,24,11),e2=vn(4000,64,5,12),k=0,P=[];
   function edge(x0,y0,x1,y1,nx,ny){var n=60;for(var i=0;i<n;i++){var t=i/n,j=.12+.35*e(k,1)+.18*e2(k,2);k+=7;P.push(((x0+(x1-x0)*t+nx*j)).toFixed(2)+'% '+((y0+(y1-y0)*t+ny*j*1.38)).toFixed(2)+'%')}}
   edge(0,0,100,0,0,1);edge(100,0,100,100,-1,0);edge(100,100,0,100,0,-1);edge(0,100,0,0,1,0);
@@ -1105,13 +1103,15 @@ document.addEventListener('keydown',function(e){
   else if(e.key==='ArrowRight'){advance()}
   else if(e.key==='ArrowLeft'){prev()}
 });
-function begin(withSound){document.getElementById('intro').hidden=true;try{setSound(!!withSound)}catch(e){soundOn=false}setPlaying(true);goScene(0)}
+function begin(withSound){document.getElementById('intro').hidden=true;if(sheet&&!started){var cv=sheet;sheet=null;if(cv.el.parentNode)cv.el.parentNode.removeChild(cv.el)}try{setSound(!!withSound)}catch(e){soundOn=false}setPlaying(true);goScene(0)}
 document.getElementById('startSnd').addEventListener('click',function(){begin(true)});
 document.getElementById('startMute').addEventListener('click',function(){begin(false)});
 document.getElementById('again').addEventListener('click',function(){setPlaying(true);goScene(0)});
 
 /* portada: la plaza de las Tendillas se pinta en la hoja, detrás del título */
 window.addEventListener('unhandledrejection',function(e){e.preventDefault()});
+window.addEventListener('error',function(e){try{var d=document.getElementById('diag');if(!d){d=document.createElement('div');d.id='diag';d.style.cssText='position:fixed;left:8px;top:8px;right:8px;z-index:99;font:12px/1.3 ui-monospace,Menlo,monospace;color:#F3ECE0;background:rgba(0,0,0,.6);padding:6px 8px;border-radius:6px;pointer-events:none';document.body.appendChild(d)}
+  d.textContent='Error: '+(e.message||'')+' · línea '+(e.lineno||'?')+':'+(e.colno||'?')}catch(x){}});
 measureView();setSound(false);
 var fontsReady=document.fonts&&document.fonts.load?Promise.all([document.fonts.load('40px "Caveat"'),document.fonts.load('600 40px "Caveat"'),document.fonts.load('40px "Nothing You Could Do"'),document.fonts.load('600 40px "Bodoni Moda"'),document.fonts.load('italic 40px "Bodoni Moda"')]):Promise.resolve();
 Promise.race([fontsReady,new Promise(function(r){setTimeout(r,2500)})]).catch(function(){}).then(function(){if(!started)show(2)});
