@@ -3,3 +3,7 @@
 Web del estudio de viabilidad de la parcela 128 (Sierra Castillarico, Cuevas del Almanzora).
 
 Sitio: https://fecia82.github.io/rambla-de-las-vacas/
+
+## La noche en que Córdoba nos devolvió el tiempo
+
+Animación del relato en diez escenas: [`cordoba/`](cordoba/index.html) — https://fecia82.github.io/rambla-de-las-vacas/cordoba/
