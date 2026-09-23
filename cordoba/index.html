@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Animación del relato «La noche en que Córdoba nos devolvió el tiempo»: diez escenas por los comercios desaparecidos de Córdoba.">
+<meta name="theme-color" content="#0B1020">
+<title>La noche en que Córdoba nos devolvió el tiempo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400;1,6..96,500&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&family=Nothing+You+Could+Do&display=swap">
+<style>
+/* ============================================================
+   LA NOCHE EN QUE CÓRDOBA NOS DEVOLVIÓ EL TIEMPO
+   una animación en diez escenas · un hilo de sodio las cose
+   ============================================================ */
+:root{
+  color-scheme:dark;
+  --noche:#0B1020; --noche-2:#141B33; --noche-3:#1E2745;
+  --cal:#EDE4D0; --cal-2:#B8B0A0; --cal-3:#7D7A86;
+  --sodio:#E9A23B; --sodio-2:#F4C77E;
+  --granate:#7C1E2E; --frio:#8FB0D8;
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --serif:"Spectral",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --hand:"Nothing You Could Do","Segoe Script","Bradley Hand",cursive;
+  --ease:cubic-bezier(.22,.61,.21,1);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0; background:var(--noche); color:var(--cal); font-family:var(--serif); overflow:hidden; -webkit-font-smoothing:antialiased}
+button{font:inherit; color:inherit}
+:focus-visible{outline:2px solid var(--sodio); outline-offset:3px}
+
+.app{position:relative; height:100%; display:grid; grid-template-rows:minmax(0,1fr) auto}
+
+/* ---------- escenario ---------- */
+.stage{position:relative; overflow:hidden; cursor:pointer; background:var(--noche)}
+#art{position:absolute; inset:0; width:100%; height:100%; display:block}
+.layer{opacity:0; transition:opacity 1.3s ease}
+.layer.on{opacity:1}
+.grain{position:absolute; inset:-50%; pointer-events:none; opacity:.09; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}100%{transform:translate(1%,3%)}}
+.vign{position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(5,7,15,.75) 100%),
+             linear-gradient(to bottom, transparent 78%, var(--noche) 100%)}
+
+/* ---------- panel de texto ---------- */
+.panel{background:var(--noche); padding-block:6px max(12px, env(safe-area-inset-bottom,0px)); padding-inline:16px}
+.inner{max-width:760px; margin:0 auto; display:grid; gap:10px}
+.chap{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap}
+.chap .num{font-family:var(--mono); font-size:11px; letter-spacing:.2em; color:var(--cal-3); font-variant-numeric:tabular-nums}
+.chap h2{margin:0; font-family:var(--display); font-style:italic; font-weight:400; font-size:clamp(20px,2.6vw,26px); color:var(--sodio-2); letter-spacing:.01em; text-wrap:balance}
+.chap .when{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--cal-3)}
+.lines{min-height:calc(3 * 1.5em + 20px); display:flex; flex-direction:column; justify-content:flex-end; gap:8px;
+  font-size:clamp(16px,1.9vw,19.5px); line-height:1.5}
+.lines p{margin:0; max-width:65ch; animation:lineIn 1s var(--ease) both; transition:opacity .8s, font-size .5s}
+.lines p.d{font-style:italic; color:var(--sodio-2); padding-left:.2em}
+.lines p.q{font-family:var(--hand); color:var(--cal); font-size:1.08em; letter-spacing:.02em}
+.lines p.old{opacity:.38}
+@keyframes lineIn{from{opacity:0; transform:translateY(10px); filter:blur(4px)}to{opacity:1; transform:none; filter:none}}
+
+.ctrl{display:flex; align-items:center; gap:6px}
+.btn{width:40px; height:40px; flex:none; display:grid; place-items:center; border-radius:50%; border:1px solid var(--noche-3); background:transparent; cursor:pointer; transition:background .3s, border-color .3s}
+.btn:hover{background:var(--noche-2); border-color:var(--cal-3)}
+.btn svg{width:16px; height:16px; fill:var(--cal)}
+.btn.play{width:46px; height:46px; border-color:var(--sodio)}
+.btn.play svg{fill:var(--sodio)}
+.btn[aria-pressed="true"] svg{fill:var(--sodio)}
+.tl{flex:1; min-width:0; display:flex; gap:4px; margin-left:8px; height:40px; align-items:center}
+.tl button{flex:1; min-width:0; height:24px; border:0; padding:0; background:transparent; cursor:pointer; position:relative}
+.tl button::before{content:""; position:absolute; left:0; right:0; top:11px; height:2px; background:var(--noche-3); border-radius:1px}
+.tl button span{position:absolute; left:0; top:11px; height:2px; width:0; background:var(--sodio); border-radius:1px; box-shadow:0 0 6px rgba(233,162,59,.7)}
+.tl button:hover::before{background:var(--cal-3)}
+
+/* ---------- portada y cierre ---------- */
+.cover[hidden]{display:none}
+.cover{position:absolute; inset:0; z-index:5; display:grid; place-items:center; padding-inline:16px; padding-block:24px;
+  background:radial-gradient(ellipse at 50% 40%, rgba(11,16,32,.55), rgba(11,16,32,.93) 70%)}
+.cover .card{max-width:640px; text-align:center; display:grid; gap:20px; justify-items:center}
+.cover .kick{font-family:var(--mono); font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--cal-3)}
+.cover h1{margin:0; font-family:var(--display); font-weight:400; font-size:clamp(34px,6vw,64px); line-height:1.02; letter-spacing:-.01em; text-wrap:balance}
+.cover h1 em{color:var(--sodio); font-weight:500}
+.cover p{margin:0; font-size:17px; line-height:1.55; color:var(--cal-2); max-width:44ch; text-wrap:pretty}
+.cover .acts{display:flex; gap:12px; flex-wrap:wrap; justify-content:center}
+.cta{border:1px solid var(--sodio); background:var(--sodio); color:#1a1206; font-family:var(--mono); font-size:13px; letter-spacing:.14em; text-transform:uppercase; padding:13px 22px; border-radius:999px; cursor:pointer; transition:transform .3s var(--ease), box-shadow .3s}
+.cta:hover{transform:translateY(-2px); box-shadow:0 6px 30px rgba(233,162,59,.35)}
+.cta.ghost{background:transparent; color:var(--sodio)}
+.cover .hint{font-family:var(--mono); font-size:11px; letter-spacing:.12em; color:var(--cal-3)}
+.cover .thread-line{width:180px; height:2px; background:linear-gradient(90deg, transparent, var(--sodio), transparent); box-shadow:0 0 10px var(--sodio)}
+
+/* ============================================================
+   ARTE DE LAS ESCENAS (SVG)
+   ============================================================ */
+.tb{transform-box:fill-box; transform-origin:center}
+.fig{fill:#090D19; stroke:var(--sodio); stroke-opacity:.38; stroke-width:1.6}
+.fig-cold{fill:#0C1224; stroke:var(--frio); stroke-opacity:.35; stroke-width:1.4}
+.fig-past{fill:#3a2616; stroke:var(--sodio-2); stroke-opacity:.6; stroke-width:1.4}
+.thread{fill:none; stroke:var(--sodio); stroke-width:3; stroke-linecap:round; filter:url(#glow)}
+.draw{stroke-dasharray:1; stroke-dashoffset:1; transition:stroke-dashoffset 3.2s var(--ease)}
+.star{fill:#F4ECD8; animation:tw 3.4s ease-in-out infinite alternate}
+@keyframes tw{from{opacity:.15}to{opacity:.9}}
+.lampglow{animation:lampflick 4s ease-in-out infinite}
+@keyframes lampflick{0%,100%{opacity:.85}40%{opacity:.7}45%{opacity:.95}70%{opacity:.78}}
+.lbl{font-family:var(--mono); fill:var(--cal-2); letter-spacing:.14em; text-transform:uppercase}
+.hand{font-family:var(--hand)}
+.bod{font-family:var(--display)}
+.fx{transition:opacity 1.5s ease, transform 2.4s var(--ease)}
+
+/* 0 · punto muerto */
+.routine{animation:marquee 28s linear infinite}
+@keyframes marquee{to{transform:translateX(-1760px)}}
+.b3 .routine{animation-play-state:paused; opacity:.15; transition:opacity 2s}
+.half{transition:transform 2.6s var(--ease)}
+.b3 .hl{transform:translate(-40px,18px) rotate(-3deg)}
+.b3 .hr{transform:translate(40px,-14px) rotate(2.5deg)}
+.spark{opacity:0}
+.b3 .spark{animation:spark 1.6s ease-out .2s 1 both}
+@keyframes spark{0%{opacity:0; transform:scale(.3)}20%{opacity:1}100%{opacity:0; transform:scale(2.2)}}
+.clock7{opacity:.9; transition:opacity 2s}
+.b3 .clock7{opacity:.12}
+
+/* 1 · el chasquido */
+.fan{animation:spin .28s linear infinite}
+.b0 .fan{animation:spin .28s linear 5, spinout 1.6s cubic-bezier(.1,.6,.2,1) 1.4s 1 forwards}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spinout{from{transform:rotate(0)}to{transform:rotate(200deg)}}
+.clac{opacity:0}
+.b0 .clac{animation:clac 1.4s ease-out 3s both}
+@keyframes clac{0%{opacity:0; transform:scale(.6)}15%{opacity:1; transform:scale(1.1)}100%{opacity:0; transform:scale(1.3)}}
+.walker{transition:transform 7s linear}
+.b1 .walker{transform:translateX(560px)}
+.temp{animation:throb 3s ease-in-out infinite}
+@keyframes throb{50%{opacity:.75}}
+
+/* 2 · tendillas */
+.past{filter:url(#ghost)}
+.b1 .past.on1{animation:flicker 1.6s steps(1) both}
+@keyframes flicker{0%{opacity:0}12%{opacity:.8}18%{opacity:.1}30%{opacity:1}36%{opacity:.3}50%{opacity:1}100%{opacity:1}}
+.b3 .past{animation:none}
+.now{transition:opacity 1.2s}
+.b1 .now{opacity:.12}
+.b3 .now{opacity:1}
+.wink{opacity:0}
+.b2 .wink{animation:wink 1.4s ease-out .4s 2 both}
+@keyframes wink{0%{opacity:0; transform:scale(.2) rotate(0)}40%{opacity:1; transform:scale(1.2) rotate(45deg)}100%{opacity:0; transform:scale(.6) rotate(90deg)}}
+
+/* 3 · bar lucas */
+.shutter{transition:transform 3.4s var(--ease)}
+.b1 .shutter{transform:translateY(-200px)}
+.b6 .shutter{transform:translateY(0); transition-duration:5s}
+.steam{fill:none; stroke:#fff; stroke-opacity:.35; stroke-width:3; stroke-linecap:round; animation:rise 3.2s ease-in infinite}
+@keyframes rise{from{transform:translateY(0); opacity:0}30%{opacity:1}to{transform:translateY(-70px); opacity:0}}
+.lucia{filter:url(#ghost)}
+.b6 .walkaway{transform:translateX(-160px); opacity:.0}
+
+/* 4 · rafalete */
+.smoke{fill:none; stroke:#EDE4D0; stroke-opacity:.18; stroke-width:14; stroke-linecap:round; filter:url(#soft); animation:rise2 5s ease-in infinite}
+@keyframes rise2{from{transform:translateY(0) scaleX(1); opacity:0}30%{opacity:1}to{transform:translateY(-160px) scaleX(1.6); opacity:0}}
+.reflect{filter:url(#ghost)}
+.b4 .memory{animation:memflash 5s ease-out both}
+@keyframes memflash{0%{opacity:0; transform:scale(.7) rotate(-14deg)}8%{opacity:1}12%{opacity:.4}18%{opacity:1; transform:scale(1) rotate(-8deg)}100%{opacity:1; transform:scale(1) rotate(-8deg)}}
+.flash{opacity:0}
+.b4 .flash{animation:flashbg 1s ease-out both}
+@keyframes flashbg{0%{opacity:0}10%{opacity:.7}100%{opacity:0}}
+
+/* 5 · el coto */
+.gateL,.gateR{transition:transform 3s cubic-bezier(.6,0,.3,1)}
+.gateL{transform-box:fill-box; transform-origin:left center}
+.gateR{transform-box:fill-box; transform-origin:right center}
+.b0 .gateL,.b0 .gateR{transform:scaleX(.05)}
+.flame{animation:flame .18s ease-in-out infinite alternate; transform-box:fill-box; transform-origin:center bottom}
+@keyframes flame{from{transform:scale(1,1)}to{transform:scale(.9,1.12)}}
+.b1 .lampglow2{opacity:1}
+.lampglow2{opacity:.35; transition:opacity 3s}
+.walls{opacity:.35; transition:opacity 3s}
+.b1 .walls{opacity:1; animation:breathe 6s ease-in-out 3s infinite}
+@keyframes breathe{50%{opacity:.8}}
+.glassL,.glassR{transform-box:fill-box; transform-origin:center bottom; transition:transform 1.6s var(--ease)}
+.b2 .glassL{transform:translate(0,-50px) rotate(-4deg)}
+.b2 .glassR{transform:translate(0,-50px) rotate(4deg)}
+.b3 .glassL{transform:translate(20px,-80px) rotate(10deg)}
+.b3 .glassR{transform:translate(-20px,-80px) rotate(-10deg)}
+.b3 .clink{animation:spark 1.4s ease-out 1.2s both}
+.str{fill:none; stroke:var(--cal); stroke-opacity:.6; stroke-width:1.6; transform-box:fill-box; transform-origin:center}
+.b4 .str{animation:vib .07s linear 40 alternate}
+@keyframes vib{from{transform:scaleY(1)}to{transform:scaleY(-1)}}
+
+/* 6 · claudio marcelo */
+.moon{filter:url(#ghost)}
+.moonglow{animation:boil 5s ease-in-out infinite}
+@keyframes boil{50%{transform:scale(1.08); opacity:.7}}
+.drawers{animation:warm 4s ease-in-out infinite}
+@keyframes warm{50%{opacity:.82}}
+.spool{transform:translateY(40px)}
+.b2 .spool{transform:none}
+
+/* 7 · trastienda */
+.pol{opacity:0; transform:translateY(170px) scale(.55); transition:opacity 1.5s, transform 2.6s var(--ease)}
+.b2 .pol{opacity:1; transform:none}
+.polf{transition:transform .7s ease-in}
+.b3 .polf{transform:scaleX(0)}
+.polb{transform:scaleX(0); transition:transform .7s ease-out .7s}
+.b3 .polb{transform:scaleX(1)}
+.polglow{opacity:0; transition:opacity 2s}
+.b2 .polglow{opacity:1}
+.curtain{animation:sway 7s ease-in-out infinite; transform-box:fill-box; transform-origin:top center}
+@keyframes sway{50%{transform:skewX(1.2deg)}}
+
+/* 8 · carillón */
+.ring{fill:none; stroke:var(--sodio); stroke-width:2; transform-box:fill-box; transform-origin:center; opacity:0}
+.b0 .ring{animation:ring 3s ease-out infinite}
+@keyframes ring{0%{opacity:.8; transform:scale(1)}100%{opacity:0; transform:scale(2.6)}}
+.b1 .past2{filter:url(#ghost)}
+.napkin{opacity:0; transform:translateY(80px) rotate(-12deg) scale(.7); transition:opacity 1.2s, transform 2s var(--ease)}
+.b2 .napkin{opacity:1; transform:rotate(-4deg)}
+.leaving{transition:transform 6s linear, opacity 5s}
+.b4 .leaving{transform:translateX(260px); opacity:0}
+.tourist{animation:stroll 14s linear infinite}
+@keyframes stroll{from{transform:translateX(-60px)}to{transform:translateX(60px)}}
+
+/* 9 · amanecer */
+.dawn{animation:dawn 10s ease-in-out both}
+@keyframes dawn{from{opacity:0}to{opacity:1}}
+.sun{animation:sunrise 16s var(--ease) both}
+@keyframes sunrise{from{transform:translateY(120px)}to{transform:translateY(0)}}
+.item{animation:float 4s ease-in-out infinite alternate}
+@keyframes float{to{transform:translateY(-10px)}}
+.final{opacity:0; transform:translateY(20px); transition:opacity 2.5s, transform 3s var(--ease)}
+.b5 .final{opacity:1; transform:none}
+
+@media (prefers-reduced-motion: reduce){
+  .stage *, .lines p{animation-duration:.001s!important; animation-iteration-count:1!important; transition-duration:.3s!important}
+  .grain{display:none}
+}
+@media (max-width:560px){
+  .btn{width:36px; height:36px}
+  .btn.play{width:42px; height:42px}
+  .tl{margin-left:4px; gap:3px}
+  .chap{gap:10px}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="stage" id="stage" aria-hidden="true">
+    <svg id="art" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#060A17"/><stop offset=".7" stop-color="#18203E"/><stop offset="1" stop-color="#2B2840"/>
+        </linearGradient>
+        <linearGradient id="gDawn" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#1F2B58"/><stop offset=".42" stop-color="#6E5487"/><stop offset=".75" stop-color="#E39A5E"/><stop offset="1" stop-color="#F6D69C"/>
+        </linearGradient>
+        <radialGradient id="gWarm" cx=".5" cy=".7" r=".8">
+          <stop offset="0" stop-color="#FFD890"/><stop offset=".5" stop-color="#C8742C"/><stop offset="1" stop-color="#3A1C0E"/>
+        </radialGradient>
+        <linearGradient id="gGlass" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#A9C9EA" stop-opacity=".45"/><stop offset="1" stop-color="#2B4A73" stop-opacity=".7"/>
+        </linearGradient>
+        <linearGradient id="gMetal" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FBEBC0"/><stop offset=".55" stop-color="#C39A58"/><stop offset="1" stop-color="#7A5A30"/>
+        </linearGradient>
+        <radialGradient id="gLamp"><stop offset="0" stop-color="#FFD9A0" stop-opacity=".6"/><stop offset="1" stop-color="#FFD9A0" stop-opacity="0"/></radialGradient>
+        <radialGradient id="gMoon" cx=".4" cy=".4"><stop offset="0" stop-color="#FFF8E4"/><stop offset="1" stop-color="#E4D1A2"/></radialGradient>
+        <radialGradient id="gMoonGlow"><stop offset="0" stop-color="#FFF0C8" stop-opacity=".4"/><stop offset="1" stop-color="#FFF0C8" stop-opacity="0"/></radialGradient>
+        <linearGradient id="gWood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5E3D22"/><stop offset="1" stop-color="#23160C"/></linearGradient>
+        <linearGradient id="gVelvet" x1="0" y1="0" x2=".07" y2="0" spreadMethod="reflect"><stop offset="0" stop-color="#4A0C19"/><stop offset="1" stop-color="#9A2A3C"/></linearGradient>
+        <linearGradient id="gNacar" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FBF7FF"/><stop offset=".35" stop-color="#CDE7EE"/><stop offset=".65" stop-color="#F1D6E6"/><stop offset="1" stop-color="#FFFDF4"/></linearGradient>
+        <linearGradient id="gSepia" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4C89A"/><stop offset="1" stop-color="#A57E50"/></linearGradient>
+        <linearGradient id="gMirror" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2A2E37"/><stop offset=".5" stop-color="#555A64"/><stop offset="1" stop-color="#23262E"/></linearGradient>
+        <radialGradient id="gSun"><stop offset="0" stop-color="#FFE6A8"/><stop offset=".45" stop-color="#F7B85A" stop-opacity=".9"/><stop offset="1" stop-color="#F7B85A" stop-opacity="0"/></radialGradient>
+        <pattern id="azulejo" width="40" height="40" patternUnits="userSpaceOnUse">
+          <rect width="40" height="40" fill="#1C3050"/><path d="M20 3 L37 20 L20 37 L3 20Z" fill="#B98B3C" opacity=".55"/><circle cx="20" cy="20" r="5" fill="#1C3050"/>
+        </pattern>
+        <filter id="glow" x="-20%" y="-50%" width="140%" height="200%">
+          <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
+        <filter id="heat" x="-5%" y="-5%" width="110%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.008 0.03" numOctaves="2" seed="3">
+            <animate attributeName="baseFrequency" dur="7s" values="0.008 0.03;0.01 0.042;0.008 0.03" repeatCount="indefinite"/>
+          </feTurbulence>
+          <feDisplacementMap in="SourceGraphic" scale="9"/>
+        </filter>
+        <filter id="ghost" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.06" numOctaves="2" seed="8">
+            <animate attributeName="baseFrequency" dur="5s" values="0.012 0.06;0.016 0.08;0.012 0.06" repeatCount="indefinite"/>
+          </feTurbulence>
+          <feDisplacementMap in="SourceGraphic" scale="7"/>
+        </filter>
+      </defs>
+      <g id="la" class="layer"></g>
+      <g id="lb" class="layer"></g>
+    </svg>
+    <div class="grain"></div>
+    <div class="vign"></div>
+  </div>
+
+  <section class="panel" aria-label="Relato">
+    <div class="inner">
+      <header class="chap">
+        <span class="num" id="num">01 / 10</span>
+        <h2 id="place">Punto muerto</h2>
+        <span class="when" id="when">Córdoba</span>
+      </header>
+      <div class="lines" id="lines" aria-live="polite"></div>
+      <div class="ctrl">
+        <button class="btn" id="prev" type="button" aria-label="Escena anterior"><svg viewBox="0 0 16 16"><path d="M3 2h2v12H3zM14 2v12L6 8z"/></svg></button>
+        <button class="btn play" id="play" type="button" aria-label="Pausar"><svg viewBox="0 0 16 16" id="playIcon"><path d="M4 2h3v12H4zM9 2h3v12H9z"/></svg></button>
+        <button class="btn" id="next" type="button" aria-label="Siguiente frase"><svg viewBox="0 0 16 16"><path d="M11 2h2v12h-2zM2 2v12l8-6z"/></svg></button>
+        <button class="btn" id="snd" type="button" aria-label="Sonido" aria-pressed="false"><svg viewBox="0 0 16 16"><path d="M2 6h3l4-3v10l-4-3H2z"/><path id="sndWaves" d="M11 5.2c1 .8 1 4.8 0 5.6M12.8 3.6c2 1.8 2 7 0 8.8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></button>
+        <div class="tl" id="tl" role="group" aria-label="Escenas"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cover" id="intro">
+    <div class="card">
+      <span class="kick">Córdoba · julio · 01:15 · 34 °C</span>
+      <h1>La noche en que Córdoba nos <em>devolvió</em> el tiempo</h1>
+      <div class="thread-line"></div>
+      <p>Diez escenas por las tiendas y bares que ya no existen: Pañerías Modernas, Bar Lucas, Rafalete, El Coto y Encajes Muñoz Morán.</p>
+      <div class="acts">
+        <button class="cta" id="startSnd" type="button">Empezar con sonido</button>
+        <button class="cta ghost" id="startMute" type="button">Sin sonido</button>
+      </div>
+      <span class="hint">toca la escena para avanzar · espacio para pausar</span>
+    </div>
+  </div>
+
+  <div class="cover" id="end" hidden>
+    <div class="card">
+      <span class="kick">Viernes, 18 de julio · Medianoche · Plaza del Potro</span>
+      <h1><em>…y porque al final entendimos</em> que quererse, a veces, significa volver a empezar.</h1>
+      <div class="thread-line"></div>
+      <div class="acts">
+        <button class="cta" id="again" type="button">Volver a empezar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- utilidades de dibujo ---------- */
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function sky(){return '<rect width="1600" height="900" fill="url(#gSky)"/>'}
+function stars(seed,n,maxY){var r=mulberry(seed),s='';for(var i=0;i<n;i++){s+='<circle class="star" cx="'+(r()*1600).toFixed(0)+'" cy="'+(r()*maxY).toFixed(0)+'" r="'+(0.6+r()*1.5).toFixed(1)+'" style="animation-delay:-'+(r()*4).toFixed(1)+'s"/>'}return s}
+function moon(x,y,r){return '<circle cx="'+x+'" cy="'+y+'" r="'+r*3+'" fill="url(#gMoonGlow)"/><circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="url(#gMoon)"/>'}
+function houses(seed,base,hmin,hmax,tone,lit){
+  var r=mulberry(seed),x=-20,o='';
+  while(x<1620){
+    var w=160+r()*170,h=hmin+r()*(hmax-hmin),y=base-h;
+    o+='<rect x="'+x.toFixed(0)+'" y="'+y.toFixed(0)+'" width="'+(w+1).toFixed(0)+'" height="'+(h+200).toFixed(0)+'" fill="'+tone+'"/>';
+    if(r()<.55)o+='<path d="M'+(x-6).toFixed(0)+','+y.toFixed(0)+' L'+(x+w/2).toFixed(0)+','+(y-24).toFixed(0)+' L'+(x+w+6).toFixed(0)+','+y.toFixed(0)+'Z" fill="#231A1C"/>';
+    else o+='<rect x="'+x.toFixed(0)+'" y="'+(y-6).toFixed(0)+'" width="'+(w+1).toFixed(0)+'" height="8" fill="#343C5E"/>';
+    var nw=Math.max(1,Math.floor(w/95));
+    for(var k=0;k<nw;k++){
+      var wx=x+(k+.5)*w/nw-17,wy=y+38+r()*28,warm=r()<lit;
+      o+='<rect x="'+wx.toFixed(0)+'" y="'+wy.toFixed(0)+'" width="34" height="52" fill="'+(warm?'#E9A23B':'#0E1327')+'" opacity="'+(warm?.5:1)+'"/>';
+      for(var b=1;b<4;b++)o+='<line x1="'+(wx+b*8.5).toFixed(0)+'" y1="'+wy.toFixed(0)+'" x2="'+(wx+b*8.5).toFixed(0)+'" y2="'+(wy+52).toFixed(0)+'" stroke="#0A0E1C" stroke-width="2"/>';
+    }
+    x+=w;
+  }
+  return o;
+}
+function farola(x,base){
+  return '<circle class="lampglow" cx="'+x+'" cy="'+(base-300)+'" r="140" fill="url(#gLamp)"/>'+
+    '<rect x="'+(x-4)+'" y="'+(base-290)+'" width="8" height="290" fill="#0A0D18"/>'+
+    '<path d="M'+(x-20)+','+(base-290)+' L'+(x+20)+','+(base-290)+' L'+(x+14)+','+(base-330)+' L'+(x-14)+','+(base-330)+'Z" fill="#F4C77E" opacity=".9"/>'+
+    '<path d="M'+(x-24)+','+(base-330)+' L'+(x+24)+','+(base-330)+' L'+x+','+(base-350)+'Z" fill="#0A0D18"/>';
+}
+/* figuras: j = Jaime, l = Lucía, r = Rafael (mandil), m = maniquí */
+function fig(kind,x,y,s,cls,inner){
+  var t='<g transform="translate('+x+','+y+') scale('+(s||1)+')"><g class="'+(inner||'')+'">',c=cls||'fig';
+  if(kind==='l'){
+    t+='<path class="'+c+'" d="M-19,-160 Q-20,-186 0,-184 Q20,-186 19,-160 Q24,-128 17,-112 L-17,-112 Q-24,-128 -19,-160Z"/>'+
+       '<circle class="'+c+'" cx="0" cy="-160" r="14"/>'+
+       '<path class="'+c+'" d="M-17,-132 Q0,-140 17,-132 L22,-80 L32,-14 L-32,-14 L-22,-80Z"/>'+
+       '<path class="'+c+'" d="M-10,-14 L-9,0 L-5,0 L-5,-14ZM5,-14 L5,0 L9,0 L10,-14Z"/>';
+  }else{
+    t+='<circle class="'+c+'" cx="0" cy="-166" r="15"/>'+
+       '<path class="'+c+'" d="M-27,-142 Q0,-151 27,-142 L31,-72 L20,-72 L18,0 L4,0 L2,-58 L-2,-58 L-4,0 L-18,0 L-20,-72 L-31,-72Z"/>';
+    if(kind==='r')t+='<path d="M-20,-110 L20,-110 L24,-30 L-24,-30Z" fill="#D8D2C4" opacity=".85"/>';
+  }
+  return t+'</g></g>';
+}
+function mannequin(x,y,s){
+  return '<g transform="translate('+x+','+y+') scale('+s+')">'+
+    '<ellipse cx="0" cy="-182" rx="12" ry="16" fill="#D6C7A6"/>'+
+    '<path d="M-32,-160 Q0,-172 32,-160 L36,-62 L-36,-62Z" fill="#E8DCC0"/>'+
+    '<path d="M0,-160 L-8,-110 L0,-100 L8,-110Z" fill="#B99A6A"/>'+
+    '<path d="M-30,-62 L-26,-6 L-6,-6 L0,-44 L6,-6 L26,-6 L30,-62Z" fill="#E1D4B6"/>'+
+    '<rect x="-2" y="-6" width="4" height="10" fill="#6A5236"/><rect x="-18" y="2" width="36" height="5" fill="#6A5236"/>'+
+    '<g stroke="#8A8F98" stroke-width="1.5"><line x1="-22" y1="-12" x2="-22" y2="-2"/><line x1="-14" y1="-12" x2="-14" y2="-2"/><line x1="14" y1="-12" x2="14" y2="-2"/><line x1="22" y1="-12" x2="22" y2="-2"/></g>'+
+    '<g fill="#C9CED6"><circle cx="-22" cy="-13" r="2"/><circle cx="-14" cy="-13" r="2"/><circle cx="14" cy="-13" r="2"/><circle cx="22" cy="-13" r="2"/></g>'+
+  '</g>';
+}
+function polaroidFront(){
+  return '<rect x="-150" y="-180" width="300" height="360" fill="#EFE9DC"/>'+
+    '<rect x="-130" y="-160" width="260" height="250" fill="url(#gSepia)"/>'+
+    '<text x="0" y="-118" text-anchor="middle" class="bod" font-size="20" fill="#6B4A2A" letter-spacing="4">HELADERÍA</text>'+
+    '<rect x="-130" y="10" width="260" height="80" fill="#9AA0A4" opacity=".75"/><rect x="-130" y="10" width="260" height="6" fill="#C9CED2"/>'+
+    fig('j',-45,40,.62,'fig-past')+fig('l',45,40,.62,'fig-past')+
+    '<path d="M-60,-78 q6,-8 12,0 M30,-76 q6,-8 12,0" stroke="#4a3322" stroke-width="2" fill="none"/>'+
+    '<rect x="-130" y="-160" width="260" height="250" fill="#FFF6E0" opacity=".28"/>'+
+    '<path d="M-150,150 L-110,180" stroke="#C9C0AE" stroke-width="2"/>';
+}
+function polaroidBack(){
+  return '<rect x="-150" y="-180" width="300" height="360" fill="#E8E0CD"/>'+
+    '<g class="hand" font-size="21" fill="#26366A">'+
+    '<text x="-126" y="-128">Si volvemos juntos,</text><text x="-126" y="-98">será porque todavía</text><text x="-126" y="-68">nos queremos.</text>'+
+    '<g class="on6 fx"><text x="-126" y="-18">…y porque al final</text><text x="-126" y="12">entendimos que</text><text x="-126" y="42">quererse, a veces,</text><text x="-126" y="72">significa volver</text><text x="-126" y="102">a empezar.</text></g>'+
+    '<text x="60" y="152" font-size="17">— L.</text></g>';
+}
+
+/* ---------- las diez escenas ---------- */
+var SCENES=[
+{place:'Punto muerto', when:'Córdoba · 07:00',
+ art:function(){
+  var labels=['07:00','despertar a los niños','Ronda de los Tejares','Audi gris','la americana','contratos','hipoteca · día 30','mesa reservada'],r='';
+  for(var i=0;i<16;i++){var x=40+i*220;r+='<line x1="'+x+'" y1="458" x2="'+x+'" y2="482" stroke="#EDE4D0" stroke-opacity=".35"/><text class="lbl" x="'+(x+8)+'" y="512" font-size="15">'+labels[i%8]+'</text>'}
+  return sky()+stars(1,90,700)+
+   '<text class="bod clock7" x="800" y="330" text-anchor="middle" font-size="200" fill="#EDE4D0" fill-opacity=".08" font-style="italic">veinte años</text>'+
+   '<g class="routine">'+r+'</g>'+
+   '<g class="half hl tb"><path class="thread" d="M-60,470 H800"/></g>'+
+   '<g class="half hr tb"><path class="thread" d="M800,470 H1660"/></g>'+
+   '<g class="spark tb"><circle cx="800" cy="470" r="30" fill="#FFE2A8" filter="url(#soft)"/><path d="M800,430 V510 M760,470 H840 M772,442 L828,498 M828,442 L772,498" stroke="#FFE2A8" stroke-width="2"/></g>';
+ },
+ lines:[
+  {x:'Jaime Márquez de la Vega lleva veinte años viviendo en punto muerto.'},
+  {x:'Se levanta a las siete, aparca el Audi gris en Ronda de los Tejares y firma contratos que no guardará en la memoria.'},
+  {x:'La felicidad se le ha vuelto una línea recta: sin curvas, sin repechos, sin la leve oscilación de los veranos de los veinte.'},
+  {x:'Aquella noche de julio, la línea se rompe.', snd:'snap'}
+ ]},
+
+{place:'El chasquido', when:'01:15 · 34 °C',
+ art:function(){
+  return sky()+stars(2,50,300)+
+   '<g filter="url(#heat)">'+
+   '<rect x="260" y="110" width="1080" height="800" fill="#262E4C"/><rect x="260" y="110" width="1080" height="10" fill="#353E62"/>'+
+   '<rect x="480" y="230" width="300" height="270" fill="#0E1327"/>'+
+   (function(){var s='';for(var i=1;i<8;i++)s+='<line x1="'+(480+i*37.5)+'" y1="230" x2="'+(480+i*37.5)+'" y2="500" stroke="#0A0E1C" stroke-width="5"/>';return s})()+
+   '<rect x="468" y="498" width="324" height="14" fill="#343C5E"/>'+
+   '<rect x="850" y="360" width="230" height="150" rx="6" fill="#B9B6AE"/><rect x="850" y="360" width="230" height="150" rx="6" fill="#0B1020" opacity=".35"/>'+
+   '<circle cx="965" cy="435" r="56" fill="#3A3F4C"/>'+
+   '<g class="fan tb"><path d="M965,435 Q950,395 965,383 Q985,400 965,435 Z M965,435 Q1005,425 1015,440 Q995,462 965,435Z M965,435 Q940,470 925,462 Q925,435 965,435Z" fill="#8E929C"/></g>'+
+   '<circle cx="965" cy="435" r="56" fill="none" stroke="#2A2E38" stroke-width="6"/>'+
+   (function(){var s='';for(var i=0;i<7;i++)s+='<line x1="'+(912+i*18)+'" y1="382" x2="'+(912+i*18)+'" y2="488" stroke="#2A2E38" stroke-width="2"/>';return s})()+
+   '<path d="M1030,510 q2,40 -6,70" stroke="#6F8FB8" stroke-opacity=".5" fill="none" stroke-width="2"/>'+
+   '<rect x="540" y="600" width="200" height="310" fill="url(#gWarm)" opacity=".85"/><rect x="530" y="590" width="220" height="12" fill="#343C5E"/>'+
+   '</g>'+
+   '<text class="bod clac tb" x="1110" y="360" font-size="46" font-style="italic" fill="#F4C77E">¡clac!</text>'+
+   '<text class="bod temp" x="1180" y="250" font-size="190" fill="#E9A23B" filter="url(#glow)">34°</text>'+
+   '<text class="lbl" x="1190" y="296" font-size="20">01:15 · julio</text>'+
+   '<rect x="0" y="880" width="1600" height="20" fill="#0F1426"/>'+
+   '<g class="walker">'+fig('j',640,892,1.25)+'</g>';
+ },
+ lines:[
+  {x:'El aire acondicionado se rinde con un chasquido grave.', snd:'click'},
+  {x:'Empujado por un calor que asfixia el alma, Jaime sale a la calle a buscar aliento.'},
+  {x:'Córdoba es un horno silencioso que zumba a 34 grados a la una y cuarto.'}
+ ]},
+
+{place:'Plaza de las Tendillas', when:'hoy ⟷ 2001',
+ art:tendillas,
+ lines:[
+  {x:'Dobla la esquina de Las Tendillas. Donde debería lucir el lobby acristalado de un hotel…'},
+  {x:'…reaparece el letrero metálico de Pañerías Modernas: maniquíes con trajes de lino y alfileres clavados en el bajo.', snd:'shimmer'},
+  {x:'Don Manuel, el sastre, alza la cabeza y le dedica el mismo guiño cómplice de 2001, cuando le midió su primer traje para impresionar a Lucía Espí.'},
+  {x:'Jaime parpadea y la visión se desvanece. Vuelve el lobby, vuelve la recepcionista de turno.'},
+  {x:'Pero ya es tarde: si se detiene, la noche concluirá antes de tiempo.'}
+ ]},
+
+{place:'Bar Lucas', when:'calle Valladares · cerrado en 2025',
+ art:function(){
+  return '<rect width="1600" height="900" fill="#0A0E1C"/>'+
+   '<rect x="480" y="0" width="640" height="170" fill="url(#gSky)"/>'+stars(3,20,160).replace(/cx="(\d+)"/g,function(m,v){return 'cx="'+(500+(+v)*0.38).toFixed(0)+'"'})+
+   '<path d="M0,0 L520,150 L520,790 L0,900Z" fill="#20284A"/><path d="M1600,0 L1080,150 L1080,790 L1600,900Z" fill="#1C2342"/>'+
+   '<path d="M90,190 L200,215 L200,330 L90,320Z M1510,190 L1400,215 L1400,330 L1510,320Z" fill="#0E1327"/>'+
+   '<path d="M280,240 L380,262 L380,360 L280,350Z" fill="#E9A23B" opacity=".45"/>'+
+   '<path d="M0,900 L520,790 L1080,790 L1600,900Z" fill="#12172C"/>'+
+   '<rect x="520" y="150" width="560" height="640" fill="#2A2238"/>'+
+   '<rect x="620" y="208" width="360" height="72" fill="#1A100A" stroke="#C39A58" stroke-width="3"/>'+
+   '<text class="bod" x="800" y="260" text-anchor="middle" font-size="44" fill="#FBE3B0" letter-spacing="6" filter="url(#glow)">BAR LUCAS</text>'+
+   '<rect x="600" y="320" width="400" height="380" fill="url(#gWarm)"/>'+
+   fig('r',720,720,.95)+
+   '<rect x="640" y="548" width="320" height="34" fill="#5C6068"/><rect x="640" y="548" width="320" height="5" fill="#C9CED6"/>'+
+   (function(){var s='';[680,770,860].forEach(function(x,i){s+='<rect x="'+x+'" y="528" width="72" height="22" rx="11" fill="#C98A4B"/><rect x="'+(x+4)+'" y="524" width="64" height="12" rx="6" fill="#8A3A22"/><path d="M'+(x+8)+',528 l8,-5 l8,5 l8,-5 l8,5 l8,-5 l8,5" stroke="#E8C43A" stroke-width="2.5" fill="none"/>';s+='<path class="steam" style="animation-delay:-'+(i*1.1)+'s" d="M'+(x+36)+',515 q-14,-24 0,-48 q14,-24 0,-48"/>'});return s})()+
+   '<path d="M955,440 h24 v34 h-10 v14 h-4 v-14 h-10z" fill="#C9CED6"/>'+
+   '<rect x="610" y="582" width="380" height="118" fill="#3A2A20"/><rect x="610" y="582" width="380" height="6" fill="#6B4A30"/>'+
+   '<g class="shutter">'+
+     '<rect x="600" y="320" width="400" height="380" fill="#4A4F5A"/>'+
+     (function(){var s='';for(var y=334;y<700;y+=16)s+='<line x1="600" y1="'+y+'" x2="1000" y2="'+y+'" stroke="#30343C" stroke-width="3"/>';return s})()+
+     '<rect x="700" y="560" width="200" height="72" fill="#EFE9DC" transform="rotate(-2 800 596)"/>'+
+     '<text class="bod" x="800" y="608" text-anchor="middle" font-size="30" fill="#A02A2A" transform="rotate(-2 800 596)">SE TRASPASA</text>'+
+   '</g>'+
+   '<rect x="596" y="700" width="408" height="10" fill="#1A1F2C"/>'+
+   farola(360,760)+
+   '<g class="walkaway fx">'+fig('j',540,880,1.3)+'</g>'+
+   '<g class="on2 fx lucia"><g class="walkaway fx">'+fig('l',1060,880,1.28)+'</g></g>';
+ },
+ lines:[
+  {x:'Una ráfaga de mostaza caliente y pan tostado lo arrastra por un hilo invisible hasta la estrecha calle Valladares.'},
+  {x:'Contra toda lógica, la persiana del Bar Lucas está medio subida. Rafael Gómez, con su mandil de siempre, desliza perritos sobre la plancha.', snd:'sizzle'},
+  {x:'Y entonces, junto al grifo de los refrescos, aparece ella. Lucía. Misma melena oscura, misma sonrisa torcida.'},
+  {x:'—¿Sigues quemándote la lengua por impaciente?', d:1},
+  {x:'—Algunas quemaduras merecen la pena.', d:1},
+  {x:'—Entonces ven. Queda noche.', d:1},
+  {x:'Se echan a andar antes de que el bar vuelva a sumirse en el silencio de su cartel de «Se traspasa».'}
+ ]},
+
+{place:'Rafalete Centro', when:'calle Diario de Córdoba',
+ art:function(){
+  return '<rect width="1600" height="900" fill="#241915"/>'+
+   '<text class="bod" x="800" y="118" text-anchor="middle" font-size="40" fill="#F4C77E" letter-spacing="10" filter="url(#glow)">RAFALETE</text>'+
+   '<text class="lbl" x="800" y="146" text-anchor="middle" font-size="14" fill="#B8B0A0">— centro —</text>'+
+   '<rect x="470" y="170" width="660" height="320" fill="#8A6A36"/>'+
+   '<rect x="484" y="184" width="632" height="292" fill="url(#gMirror)"/>'+
+   '<path d="M520,190 L600,190 L500,470 L490,470Z" fill="#fff" opacity=".05"/>'+
+   '<clipPath id="mclip"><rect x="484" y="184" width="632" height="292"/></clipPath><g clip-path="url(#mclip)"><g class="on2 fx reflect">'+fig('j',740,520,1.05,'fig-past')+fig('l',860,520,1.02,'fig-past')+'</g></g>'+
+   '<rect x="0" y="500" width="1600" height="110" fill="url(#azulejo)" opacity=".85"/>'+
+   '<rect x="0" y="600" width="1600" height="300" fill="url(#gWood)"/><rect x="0" y="600" width="1600" height="8" fill="#8A6040"/>'+
+   '<rect x="500" y="578" width="300" height="24" fill="#2A2A30"/><rect x="500" y="572" width="300" height="6" fill="#E9A23B" opacity=".6"/>'+
+   (function(){var s='';for(var i=0;i<4;i++){var x=530+i*70;s+='<line x1="'+(x-10)+'" y1="578" x2="'+(x+60)+'" y2="560" stroke="#C9C0AE" stroke-width="2"/>';for(var k=0;k<4;k++)s+='<rect x="'+(x+k*14)+'" y="'+(566-k*3.5)+'" width="11" height="11" rx="2" fill="'+(k%2?'#7A2E1A':'#9A4422')+'"/>';s+='<path class="smoke" style="animation-delay:-'+(i*1.2)+'s" d="M'+(x+25)+',550 q-20,-40 0,-80 q20,-40 0,-80"/>'}return s})()+
+   '<ellipse cx="1000" cy="596" rx="110" ry="18" fill="#EFE9DC"/>'+
+   '<path d="M930,590 Q950,560 972,592Z M965,592 Q985,556 1008,590Z M1000,590 Q1022,558 1044,592Z M1036,592 Q1056,566 1072,592Z" fill="#6D8A4A"/>'+
+   '<g fill="#F4ECD8"><circle cx="960" cy="584" r="3"/><circle cx="1000" cy="580" r="3"/><circle cx="1040" cy="586" r="3"/></g>'+
+   '<rect class="flash" width="1600" height="900" fill="#FFF3D8"/>'+
+   '<g transform="translate(1180,320)"><g class="memory on4 fx tb"><g transform="scale(.42)">'+polaroidFront()+'</g></g></g>';
+ },
+ lines:[
+  {x:'El fino de aquel bocado fantasma lo empuja hacia la calle Diario de Córdoba. La fachada sin vida de Rafalete reluce como recién barnizada.'},
+  {x:'Dentro humean los pinchitos morunos y los cogollos con ajada que coronaban las madrugadas universitarias.', snd:'sizzle'},
+  {x:'En la barra, Jaime ve su propio reflejo de veinte años atrás. Y a su lado, Lucía.'},
+  {x:'—Hace veinte años escondimos una Polaroid nuestra en un sitio que ya no existe. Dijimos que solo volveríamos a buscarla si la vida nos separaba lo suficiente.', d:1},
+  {x:'La imagen lo golpea como un relámpago: una foto velada por el sol, entre las páginas de un catálogo de telas, en la trastienda de Pañerías Modernas.', snd:'shimmer'},
+  {x:'—Quise regresar. Pero nunca supe cómo encontrarte.', d:1},
+  {x:'—Por eso estoy aquí.', d:1}
+ ]},
+
+{place:'Taberna El Coto', when:'Doce de Octubre · cerrada desde 2017',
+ art:function(){
+  var gate=function(x0,cls){var s='<g class="'+cls+'"><rect x="'+x0+'" y="0" width="800" height="900" fill="#000" opacity="0"/>';
+    for(var x=x0+14;x<x0+800;x+=42){s+='<rect x="'+x+'" y="70" width="9" height="830" fill="#5A3020"/><path d="M'+(x-5)+',72 L'+(x+4.5)+',42 L'+(x+14)+',72Z" fill="#6B3A22"/>'}
+    s+='<rect x="'+x0+'" y="190" width="800" height="14" fill="#4A2618"/><rect x="'+x0+'" y="700" width="800" height="14" fill="#4A2618"/>';
+    s+='<path d="M'+(x0+300)+',420 q100,-90 200,0 q-100,90 -200,0Z" fill="none" stroke="#6B3A22" stroke-width="8"/>';
+    return s+'</g>'};
+  return '<rect width="1600" height="900" fill="#1E140F"/>'+
+   '<circle class="lampglow2" cx="800" cy="220" r="520" fill="url(#gLamp)"/>'+
+   '<g class="walls">'+
+     '<rect x="340" y="190" width="280" height="200" fill="#3A2A1C" stroke="#8A6A36" stroke-width="8"/>'+
+     '<path d="M420,360 L440,300 L470,296 L520,300 L540,360 M470,296 L462,262 L448,236 M462,262 L480,248 M470,296 L478,262 L494,236 M478,262 L462,250" fill="none" stroke="#120C08" stroke-width="7" stroke-linecap="round"/>'+
+     '<rect x="980" y="190" width="280" height="200" fill="#3A2A1C" stroke="#8A6A36" stroke-width="8"/>'+
+     '<path d="M1010,360 L1030,330 L1080,322 L1110,300 L1120,312 L1100,330 L1110,360 M1150,360 L1160,260 M1160,260 L1190,300" fill="none" stroke="#120C08" stroke-width="7" stroke-linecap="round"/>'+
+     '<path d="M760,120 Q740,70 700,60 M740,90 L715,85 M840,120 Q860,70 900,60 M860,90 L885,85" stroke="#D8C9A8" stroke-width="7" fill="none" stroke-linecap="round" opacity=".7"/>'+
+   '</g>'+
+   '<line x1="800" y1="0" x2="800" y2="170" stroke="#0A0705" stroke-width="3"/>'+
+   '<path d="M784,170 h32 l-4,60 h-24z" fill="#8A7050"/><path d="M780,230 h40 l-8,14 h-24z" fill="#5A4430"/>'+
+   '<path class="flame" d="M800,168 q-12,-22 0,-44 q12,22 0,44z" fill="#FFE2A0" filter="url(#glow)"/>'+
+   '<rect x="0" y="640" width="1600" height="260" fill="url(#gWood)"/><rect x="0" y="640" width="1600" height="8" fill="#8A6040"/>'+
+   (function(){var g='<path d="M-6,0 L6,0 L2,-4 L2,-50 Q24,-62 22,-100 Q20,-128 14,-140 L-14,-140 Q-20,-128 -22,-100 Q-24,-62 -2,-50 L-2,-4Z" fill="#EDE4D0" fill-opacity=".14" stroke="#EDE4D0" stroke-opacity=".7" stroke-width="2"/><path d="M-20,-96 Q-20,-64 0,-56 Q20,-64 20,-96Z" fill="#E8D27A" opacity=".75"/>';
+     return '<g transform="translate(735,642) scale(1.3)"><g class="glassL">'+g+'</g></g><g transform="translate(865,642) scale(1.3)"><g class="glassR">'+g+'</g></g>'})()+
+   '<g class="clink tb spark"><circle cx="800" cy="480" r="16" fill="#FFF3D0" filter="url(#soft)"/><path d="M800,456 V504 M776,480 H824" stroke="#FFF3D0" stroke-width="2"/></g>'+
+   '<g class="on4 fx">'+(function(){var s='';for(var i=0;i<6;i++){var y=680+i*12;s+='<path class="str" style="animation-delay:'+(i*0.03)+'s" d="M280,'+y+' Q800,'+(y+5)+' 1320,'+y+'"/>'}return s})()+
+     '<text class="lbl" x="1320" y="760" text-anchor="end" font-size="15" fill="#F4C77E">la menor</text></g>'+
+   gate(0,'gateL')+gate(800,'gateR');
+ },
+ lines:[
+  {x:'Cruzan a Doce de Octubre. La verja oxidada de la Taberna El Coto cede con un suspiro.', snd:'creak'},
+  {x:'Dentro arde una lámpara de carburo, y las paredes, decoradas con escenas de caza, parecen respirar.'},
+  {x:'—Por las promesas que sobreviven a los calendarios.', d:1},
+  {x:'—Y por las fotos que esperan ser rescatadas.', d:1, snd:'clink'},
+  {x:'Un guitarrista invisible rasga un acorde menor: el mismo de la caseta de la Feria, cuando se besaron por primera vez, con sabor a vino dulce y a miedo.', snd:'chord'}
+ ]},
+
+{place:'Claudio Marcelo', when:'templo romano · Encajes Muñoz Morán 1884–2016',
+ art:function(){
+  var cols='';for(var i=0;i<6;i++){var x=440+i*136;
+    cols+='<rect x="'+(x-4)+'" y="540" width="52" height="20" fill="#B8AE98"/><rect x="'+x+'" y="262" width="44" height="280" fill="#CFC5AE"/>'+
+      '<line x1="'+(x+11)+'" y1="266" x2="'+(x+11)+'" y2="538" stroke="#9D937E" stroke-width="2"/><line x1="'+(x+22)+'" y1="266" x2="'+(x+22)+'" y2="538" stroke="#9D937E" stroke-width="2"/><line x1="'+(x+33)+'" y1="266" x2="'+(x+33)+'" y2="538" stroke="#9D937E" stroke-width="2"/>'+
+      '<path d="M'+(x-8)+',262 h60 l-6,-26 h-48z" fill="#D8CFB8"/><circle cx="'+(x-6)+'" cy="244" r="7" fill="#C2B89F"/><circle cx="'+(x+50)+'" cy="244" r="7" fill="#C2B89F"/>'}
+  var drawers='';for(var r=0;r<3;r++)for(var c=0;c<8;c++){var x=588+c*54,y=708+r*50;drawers+='<rect x="'+x+'" y="'+y+'" width="48" height="44" fill="#4A2C18" stroke="#1E1008" stroke-width="2"/><circle cx="'+(x+24)+'" cy="'+(y+22)+'" r="4" fill="#E0BE72"/>'}
+  return sky()+stars(6,90,500)+
+   '<g class="moonglow tb"><circle cx="1230" cy="170" r="300" fill="url(#gMoonGlow)"/></g><g class="moon"><circle cx="1230" cy="170" r="92" fill="url(#gMoon)"/></g>'+
+   '<g opacity=".92">'+
+   '<rect x="380" y="560" width="840" height="30" fill="#A89E88"/><rect x="360" y="590" width="880" height="30" fill="#958B76"/><rect x="340" y="620" width="920" height="40" fill="#827864"/>'+
+   cols+'<rect x="420" y="206" width="440" height="30" fill="#D8CFB8"/><path d="M860,206 l24,8 -10,10 16,12 -30,0z" fill="#D8CFB8"/>'+
+   '<rect x="0" y="0" width="1600" height="900" fill="#0B1020" opacity=".25"/></g>'+
+   '<rect x="0" y="660" width="1600" height="240" fill="#141A30"/>'+
+   '<rect x="540" y="630" width="520" height="56" fill="#1A100A" stroke="#C39A58" stroke-width="2"/>'+
+   '<text class="bod" x="800" y="668" text-anchor="middle" font-size="25" fill="url(#gMetal)" letter-spacing="3">ENCAJES MUÑOZ MORÁN</text>'+
+   '<text class="lbl" x="800" y="620" text-anchor="middle" font-size="13" fill="#B8B0A0">132 años · desde 1884</text>'+
+   '<rect x="570" y="692" width="460" height="180" fill="url(#gWarm)" opacity=".55"/>'+
+   '<g class="drawers">'+drawers+'</g>'+
+   fig('j',470,900,1.05)+fig('l',1130,900,1.02)+
+   '<path class="thread draw drw6" pathLength="1" d="M830,800 C980,780 1040,620 1200,570 S1480,440 1660,400"/>'+
+   '<g class="on2 fx"><g class="spool fx">'+
+     '<ellipse cx="800" cy="770" rx="36" ry="9" fill="#6B4A2A"/><rect x="772" y="770" width="56" height="60" fill="#E9A23B"/>'+
+     (function(){var s='';for(var y=776;y<828;y+=6)s+='<line x1="772" y1="'+y+'" x2="828" y2="'+y+'" stroke="#C47F22" stroke-width="1.5"/>';return s})()+
+     '<ellipse cx="800" cy="830" rx="36" ry="9" fill="#5A3C20"/>'+
+   '</g></g>';
+ },
+ lines:[
+  {x:'La brújula de la noche los dirige a Claudio Marcelo. La luna hierve sobre los capiteles romanos.'},
+  {x:'Frente al templo brilla el escaparate de Encajes Muñoz Morán: docenas de cajoncitos de nogal, aroma a almidón y a tiempo detenido.'},
+  {x:'Lucía rescata un pequeño carrete de hilo de seda. Jaime lo sujeta entre sus dedos.'},
+  {x:'—Si el tiempo se descose, basta un buen hilo para remendarlo.', d:1},
+  {x:'—O un buen motivo.', d:1},
+  {x:'—Encontrar nuestra foto lo es.', d:1},
+  {x:'Un rastro de perfume a dama de noche los guía de regreso a Las Tendillas.'}
+ ]},
+
+{place:'La trastienda de Pañerías', when:'Las Tendillas · 2001',
+ art:function(){
+  var spines='',r=mulberry(77),cols=['#5A2A22','#2E3A52','#4E4430','#6B3A22','#3A2A3E','#7A5A30'];
+  [220,330,440].forEach(function(y){var x=500;while(x<1100){var w=18+r()*22,h=70+r()*26;spines+='<rect x="'+x.toFixed(0)+'" y="'+(y-h).toFixed(0)+'" width="'+w.toFixed(0)+'" height="'+h.toFixed(0)+'" fill="'+cols[Math.floor(r()*cols.length)]+'"/>';x+=w+2}spines+='<rect x="490" y="'+y+'" width="620" height="10" fill="#4A3020"/>'});
+  var marble=function(x){return '<rect x="'+x+'" y="0" width="90" height="900" fill="#CFC6B6"/><path d="M'+(x+20)+',0 q30,120 -6,240 q-20,90 30,200 M'+(x+60)+',300 q-20,140 18,280" stroke="#9A907F" stroke-width="2" fill="none"/><rect x="'+(x-10)+'" y="0" width="110" height="30" fill="#B8AE9C"/>'};
+  return '<rect width="1600" height="900" fill="#1C1410"/>'+
+   '<rect x="480" y="100" width="640" height="360" fill="#140E0A"/>'+spines+
+   marble(360)+marble(1150)+
+   '<g class="curtain"><rect x="1270" y="40" width="330" height="860" fill="url(#gVelvet)"/></g><rect x="1260" y="30" width="350" height="14" fill="#C39A58"/>'+
+   '<rect x="0" y="720" width="1600" height="180" fill="#2A1C12"/>'+
+   '<rect x="520" y="690" width="560" height="40" fill="url(#gWood)"/>'+
+   '<path d="M560,690 L800,660 L1040,690 L1040,700 L800,676 L560,700Z" fill="#EFE6CF"/><path d="M800,660 V676" stroke="#B8AE98" stroke-width="2"/>'+
+   (function(){var s='';for(var i=1;i<6;i++)s+='<line x1="'+(590+i*30)+'" y1="'+(686-i*3.5)+'" x2="'+(760)+'" y2="'+(686-i*3.5-10)+'" stroke="#B8AE98" stroke-width="1"/>';return s})()+
+   '<circle class="polglow" cx="800" cy="420" r="340" fill="url(#gLamp)"/>'+
+   '<g transform="translate(800,410)"><g class="pol"><g class="polf tb">'+polaroidFront()+'</g><g class="polb tb">'+polaroidBack()+'</g></g></g>';
+ },
+ lines:[
+  {x:'El lobby del hotel vuelve a ser Pañerías por un instante. Empujan la puerta de madera que no debería existir.'},
+  {x:'Estantes sostenidos por columnas de mármol, un probador con cortinas de terciopelo granate, viejos catálogos de sastrería.'},
+  {x:'Entre las páginas crujientes asoma la Polaroid: ellos, veintiún años, frente al mostrador de zinc de una heladería desaparecida.', snd:'shimmer'},
+  {x:'Al dorso, la caligrafía juvenil de ella: «Si volvemos juntos, será porque todavía nos queremos».', q:1},
+  {x:'—Siempre quise terminar la frase.', d:1},
+  {x:'—¿Y cómo sigue?', d:1},
+  {x:'—…y porque al final entendimos que quererse, a veces, significa volver a empezar.', d:1}
+ ]},
+
+{place:'El carillón', when:'Las Tendillas · hoy',
+ art:function(){
+  var ticks='';for(var i=0;i<12;i++){var a=i*Math.PI/6;ticks+='<line x1="'+(800+Math.sin(a)*100).toFixed(1)+'" y1="'+(320-Math.cos(a)*100).toFixed(1)+'" x2="'+(800+Math.sin(a)*112).toFixed(1)+'" y2="'+(320-Math.cos(a)*112).toFixed(1)+'" stroke="#2A2E38" stroke-width="'+(i%3?3:6)+'"/>'}
+  var tourists='';[[540,.62],[640,.58],[720,.66],[1000,.6],[1080,.55]].forEach(function(t,i){tourists+='<g class="tourist" style="animation-delay:-'+(i*3)+'s;animation-direction:'+(i%2?'reverse':'normal')+'">'+fig(i%2?'l':'j',t[0],890,t[1],'fig-cold')+'</g>'});
+  return sky()+stars(8,70,260)+
+   '<rect x="480" y="90" width="640" height="820" fill="#27304F"/><rect x="470" y="80" width="660" height="18" fill="#394268"/>'+
+   '<circle cx="800" cy="320" r="130" fill="#394268"/><circle cx="800" cy="320" r="118" fill="#E8E0CC"/>'+ticks+
+   '<line x1="800" y1="320" x2="800" y2="250" stroke="#14181D" stroke-width="8" stroke-linecap="round"/><line x1="800" y1="320" x2="800" y2="222" stroke="#14181D" stroke-width="5" stroke-linecap="round"/><circle cx="800" cy="320" r="8" fill="#14181D"/>'+
+   '<circle class="ring" cx="800" cy="320" r="130"/><circle class="ring" cx="800" cy="320" r="130" style="animation-delay:1s"/><circle class="ring" cx="800" cy="320" r="130" style="animation-delay:2s"/>'+
+   '<rect x="500" y="600" width="600" height="300" fill="url(#gGlass)"/>'+
+   (function(){var s='';for(var x=560;x<1100;x+=80)s+='<line x1="'+x+'" y1="600" x2="'+x+'" y2="900" stroke="#6F8FB8" stroke-opacity=".5" stroke-width="3"/>';return s})()+
+   '<text class="lbl" x="800" y="588" text-anchor="middle" font-size="16" fill="#A9C9EA" letter-spacing="10">HOTEL</text>'+
+   tourists+
+   '<g class="past2 off1 fx"><rect x="500" y="540" width="600" height="70" fill="#1A100A" stroke="#C39A58" stroke-width="3"/><text class="bod" x="800" y="588" text-anchor="middle" font-size="36" fill="url(#gMetal)" letter-spacing="4">PAÑERÍAS MODERNAS</text></g>'+
+   '<g class="leaving">'+fig('l',1130,892,1.3)+'</g>'+
+   '<g transform="translate(800,610)"><g class="napkin tb">'+
+     '<rect x="-190" y="-150" width="380" height="300" fill="#F6F2E8"/>'+
+     '<path d="M-190,0 H190 M0,-150 V150" stroke="#E0D9C8" stroke-width="2"/>'+
+     '<text class="bod" x="0" y="-112" text-anchor="middle" font-size="18" fill="#A02A2A" letter-spacing="5">BAR LUCAS</text>'+
+     '<circle class="draw drw2" pathLength="1" cx="-110" cy="-10" r="52" fill="none" stroke="#26366A" stroke-width="3"/>'+
+     '<circle class="draw drw2" pathLength="1" cx="-110" cy="-10" r="26" fill="none" stroke="#26366A" stroke-width="3" style="transition-delay:1s"/>'+
+     '<g class="hand on3 fx" font-size="24" fill="#26366A"><text x="-30" y="-36">Viernes,</text><text x="-30" y="-6">18 de julio.</text><text x="-30" y="26">Medianoche.</text><text x="-30" y="58">Plaza del Potro.</text></g>'+
+   '</g></g>';
+ },
+ lines:[
+  {x:'La luz parpadea. Fuera, el carillón de la plaza suena completo, desafiando la norma que lo silencia a medianoche.', snd:'bells'},
+  {x:'La ciudad moderna reclama su sitio. En un pestañeo, Pañerías se disuelve, pero la Polaroid pesa, real, en los dedos de Jaime.'},
+  {x:'Lucía, sin estridencias, apoya algo en su mano: una servilleta del Bar Lucas con dos círculos concéntricos…'},
+  {x:'«Viernes, 18 de julio. Medianoche. Plaza del Potro.»', q:1},
+  {x:'Después se aleja, cruzando el vestíbulo lleno de turistas de frases cortas, y desaparece.'}
+ ]},
+
+{place:'Amanecer', when:'al día siguiente',
+ art:function(){
+  var roofs='';for(var i=0;i<9;i++){var x=240+i*90;roofs+='<path d="M'+x+',800 L'+(x+45)+',770 L'+(x+90)+',800Z" fill="#2A1F30"/>'}
+  return sky()+'<rect class="dawn" width="1600" height="900" fill="url(#gDawn)"/>'+
+   '<g class="sun"><circle cx="800" cy="720" r="260" fill="url(#gSun)"/><circle cx="800" cy="720" r="62" fill="#FFE3A4"/></g>'+
+   houses(9,860,120,260,'#2B2442',.15)+
+   '<rect x="200" y="800" width="860" height="100" fill="#2A1F30"/>'+roofs+
+   '<rect x="1140" y="430" width="70" height="440" fill="#2A1F30"/><rect x="1128" y="400" width="94" height="36" fill="#2A1F30"/>'+
+   '<path d="M1150,400 v-60 h50 v60z M1162,398 v-40 a13,13 0 0 1 26,0 v40z" fill="#2A1F30" fill-rule="evenodd"/>'+
+   '<path d="M1155,340 q20,-44 40,0z" fill="#2A1F30"/><line x1="1175" y1="296" x2="1175" y2="270" stroke="#2A1F30" stroke-width="4"/>'+
+   '<path d="M380,870 Q372,760 392,650" stroke="#2A1F30" stroke-width="10" fill="none"/>'+
+   '<path d="M392,650 q-60,-10 -90,30 M392,650 q60,-14 92,24 M392,650 q-40,-40 -80,-30 M392,650 q40,-44 84,-30 M392,650 q4,-50 -10,-70" stroke="#2A1F30" stroke-width="9" fill="none" stroke-linecap="round"/>'+
+   '<path class="thread draw drw4" pathLength="1" d="M-40,560 C260,560 420,300 800,400 S1300,640 1640,300"/>'+
+   '<g class="on3 fx">'+
+     '<g transform="translate(560,400) rotate(-8)"><g class="item" style="animation-delay:-1s"><rect x="-54" y="-44" width="108" height="88" fill="#F6F2E8"/><circle cx="-18" cy="0" r="18" fill="none" stroke="#26366A" stroke-width="2"/><circle cx="-18" cy="0" r="8" fill="none" stroke="#26366A" stroke-width="2"/><path d="M8,-10 h34 M8,2 h30 M8,14 h36" stroke="#26366A" stroke-width="2"/></g></g>'+
+     '<g transform="translate(800,380)"><g class="item" style="animation-delay:-2s"><circle r="36" fill="url(#gNacar)" stroke="#fff" stroke-opacity=".6" stroke-width="2"/><g fill="#8B8497"><circle cx="-8" cy="-8" r="4"/><circle cx="8" cy="-8" r="4"/><circle cx="-8" cy="8" r="4"/><circle cx="8" cy="8" r="4"/></g></g></g>'+
+     '<g transform="translate(1040,400) rotate(7)"><g class="item" style="animation-delay:-3s"><g transform="scale(.34)">'+polaroidFront()+'</g></g></g>'+
+   '</g>'+
+   '<g class="final"><text class="bod" x="800" y="190" text-anchor="middle" font-size="92" font-style="italic" fill="#FFF3DA">peligrosamente</text><text class="bod" x="800" y="274" text-anchor="middle" font-size="92" font-style="italic" fill="#FFF3DA">vivo.</text></g>';
+ },
+ lines:[
+  {x:'Al amanecer, Jaime regresa a casa. El aire acondicionado vuelve a funcionar, pero él no lo nota.'},
+  {x:'La cláusula que revisa en el bufete suena hueca, como un eco en una iglesia vacía. Pide la tarde libre.'},
+  {x:'Compra cuerdas nuevas para la guitarra que lleva muda desde 2008, y busca un sastre de los de antes, que todavía cosa lino al bies.'},
+  {x:'En el bolsillo interior viajan la servilleta, un botón de nácar que no recuerda haber cogido y la Polaroid que aguantó dos décadas de polvo.'},
+  {x:'La auténtica curva de la vida es la remota posibilidad de doblar el tiempo una vez más.', snd:'chord'},
+  {x:'Y eso, descubre Jaime en el ascensor que sube a su casa, basta para sentirse, de nuevo, peligrosamente vivo.'}
+ ]}
+];
+
+function tendillas(){
+  return sky()+stars(4,70,380)+moon(260,150,34)+
+   '<rect x="1200" y="170" width="440" height="600" fill="#262E4C"/><rect x="1190" y="160" width="460" height="16" fill="#394268"/>'+
+   '<circle cx="1400" cy="250" r="54" fill="#394268"/><circle cx="1400" cy="250" r="46" fill="#E8E0CC" opacity=".9"/>'+
+   '<line x1="1400" y1="250" x2="1420" y2="222" stroke="#14181D" stroke-width="6" stroke-linecap="round"/><line x1="1400" y1="250" x2="1438" y2="250" stroke="#14181D" stroke-width="4" stroke-linecap="round"/>'+
+   (function(){var s='';for(var r=0;r<3;r++)for(var c=0;c<4;c++){var x=1230+c*100,y=350+r*130;s+='<path d="M'+x+','+(y+80)+' v-60 a20,20 0 0 1 40,0 v60z" fill="'+((r+c)%3?'#0E1327':'#E9A23B')+'" opacity="'+((r+c)%3?1:.45)+'"/>'}return s})()+
+   '<rect x="0" y="760" width="1600" height="140" fill="#151B30"/>'+
+   (function(){var s='';for(var i=-8;i<9;i++)s+='<line x1="'+(800+i*50)+'" y1="760" x2="'+(800+i*190)+'" y2="900" stroke="#20284A" stroke-width="2"/>';return s})()+
+   '<g class="now">'+
+     '<rect x="380" y="300" width="520" height="460" fill="#1A2036"/>'+
+     (function(){var s='';for(var r=0;r<2;r++)for(var c=0;c<5;c++)s+='<rect x="'+(410+c*98)+'" y="'+(330+r*90)+'" width="64" height="60" fill="#8FB0D8" opacity="'+(((r+c)%2)?.12:.3)+'"/>';return s})()+
+     '<text class="lbl" x="640" y="522" text-anchor="middle" font-size="18" fill="#A9C9EA" letter-spacing="10">HOTEL</text>'+
+     '<rect x="420" y="540" width="440" height="220" fill="url(#gGlass)"/>'+
+     '<line x1="530" y1="540" x2="530" y2="760" stroke="#6F8FB8" stroke-opacity=".6" stroke-width="3"/><line x1="640" y1="540" x2="640" y2="760" stroke="#6F8FB8" stroke-opacity=".6" stroke-width="3"/><line x1="750" y1="540" x2="750" y2="760" stroke="#6F8FB8" stroke-opacity=".6" stroke-width="3"/>'+
+     fig('l',690,742,.55,'fig-cold')+'<rect x="600" y="700" width="170" height="42" fill="#0E1426"/>'+
+   '</g>'+
+   '<g class="past on1 off3 fx">'+
+     '<rect x="408" y="450" width="464" height="310" fill="#2B1A10"/>'+
+     '<rect x="420" y="460" width="440" height="62" fill="#1A100A" stroke="#C39A58" stroke-width="3"/>'+
+     '<text class="bod" x="640" y="503" text-anchor="middle" font-size="31" fill="url(#gMetal)" letter-spacing="3">PAÑERÍAS MODERNAS</text>'+
+     '<rect x="440" y="540" width="400" height="212" fill="url(#gWarm)" opacity=".92"/>'+
+     mannequin(500,750,.85)+mannequin(610,750,.85)+
+     fig('j',735,752,.82,'fig-past')+
+     '<path d="M722,623 q13,14 26,0" stroke="#E8C43A" stroke-width="3" fill="none"/>'+
+     '<g transform="translate(742,612)"><path class="wink tb" d="M0,-16 L4,-4 L16,0 L4,4 L0,16 L-4,4 L-16,0 L-4,-4Z" fill="#FFF3D0" filter="url(#glow)"/></g>'+
+   '</g>'+
+   '<path d="M930,560 h170 v200 h-170z" fill="#0C1020"/><rect x="920" y="550" width="190" height="14" fill="#1A2036"/><rect x="920" y="740" width="190" height="20" fill="#1A2036"/>'+
+   '<g fill="#0C1020">'+
+     '<path d="M950,470 Q960,445 1000,448 L1060,448 Q1085,452 1088,478 Q1092,500 1075,505 L1072,550 L1062,550 L1060,510 L1020,512 L1012,550 L1002,550 L998,510 L975,505 L958,532 L948,526 L958,500 Q945,490 950,470Z"/>'+
+     '<path d="M955,478 L930,420 Q925,405 910,412 L890,430 Q885,440 896,442 L915,436 L948,494Z"/>'+
+     '<path d="M1086,470 Q1112,492 1100,532 Q1092,506 1082,488Z"/>'+
+     '<path d="M998,452 L994,402 Q1010,390 1026,402 L1030,452Z"/><circle cx="1011" cy="384" r="13"/><path d="M1000,374 q12,-22 26,-4z"/>'+
+     '<path d="M1024,406 L1066,352" stroke="#0C1020" stroke-width="7" stroke-linecap="round"/><path d="M1064,354 L1092,318" stroke="#8A8F98" stroke-width="3"/>'+
+   '</g>'+
+   farola(300,770)+
+   fig('j',1180,812,1.18)+
+   '<path class="thread draw drw4" pathLength="1" d="M1200,700 C1300,690 1420,640 1660,650"/>';
+}
+
+/* ---------- sonido (Web Audio, sintetizado) ---------- */
+var ac=null,soundOn=false,amb=null;
+function A(){if(!ac){var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;ac=new C()}if(ac.state==='suspended')ac.resume();return ac}
+function noiseBuf(sec){var c=A(),b=c.createBuffer(1,c.sampleRate*sec,c.sampleRate),d=b.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1;return b}
+function env(g,t,a,peak,dec){g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+a);g.gain.exponentialRampToValueAtTime(0.0001,t+a+dec)}
+function tone(freq,type,t,peak,dec,dest,detune){var c=A(),o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=freq;if(detune)o.detune.value=detune;env(g,t,0.005,peak,dec);o.connect(g);g.connect(dest||c.destination);o.start(t);o.stop(t+dec+0.1)}
+function noiseHit(t,dur,type,f,q,peak){var c=A(),s=c.createBufferSource(),fl=c.createBiquadFilter(),g=c.createGain();s.buffer=noiseBuf(dur+0.1);fl.type=type;fl.frequency.value=f;fl.Q.value=q||1;env(g,t,0.004,peak,dur);s.connect(fl);fl.connect(g);g.connect(c.destination);s.start(t);s.stop(t+dur+0.1)}
+function pluck(freq,t,dest){var c=A(),o=c.createOscillator(),f=c.createBiquadFilter(),g=c.createGain();o.type='sawtooth';o.frequency.value=freq;f.type='lowpass';f.frequency.setValueAtTime(3200,t);f.frequency.exponentialRampToValueAtTime(300,t+1.6);env(g,t,0.004,0.09,2.8);o.connect(f);f.connect(g);g.connect(dest||c.destination);o.start(t);o.stop(t+3)}
+function bell(freq,t,peak){[1,2.76,5.4,8.9].forEach(function(p,i){tone(freq*p,'sine',t,peak/(i*1.8+1),3.2-i*.6)})}
+var SND={
+  snap:function(t){noiseHit(t,.25,'highpass',1800,1,.25);tone(90,'sine',t,.25,.4)},
+  click:function(t){t+=1.2;noiseHit(t,.08,'bandpass',900,2,.5);tone(62,'sine',t,.4,.35);noiseHit(t+.05,1.4,'lowpass',400,1,.05)},
+  sizzle:function(t){noiseHit(t,4.5,'highpass',3500,.7,.05)},
+  shimmer:function(t){[1318,1568,1976,2637].forEach(function(f,i){tone(f,'sine',t+i*.12,.03,2.2)})},
+  creak:function(t){var c=A(),o=c.createOscillator(),g=c.createGain(),f=c.createBiquadFilter();o.type='sawtooth';o.frequency.setValueAtTime(70,t);o.frequency.linearRampToValueAtTime(110,t+1.4);o.frequency.linearRampToValueAtTime(80,t+2.6);f.type='bandpass';f.frequency.value=900;f.Q.value=6;env(g,t,.3,.05,2.4);o.connect(f);f.connect(g);g.connect(c.destination);o.start(t);o.stop(t+3)},
+  clink:function(t){t+=1.3;tone(2637,'sine',t,.09,1.6);tone(3520,'sine',t,.05,1.2);tone(4186,'sine',t+.01,.03,.8)},
+  chord:function(t){[110,164.81,220,261.63,329.63].forEach(function(f,i){pluck(f,t+i*.045)})},
+  bells:function(t){var m=[659.25,523.25,587.33,392,392,587.33,659.25,523.25];m.forEach(function(f,i){bell(f,t+i*.62,.07)});for(var k=0;k<3;k++)bell(196,t+m.length*.62+.8+k*1.6,.12)}
+};
+function play(name){if(!soundOn||!SND[name])return;var c=A();if(!c)return;SND[name](c.currentTime+.05)}
+function startAmbient(){var c=A();if(!c||amb)return;var s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain(),lfo=c.createOscillator(),lg=c.createGain();
+  s.buffer=noiseBuf(4);s.loop=true;f.type='bandpass';f.frequency.value=4800;f.Q.value=8;g.gain.value=.012;lfo.frequency.value=28;lg.gain.value=.01;lfo.connect(lg);lg.connect(g.gain);
+  s.connect(f);f.connect(g);g.connect(c.destination);s.start();lfo.start();amb={g:g}}
+function setSound(on){soundOn=on;document.getElementById('snd').setAttribute('aria-pressed',on?'true':'false');document.getElementById('sndWaves').style.opacity=on?1:.2;
+  if(on){startAmbient();if(amb)amb.g.gain.setTargetAtTime(.012,A().currentTime,.5)}else if(amb&&ac){amb.g.gain.setTargetAtTime(0,ac.currentTime,.3)}}
+
+/* ---------- motor de la animación ---------- */
+var layers=[document.getElementById('la'),document.getElementById('lb')],active=0;
+var linesEl=document.getElementById('lines'),tl=document.getElementById('tl');
+var idx=0,line=-1,playing=false,timer=null,lineT0=0,lineDur=1;
+var segs=SCENES.map(function(s,i){var b=document.createElement('button');b.type='button';b.setAttribute('aria-label',(i+1)+'. '+s.place);b.title=s.place;var sp=document.createElement('span');b.appendChild(sp);b.addEventListener('click',function(e){e.stopPropagation();goScene(i)});tl.appendChild(b);return sp});
+
+function render(html){
+  var next=layers[1-active],old=layers[active];
+  next.innerHTML='<g class="sc">'+html+'</g>';
+  void next.getBoundingClientRect();
+  next.classList.add('on');old.classList.remove('on');active=1-active;
+  setTimeout(function(){if(!old.classList.contains('on'))old.innerHTML=''},1400);
+}
+function scG(){return layers[active].firstChild}
+function durOf(l){return Math.max(3000,1500+l.x.length*55)}
+function pad(n){return (n<10?'0':'')+n}
+
+function goScene(i){
+  clearTimeout(timer);
+  document.getElementById('end').hidden=true;
+  idx=i;line=-1;
+  render(SCENES[i].art());
+  document.getElementById('num').textContent=pad(i+1)+' / '+pad(SCENES.length);
+  document.getElementById('place').textContent=SCENES[i].place;
+  document.getElementById('when').textContent=SCENES[i].when;
+  linesEl.innerHTML='';
+  segs.forEach(function(s,k){s.style.width=k<i?'100%':'0'});
+  timer=setTimeout(nextLine,1100);
+}
+function nextLine(){
+  clearTimeout(timer);
+  var S=SCENES[idx];
+  if(line<S.lines.length-1){
+    line++;
+    var L=S.lines[line],g=scG();
+    if(g)g.classList.add('b'+line);
+    var p=document.createElement('p');p.textContent=L.x;if(L.d)p.className='d';if(L.q)p.className='q';
+    Array.prototype.forEach.call(linesEl.children,function(c){c.classList.add('old')});
+    linesEl.appendChild(p);
+    while(linesEl.children.length>(window.innerWidth<560?2:3))linesEl.removeChild(linesEl.firstChild);
+    if(L.snd)play(L.snd);
+    lineT0=performance.now();lineDur=durOf(L);
+    if(playing)timer=setTimeout(nextLine,lineDur);
+  }else if(idx<SCENES.length-1){goScene(idx+1)}
+  else{finish()}
+}
+function finish(){clearTimeout(timer);setPlaying(false);segs.forEach(function(s){s.style.width='100%'});document.getElementById('end').hidden=false}
+function setPlaying(p){
+  playing=p;var b=document.getElementById('play'),ic=document.getElementById('playIcon');
+  b.setAttribute('aria-label',p?'Pausar':'Reproducir');
+  ic.innerHTML=p?'<path d="M4 2h3v12H4zM9 2h3v12H9z"/>':'<path d="M4 2l10 6-10 6z"/>';
+  clearTimeout(timer);
+  if(p&&line>=0){var rest=Math.max(800,lineDur-(performance.now()-lineT0));timer=setTimeout(nextLine,rest)}
+  else if(p&&line<0){timer=setTimeout(nextLine,900)}
+}
+function prev(){ if(line>0)goScene(idx);else goScene(Math.max(0,idx-1)) }
+
+(function tick(){
+  var S=SCENES[idx],n=S.lines.length,frac=0;
+  if(line>=0)frac=playing?Math.min(1,(performance.now()-lineT0)/lineDur):1;
+  var prog=Math.max(0,(line+(line>=0?frac:0)))/n;
+  if(segs[idx])segs[idx].style.width=(Math.min(1,prog)*100).toFixed(2)+'%';
+  requestAnimationFrame(tick);
+})();
+
+document.getElementById('stage').addEventListener('click',function(){nextLine()});
+document.getElementById('next').addEventListener('click',function(){nextLine()});
+document.getElementById('prev').addEventListener('click',prev);
+document.getElementById('play').addEventListener('click',function(){setPlaying(!playing)});
+document.getElementById('snd').addEventListener('click',function(){setSound(!soundOn)});
+document.addEventListener('keydown',function(e){
+  if(!document.getElementById('intro').hidden)return;
+  if(e.key===' '){e.preventDefault();setPlaying(!playing)}
+  else if(e.key==='ArrowRight'){nextLine()}
+  else if(e.key==='ArrowLeft'){prev()}
+});
+function begin(withSound){
+  document.getElementById('intro').hidden=true;
+  if(withSound)setSound(true);else setSound(false);
+  setPlaying(true);goScene(0);
+}
+document.getElementById('startSnd').addEventListener('click',function(){begin(true)});
+document.getElementById('startMute').addEventListener('click',function(){begin(false)});
+document.getElementById('again').addEventListener('click',function(){setPlaying(true);goScene(0)});
+
+/* reglas de "beats": .bN activa .onN, apaga .offN y dibuja .drwN */
+(function(){var css='',k;for(k=0;k<8;k++)css+='.on'+k+'{opacity:0}';for(k=0;k<8;k++)css+='.b'+k+' .on'+k+'{opacity:1}.b'+k+' .off'+k+'{opacity:0}.b'+k+' .drw'+k+'{stroke-dashoffset:0}';
+  var st=document.createElement('style');st.textContent=css;document.head.appendChild(st)})();
+
+/* portada: la plaza de las Tendillas en reposo detrás del título */
+setSound(false);
+render(tendillas());
+})();
+</script>
+</body>
+</html>
