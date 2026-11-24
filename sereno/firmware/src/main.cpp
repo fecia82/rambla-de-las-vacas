@@ -760,14 +760,17 @@ void setup() {
   }
   for (const std::string& parte : s.mensajes) {
     Serial.println(parte.c_str());
-    encolar(parte);
+    if (hayDestino()) encolar(parte);  // sin destino, la cola no haría más que crecer
   }
   if (s.cierreNoche) guardarEstado();
 
-  // Se conecta cuando hay algo urgente, al cerrar la noche (aunque no haya
-  // parte: así se pone en hora) y, si quedó algo sin enviar, una vez por hora.
+  // Con destino configurado se conecta cuando hay algo urgente, al cerrar la
+  // noche (aunque no haya parte: así se pone en hora) y, si quedó algo sin
+  // enviar, una vez por hora. Sin destino no enciende el módem: trabaja de
+  // libreta y la hora se la da el móvil en modo visita.
   const bool pendiente = LittleFS.exists(kRutaCola);
-  if (urgente || s.cierreNoche || (pendiente && g_rtcDespertares % 6 == 0)) {
+  if (hayDestino() &&
+      (urgente || s.cierreNoche || (pendiente && g_rtcDespertares % 6 == 0))) {
     subir();
   }
   dormir();

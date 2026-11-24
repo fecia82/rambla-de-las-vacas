@@ -15,6 +15,10 @@ Temporada: 70 noches · 1 de helada · mínima a 1 m 0,0 °C · 256 horas frío.
 Veredicto provisional: invernadero obligatorio (1 m bajó de 1 °C).
 ```
 
+| | |
+|---|---|
+| ![La cabeza: farol con ventana para cámara y destello, tejadillo con placa solar y chimenea del sensor de cielo](docs/img/cabeza.png) | ![El conjunto: estaca de 2,3 m con cuatro pagodas a 0,1 · 0,5 · 1 · 2 m y el farol arriba](docs/img/conjunto.png) |
+
 Ese parte lo generó el firmware real sobre un invierno simulado. **Esto es un prototipo
 v0: un diseño completo con su lógica probada en un PC. No se ha impreso, soldado ni
 encendido nada.** Más abajo se detalla qué está comprobado y qué no.
@@ -46,6 +50,7 @@ tools/informe_helada.py   de un invierno medido a veinte años estimados
 hardware/cad/        carcasa paramétrica en OpenSCAD
 hardware/stl/        piezas exportadas
 docs/                resultados de la simulación y renders
+index.html           presentación del prototipo (la misma que el artefacto publicado)
 ```
 
 ## Qué está comprobado y qué no

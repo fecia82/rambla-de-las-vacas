@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Sereno de finca</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Disposición: una ronda de noche. Columna de lectura estrecha, figuras a todo el ancho;
+   la voz del sereno en Gloock, la del ingeniero en Plex Sans, las lecturas en Plex Mono. */
+:root {
+  color-scheme: dark;
+  --bg: #0d111c; --panel: #141a29; --panel-2: #1b2235;
+  --ink: #eef1f7; --ink-2: #b9c0d1; --muted: #8790a6; --rule: #283047; --grid: #222a3f;
+  --lantern: #f0b03f; --lantern-fill: #f0b03f; --on-lantern: #1a1305;
+  --frost: #3987e5; --pitaya: #d55181; --ref: #8f97ab;
+  --seq-20: #b7d3f6; --seq-10: #86b6ef; --seq-05: #5598e7; --seq-01: #2a78d6;
+  --good: #0ca30c; --warn: #fab219; --crit: #e66767;
+  /* La escena nocturna es de noche en los dos temas */
+  --n-top: #060a14; --n-sky: #101a33; --n-ground: #171c28; --n-ground-2: #1f2534;
+  --n-ink: #e9edf6; --n-muted: #a3acc0; --n-lantern: #f6c15a; --n-cold: #5a9bea;
+  --display: "Gloock", "Bodoni 72", "Didot", Georgia, serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --bg: #f2f4f8; --panel: #fbfcfe; --panel-2: #e9edf4;
+    --ink: #111727; --ink-2: #414961; --muted: #677087; --rule: #d3d9e4; --grid: #e2e6ee;
+    --lantern: #8f5800; --frost: #2a78d6; --pitaya: #e87ba4; --ref: #7c8499;
+    --seq-20: #86b6ef; --seq-10: #5598e7; --seq-05: #2a78d6; --seq-01: #184f95;
+    --good: #0a7d0a; --warn: #8a6100; --crit: #c23030;
+  }
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f2f4f8; --panel: #fbfcfe; --panel-2: #e9edf4;
+  --ink: #111727; --ink-2: #414961; --muted: #677087; --rule: #d3d9e4; --grid: #e2e6ee;
+  --lantern: #8f5800; --frost: #2a78d6; --pitaya: #e87ba4; --ref: #7c8499;
+  --seq-20: #86b6ef; --seq-10: #5598e7; --seq-05: #2a78d6; --seq-01: #184f95;
+  --good: #0a7d0a; --warn: #8a6100; --crit: #c23030;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55; }
+.w { max-width: 1060px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.col { max-width: 40rem; }
+h1, h2, h3, p, figure, ul, ol, table { margin: 0; }
+h1, h2 { font-family: var(--display); font-weight: 400; text-wrap: balance; letter-spacing: -0.005em; }
+h2 { font-size: clamp(1.7rem, 4.2vw, 2.5rem); line-height: 1.1; }
+h3 { font-size: 1.05rem; font-weight: 600; line-height: 1.3; }
+p { text-wrap: pretty; }
+a { color: var(--lantern); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--lantern); outline-offset: 3px; }
+.eyebrow { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+.lede { font-size: 1.14rem; color: var(--ink-2); }
+.small { font-size: 0.86rem; color: var(--muted); }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+section { padding-block: clamp(2.5rem, 7vw, 4.5rem); border-top: 1px solid var(--rule); }
+.stack { display: flex; flex-direction: column; gap: 1rem; }
+.stack-l { display: flex; flex-direction: column; gap: 1.75rem; }
+
+/* ---------- cabecera */
+header.hero { padding-block: clamp(1.5rem, 5vw, 3rem) clamp(2rem, 6vw, 3.5rem); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(1.5rem, 4vw, 3rem); align-items: center; }
+.hero h1 { font-size: clamp(3.6rem, 13vw, 7.5rem); line-height: 0.92; }
+.cry { font-family: var(--display); font-size: clamp(1.25rem, 3.4vw, 1.75rem); color: var(--lantern); line-height: 1.2; }
+.scene { border-radius: 14px; overflow: hidden; background: var(--n-top); border: 1px solid var(--rule); }
+.scene svg { display: block; width: 100%; height: auto; }
+.facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin-top: clamp(1.5rem, 4vw, 2.5rem); }
+.facts div { background: var(--panel); padding: 0.85rem 1rem; display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.facts b { font-family: var(--mono); font-weight: 500; font-size: 1.12rem; font-variant-numeric: tabular-nums; }
+.facts span { font-size: 0.82rem; color: var(--muted); }
+
+/* ---------- por qué */
+.why { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.25rem, 3vw, 2.25rem); }
+.why article { display: flex; flex-direction: column; gap: 0.6rem; padding-top: 1rem; border-top: 2px solid var(--ink); min-width: 0; }
+.why .said { font-family: var(--display); font-size: 1.28rem; line-height: 1.2; }
+.why .src { font-size: 0.8rem; color: var(--muted); }
+.why .does { color: var(--ink-2); }
+
+/* ---------- paneles e interacción */
+.panel { background: var(--panel); border: 1px solid var(--rule); border-radius: 12px; padding: clamp(1rem, 2.5vw, 1.5rem); min-width: 0; }
+.two { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 1rem; align-items: start; }
+.sim-tag { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--rule); border-radius: 999px; padding: 0.2rem 0.6rem; }
+.sim-tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--warn); }
+.panel-head { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; justify-content: space-between; align-items: baseline; margin-bottom: 0.9rem; }
+.clock { font-family: var(--display); font-size: clamp(2rem, 6vw, 2.9rem); line-height: 1; }
+.controls { display: flex; gap: 0.75rem; align-items: center; margin-top: 0.9rem; }
+.controls input[type=range] { flex: 1; min-width: 0; accent-color: var(--lantern); height: 28px; }
+button.btn { font: inherit; font-size: 0.9rem; font-weight: 500; color: var(--ink); background: var(--panel-2); border: 1px solid var(--rule); border-radius: 8px; padding: 0.45rem 0.85rem; cursor: pointer; }
+button.btn:hover { border-color: var(--muted); }
+.rows { display: flex; flex-direction: column; gap: 0.5rem; }
+.row { display: grid; grid-template-columns: 4.6rem minmax(0, 1fr) 4.4rem; gap: 0.6rem; align-items: center; font-size: 0.9rem; }
+.row .lab { color: var(--ink-2); }
+.row .val { text-align: right; }
+.track { position: relative; height: 16px; }
+.track::before { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: var(--grid); border-radius: 2px; }
+.track .zero { position: absolute; top: -3px; bottom: -3px; width: 1px; background: var(--muted); }
+.track .dot { position: absolute; top: 2px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; box-shadow: 0 0 0 2px var(--panel); }
+.scale { display: grid; grid-template-columns: 4.6rem minmax(0, 1fr) 4.4rem; gap: 0.6rem; font-size: 0.72rem; color: var(--muted); }
+.scale div { position: relative; height: 1.1rem; }
+.scale span { position: absolute; transform: translateX(-50%); font-family: var(--mono); }
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+.chip { font-size: 0.8rem; border: 1px solid var(--rule); border-radius: 999px; padding: 0.15rem 0.6rem; color: var(--ink-2); display: inline-flex; gap: 0.4rem; align-items: center; }
+.chip i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+.chip.on-frost i { background: var(--frost); } .chip.on-crit i { background: var(--crit); } .chip.on-lantern i { background: var(--lantern-fill); }
+
+.feed { display: flex; flex-direction: column; gap: 0.6rem; }
+.msg { background: var(--panel-2); border-radius: 4px 12px 12px 12px; padding: 0.7rem 0.85rem; font-size: 0.9rem; white-space: pre-line; overflow-wrap: anywhere; }
+.msg .t { display: block; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); margin-bottom: 0.25rem; }
+.msg.cante { border-left: 3px solid var(--lantern-fill); border-radius: 0 12px 12px 0; }
+.empty { color: var(--muted); font-size: 0.9rem; border: 1px dashed var(--rule); border-radius: 10px; padding: 0.9rem; }
+
+/* ---------- gráficas */
+.chart { position: relative; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { font-family: var(--body); font-size: 11.5px; fill: var(--muted); }
+.chart .strong { fill: var(--ink-2); }
+.legend { display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; font-size: 0.82rem; color: var(--ink-2); margin-bottom: 0.5rem; }
+.legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.legend i { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+.legend i.dot { width: 9px; height: 9px; border-radius: 50%; }
+.tip { position: absolute; pointer-events: none; background: var(--bg); color: var(--ink); border: 1px solid var(--rule); border-radius: 8px; padding: 0.45rem 0.6rem; font-size: 0.8rem; line-height: 1.4; white-space: nowrap; z-index: 2; transform: translate(-50%, -100%); margin-top: -10px; }
+.tip b { font-weight: 600; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.tile { display: flex; flex-direction: column; gap: 0.2rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); min-width: 0; }
+.tile b { font-family: var(--mono); font-weight: 500; font-size: 1.5rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.tile span { font-size: 0.85rem; color: var(--ink-2); }
+details.data { font-size: 0.85rem; color: var(--ink-2); }
+details.data summary { cursor: pointer; color: var(--muted); }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td { text-align: left; padding: 0.5rem 0.75rem 0.5rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 500; color: var(--muted); font-size: 0.8rem; }
+td.r, th.r { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; padding-right: 0; padding-left: 0.75rem; }
+.photo { border-radius: 10px; overflow: hidden; background: #05070c; line-height: 0; }
+.photo canvas { width: 100%; height: auto; display: block; }
+
+/* ---------- anatomía */
+.cad { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.cad figure { display: flex; flex-direction: column; gap: 0.5rem; }
+.cad img { width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--rule); background: #f4f5f7; }
+figcaption { font-size: 0.84rem; color: var(--muted); }
+.wiring svg { display: block; width: 100%; height: auto; min-width: 640px; }
+.wiring text { font-family: var(--body); font-size: 12px; fill: var(--ink); }
+.wiring .m { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+
+/* ---------- estado */
+.st { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 500; white-space: nowrap; }
+.st::before { content: ""; width: 9px; height: 9px; border-radius: 2px; }
+.st.ok::before { background: var(--good); } .st.part::before { background: var(--warn); border-radius: 50%; } .st.no::before { background: var(--crit); transform: rotate(45deg); }
+.biz { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.25rem, 3vw, 2.25rem); }
+.biz article { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+.biz .price { font-family: var(--mono); font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+ol.steps { padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.6rem; }
+ul.plain { padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.4rem; }
+footer { padding-block: 2rem 3rem; border-top: 1px solid var(--rule); }
+
+@media (max-width: 820px) {
+  .hero-grid, .two { grid-template-columns: minmax(0, 1fr); }
+  .why, .biz { grid-template-columns: minmax(0, 1fr); }
+  .facts, .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cad { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="w">
+    <div class="hero-grid">
+      <div class="stack">
+        <p class="eyebrow">Vibe-hardware · prototipo v0 · Rambla de las Vacas</p>
+        <h1>Sereno</h1>
+        <p class="cry">«¡Las nueve y helando!»</p>
+        <p class="lede">Una estaca con cuatro termómetros, un ojo al cielo y un farol con cámara. Vela la finca cuando no hay nadie: en invierno mide el aire frío que se embalsa en la hondonada y en verano cuenta las flores de pitaya que abren esa noche. Al amanecer lo canta en un mensaje, como el sereno cantaba la hora y el tiempo.</p>
+      </div>
+      <figure class="scene" aria-label="Sección de la hondonada de noche: el aire frío se embalsa junto al suelo y la estaca lo mide a cuatro alturas">
+        <svg viewBox="0 0 600 470" role="img">
+          <defs>
+            <linearGradient id="cielo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#060a14"/><stop offset="1" stop-color="#14203d"/></linearGradient>
+            <linearGradient id="frio" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5a9bea" stop-opacity="0.6"/><stop offset="0.6" stop-color="#5a9bea" stop-opacity="0.18"/><stop offset="1" stop-color="#5a9bea" stop-opacity="0"/></linearGradient>
+            <radialGradient id="luz" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#f6c15a" stop-opacity="0.55"/><stop offset="1" stop-color="#f6c15a" stop-opacity="0"/></radialGradient>
+          </defs>
+          <rect width="600" height="470" fill="url(#cielo)"/>
+          <g fill="#e9edf6">
+            <circle cx="250" cy="30" r="1.2"/><circle cx="352" cy="58" r="0.9"/><circle cx="410" cy="26" r="1.3"/><circle cx="468" cy="112" r="0.8"/><circle cx="566" cy="150" r="1.1"/><circle cx="386" cy="132" r="0.9"/><circle cx="210" cy="78" r="0.8"/><circle cx="574" cy="40" r="0.9"/>
+          </g>
+          <path d="M506 44 a26 26 0 1 0 22 44 a21 21 0 1 1 -22 -44 z" fill="#e9edf6" opacity="0.9"/>
+          <!-- el lago de aire frío: se pinta antes que el terreno, que lo recorta -->
+          <rect x="0" y="262" width="600" height="138" fill="url(#frio)"/>
+          <path d="M0 236 C100 248 150 392 240 398 L440 398 C520 392 548 290 600 250 L600 470 L0 470 Z" fill="#171c28"/>
+          <path d="M0 236 C100 248 150 392 240 398 L440 398 C520 392 548 290 600 250" fill="none" stroke="#2c3550" stroke-width="2"/>
+          <!-- espaldera de pitaya, para la escala: 1,8 m -->
+          <g stroke="#3a455f" stroke-width="4" stroke-linecap="round" fill="none"><path d="M418 398 L418 188"/><path d="M392 188 L444 188"/></g>
+          <g stroke="#2f5a48" stroke-width="7" stroke-linecap="round" fill="none">
+            <path d="M396 190 C386 230 392 268 384 318"/><path d="M408 190 C410 240 402 280 408 336"/><path d="M430 190 C434 236 426 286 434 330"/><path d="M440 190 C452 228 446 262 454 300"/>
+          </g>
+          <!-- la estaca: 1 m = 117 px, suelo en y = 398 -->
+          <path d="M290 398 L290 128" stroke="#8f97ab" stroke-width="4" stroke-linecap="round"/>
+          <g stroke="#8f97ab" stroke-width="1" fill="none"><path d="M274 164 H200"/><path d="M274 281 H200"/><path d="M274 339 H200"/><path d="M274 386 H200"/></g>
+          <g fill="#c9d1e3">
+            <g transform="translate(290,386)"><rect x="-13" y="-7" width="26" height="3.4" rx="1.7"/><rect x="-15" y="-2" width="30" height="3.4" rx="1.7"/><rect x="-13" y="3" width="26" height="3.4" rx="1.7"/></g>
+            <g transform="translate(290,339)"><rect x="-13" y="-7" width="26" height="3.4" rx="1.7"/><rect x="-15" y="-2" width="30" height="3.4" rx="1.7"/><rect x="-13" y="3" width="26" height="3.4" rx="1.7"/></g>
+            <g transform="translate(290,281)"><rect x="-13" y="-7" width="26" height="3.4" rx="1.7"/><rect x="-15" y="-2" width="30" height="3.4" rx="1.7"/><rect x="-13" y="3" width="26" height="3.4" rx="1.7"/></g>
+            <g transform="translate(290,164)"><rect x="-13" y="-7" width="26" height="3.4" rx="1.7"/><rect x="-15" y="-2" width="30" height="3.4" rx="1.7"/><rect x="-13" y="3" width="26" height="3.4" rx="1.7"/></g>
+          </g>
+          <!-- el farol -->
+          <circle cx="290" cy="118" r="74" fill="url(#luz)"/>
+          <path d="M290 118 L410 150 L410 250 Z" fill="#f6c15a" opacity="0.07"/>
+          <rect x="276" y="100" width="28" height="36" rx="3" fill="#232a3d" stroke="#8f97ab" stroke-width="1.5"/>
+          <rect x="281" y="108" width="18" height="16" rx="2" fill="#f6c15a"/>
+          <path d="M268 100 L312 88 L312 96 L268 104 Z" fill="#8f97ab"/>
+          <path d="M272 99 L308 89.5" stroke="#2a78d6" stroke-width="3"/>
+          <!-- lecturas -->
+          <g font-family="IBM Plex Mono, ui-monospace, monospace" font-size="19" fill="#e9edf6" text-anchor="end">
+            <text x="192" y="170">0,6 °C</text><text x="192" y="287">0,0 °C</text><text x="192" y="345">−0,4 °C</text><text x="192" y="392" fill="#9cc4f7">−1,1 °C</text>
+          </g>
+          <g font-family="IBM Plex Sans, system-ui, sans-serif" font-size="15" fill="#a3acc0">
+            <text x="22" y="170">2 m</text><text x="22" y="287">1 m</text><text x="22" y="345">0,5 m</text><text x="22" y="392">0,1 m</text>
+            <text x="466" y="208">espaldera</text><text x="466" y="227">de pitaya, 1,8 m</text>
+            <text x="456" y="352" fill="#9cc4f7">aire frío</text><text x="456" y="371" fill="#9cc4f7">embalsado</text>
+            <text x="22" y="44" fill="#e9edf6" font-size="19">El mapa dice 1,0 °C.</text>
+            <text x="22" y="68" font-size="16">En la hondonada hiela.</text>
+          </g>
+        </svg>
+      </figure>
+    </div>
+    <div class="facts">
+      <div><b>≈ 105 €</b><span>en piezas, precios orientativos</span></div>
+      <div><b>0,1 · 0,5 · 1 · 2 m</b><span>cuatro sondas en vertical</span></div>
+      <div><b>LTE-M + solar</b><span>sin wifi ni enchufe en la finca</span></div>
+      <div><b>0 nube</b><span>cuenta y pronostica en el propio aparato</span></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="w stack-l">
+    <div class="col stack">
+      <p class="eyebrow">Por qué existe</p>
+      <h2>Lo que decide esta finca pasa de noche y sin nadie delante</h2>
+      <p class="lede">El estudio de la parcela deja dos incógnitas que solo se resuelven midiendo y una tarea con horario. Las tres ocurren entre el ocaso y el amanecer.</p>
+    </div>
+    <div class="why">
+      <article>
+        <p class="said">«0,1 días de helada al año»</p>
+        <p class="src">Estudio, §2. Es un dato de satélite en malla de unos 25 km: no ve que la parcela es una hondonada.</p>
+        <p class="does">Sereno mide donde vive la planta. Cuatro sondas separan lo que pasa a ras de suelo de lo que pasa a dos metros, y un sensor infrarrojo mira al cénit para saber si la noche es serena, que es cuando el aire frío se embalsa.</p>
+      </article>
+      <article>
+        <p class="said">«Hace falta un invierno entero»</p>
+        <p class="src">Guía, §7. Y un invierno es una sola tirada de dados: puede salir suave.</p>
+        <p class="does">Con un invierno medido se ajusta cuánto se aparta la hondonada del mapa según el cielo y el viento. Esa relación se pasea por veinte inviernos de reanálisis y da una frecuencia de helada, no una anécdota.</p>
+      </article>
+      <article>
+        <p class="said">«Cada flor abre una sola noche»</p>
+        <p class="src">Guía, §5. Unas 35 mañanas de pincel al año, sin aplazamiento posible.</p>
+        <p class="does">A la una de la madrugada el farol se enciende, fotografía las plantas centinela y cuenta las flores abiertas. El mensaje dice cuántas hay en la finca, cuánto pincel toca al amanecer y cuántos kilos saldrán un mes después.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="invierno">
+  <div class="w stack-l">
+    <div class="col stack">
+      <p class="eyebrow">La guardia de invierno</p>
+      <h2>Una noche de helada, tal como la vive el aparato</h2>
+      <p>Mueve la hora. Las lecturas y los mensajes salen del firmware real, ejecutado en un PC sobre un invierno inventado: el tiempo es de juguete, la lógica no. Es la noche más fría de esa temporada simulada.</p>
+    </div>
+    <div class="two">
+      <div class="panel">
+        <div class="panel-head">
+          <div><span class="small" id="noche-fecha"></span><div class="clock" id="noche-hora">--:--</div></div>
+          <span class="sim-tag">Simulación</span>
+        </div>
+        <div class="rows" id="perfil"></div>
+        <div class="scale"><div></div><div id="perfil-escala"></div><div></div></div>
+        <div class="chips" id="noche-chips"></div>
+        <div class="controls">
+          <button class="btn" id="noche-play" type="button">Reproducir</button>
+          <input type="range" id="noche-rango" min="0" max="88" step="1" value="68" aria-label="Hora de la noche">
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>Lo que te ha cantado</h3></div>
+        <div class="feed" id="noche-feed"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>Temperatura a cada altura durante la noche (°C)</h3></div>
+      <div class="legend">
+        <span><i style="background:var(--seq-20)"></i>2 m</span><span><i style="background:var(--seq-10)"></i>1 m</span><span><i style="background:var(--seq-05)"></i>0,5 m</span><span><i style="background:var(--seq-01)"></i>0,1 m</span><span><i style="background:var(--ref)"></i>aire libre, lo que vería el mapa</span>
+      </div>
+      <div class="chart" id="g-noche"></div>
+    </div>
+
+    <div class="col stack">
+      <h2>El invierno entero: la hondonada frente al mapa</h2>
+      <p>Mínima de cada noche a ras de suelo y la que daría un dato regional. En las noches cubiertas van juntas; en las serenas la hondonada se descuelga.</p>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>Mínima nocturna, noviembre a marzo (°C)</h3><span class="sim-tag">Simulación</span></div>
+      <div class="legend"><span><i style="background:var(--frost)"></i>hondonada, a 0,1 m</span><span><i style="background:var(--ref)"></i>el mapa</span><span><i class="dot" style="background:var(--frost)"></i>noche de helada</span></div>
+      <div class="chart" id="g-temporada"></div>
+      <details class="data" id="t-temporada"><summary>Ver los datos en tabla</summary><div class="scroll"></div></details>
+    </div>
+    <div class="tiles">
+      <div class="tile"><b id="k-heladas"></b><span>noches de helada a ras de suelo; el mapa habría dicho <span id="k-mapa"></span></span></div>
+      <div class="tile"><b id="k-sesgo"></b><span>más fría que el mapa, de media, en las noches serenas</span></div>
+      <div class="tile"><b id="k-pron"></b><span>error típico del pronóstico que el aparato aprende solo, en <span id="k-pron-n"></span> noches</span></div>
+      <div class="tile"><b id="k-frio"></b><span>horas frío medidas en la temporada</span></div>
+    </div>
+    <div class="two">
+      <div class="stack">
+        <h3>De un invierno a veinte</h3>
+        <p>La herramienta <span class="num">informe_helada.py</span> se probó en bucle cerrado: un mundo de juguete con veinte inviernos y la verdad a la vista. Calibra con uno solo y proyecta los veinte. La ley con que se generó el frío no es la del modelo que se ajusta, para no hacerse trampas.</p>
+        <p class="small">Vale como prueba del método, no como predicción para esta parcela: eso exige los datos reales de este invierno y la descarga del reanálisis, que aquí no se pudo probar porque la red del entorno está cerrada.</p>
+      </div>
+      <div class="panel scroll">
+        <table>
+          <thead><tr><th>Noches al año a ras de suelo</th><th class="r">Mapa</th><th class="r">Estimado</th><th class="r">Verdad</th></tr></thead>
+          <tbody id="t-informe"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="verano">
+  <div class="w stack-l">
+    <div class="col stack">
+      <p class="eyebrow">La guardia de verano</p>
+      <h2>La flor es lo que anoche no estaba</h2>
+      <p>Una flor de pitaya es blanca, mide un palmo y dura una noche. Los postes y las gomas de riego también brillan con el destello, pero brillan todas las noches. El aparato resta lo de ayer, busca manchas claras y separa las que se tocan. No usa red neuronal ni manda la foto a ningún servidor para contar.</p>
+    </div>
+    <div class="two">
+      <div class="panel stack">
+        <div class="panel-head"><h3>Foto de la una de la madrugada</h3><span class="sim-tag">Escena sintética</span></div>
+        <div class="photo"><canvas id="foto" width="640" height="480" aria-label="Escena nocturna sintética con flores y los recuadros que el contador detecta"></canvas></div>
+        <div class="controls"><button class="btn" id="foto-cajas" type="button" aria-pressed="true">Ocultar lo que cuenta</button><span class="small" id="foto-pie"></span></div>
+      </div>
+      <div class="panel stack">
+        <h3>El parte de esa noche</h3>
+        <div class="msg cante" id="flor-parte"></div>
+        <p class="small">La cámara ve 40 plantas de 1.600, así que el número de la finca es una estimación con horquilla al 80 %. En la simulación la horquilla contiene el valor real <span id="k-horq"></span>.</p>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>Flores abiertas en la finca, noche a noche</h3><span class="sim-tag">Simulación</span></div>
+      <div class="legend"><span><i class="dot" style="background:var(--pitaya)"></i>estimación del aparato</span><span><i style="background:var(--pitaya);opacity:.45;height:8px;width:3px"></i>horquilla al 80 %</span><span><i style="background:var(--ink);width:10px;height:2px"></i>valor real simulado</span></div>
+      <div class="chart" id="g-flor"></div>
+      <details class="data" id="t-flor"><summary>Ver los datos en tabla</summary><div class="scroll"></div></details>
+    </div>
+    <div class="two">
+      <div class="panel">
+        <div class="panel-head"><h3>Kilos que maduran cada semana</h3></div>
+        <div class="chart" id="g-kilos"></div>
+      </div>
+      <div class="stack">
+        <h3>Del conteo al calendario de venta</h3>
+        <p>Cada noche de flor es una cohorte que madura entre 30 y 35 días después. Sumadas, dan los kilos por semana: lo que hace falta para comprometer fruta con una frutería o un restaurante de la costa antes de cortarla.</p>
+        <p class="small">Supuestos por defecto, todos configurables: 85 % de cuajado, 489 g por fruto con polen cruzado (guía, §5) y 30–35 días de flor a cosecha. La simulación reparte 11.000 flores en seis oleadas para acercarse a los 4.480 kg del año 6.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="anatomia">
+  <div class="w stack-l">
+    <div class="col stack">
+      <p class="eyebrow">Anatomía</p>
+      <h2>Un farol y un chuzo</h2>
+      <p>El sereno llevaba un farol y una pica. Este también: la cabeza guarda la placa, la cámara, el destello y el sensor de cielo bajo un tejadillo con placa solar; la estaca sostiene cuatro pagodas que protegen cada sonda del sol y de su propio enfriamiento por radiación.</p>
+    </div>
+    <div class="cad">
+      <figure><img src="docs/img/cabeza.png" alt="Render de la cabeza de Sereno: cuerpo de farol con ventana para cámara y destello, tejadillo inclinado con placa solar y chimenea del sensor de cielo" loading="lazy"><figcaption>El farol. Ventana para la cámara y el destello, tejadillo con la placa solar y chimenea del sensor de cielo. El tejado se monta en cuatro orientaciones para que el panel mire al sur.</figcaption></figure>
+      <figure><img src="docs/img/despiece.png" alt="Despiece de la cabeza: cuerpo, tejado, panel y anillo de la ventana del sensor de cielo" loading="lazy"><figcaption>Despiece. Tres piezas impresas más el panel; la placa entra de pie por arriba.</figcaption></figure>
+      <figure><img src="docs/img/pagoda.png" alt="Render de la pagoda: escudo de radiación de lamas cónicas con brazo para atarlo a la estaca" loading="lazy"><figcaption>La pagoda. Lamas a 45° que se imprimen sin soportes; hay una por sonda.</figcaption></figure>
+    </div>
+
+    <div class="panel wiring scroll">
+      <svg viewBox="0 0 860 430" role="img" aria-label="Esquema de conexiones de Sereno">
+        <g fill="none" stroke="var(--rule)" stroke-width="1.5">
+          <rect x="360" y="130" width="220" height="170" rx="10" fill="var(--panel-2)"/>
+          <rect x="30" y="40" width="170" height="44" rx="8"/><rect x="30" y="100" width="170" height="44" rx="8"/><rect x="30" y="160" width="170" height="44" rx="8"/><rect x="30" y="220" width="170" height="44" rx="8"/>
+          <rect x="660" y="40" width="170" height="50" rx="8"/><rect x="660" y="110" width="170" height="50" rx="8"/>
+          <rect x="660" y="225" width="170" height="74" rx="8"/>
+          <rect x="30" y="350" width="200" height="50" rx="8"/><rect x="250" y="350" width="150" height="50" rx="8"/><rect x="420" y="350" width="170" height="50" rx="8"/><rect x="610" y="350" width="220" height="50" rx="8"/>
+        </g>
+        <g fill="none" stroke="var(--frost)" stroke-width="2" stroke-linejoin="round">
+          <path d="M200 62 H235 V245 H360"/><path d="M200 122 H235"/><path d="M200 182 H235"/><path d="M200 242 H235"/>
+        </g>
+        <path d="M300 245 V222" fill="none" stroke="var(--muted)" stroke-width="2"/>
+        <g fill="none" stroke="var(--lantern-fill)" stroke-width="2" stroke-linejoin="round">
+          <path d="M580 156 H625 V65 H660"/><path d="M625 135 H660"/><path d="M580 262 H660"/>
+        </g>
+        <g fill="none" stroke="var(--muted)" stroke-width="2" stroke-linejoin="round">
+          <path d="M130 350 V325 H400 V300"/><path d="M325 350 V337 H430 V300"/><path d="M505 350 V300"/><path d="M720 350 V325 H550 V300"/>
+        </g>
+        <text x="470" y="200" text-anchor="middle" font-weight="600">LilyGO T-SIM7080G-S3</text>
+        <text x="470" y="220" text-anchor="middle" class="m">ESP32-S3 · SIM7080G · AXP2101</text>
+        <text x="368" y="262" class="m">GPIO46</text>
+        <text x="572" y="150" text-anchor="end" class="m">GPIO15 · GPIO7</text>
+        <text x="572" y="280" text-anchor="end" class="m">GPIO45 · VSYS</text>
+        <text x="44" y="60">Sonda DS18B20</text><text x="44" y="76" class="m">2 m</text>
+        <text x="44" y="120">Sonda DS18B20</text><text x="44" y="136" class="m">1 m, junto al SHT45</text>
+        <text x="44" y="180">Sonda DS18B20</text><text x="44" y="196" class="m">0,5 m</text>
+        <text x="44" y="240">Sonda DS18B20</text><text x="44" y="256" class="m">0,1 m</text>
+        <text x="246" y="216" class="m">4,7 kΩ a 3V3</text><text x="246" y="264" class="m">bus 1-Wire</text>
+        <text x="674" y="62">SHT45 · aire y humedad</text><text x="674" y="78" class="m">I2C 0x44</text>
+        <text x="674" y="132">MLX90614 · cielo</text><text x="674" y="148" class="m">I2C 0x5A</text>
+        <text x="590" y="186" class="m">I2C compartido</text><text x="590" y="201" class="m">con la PMU</text>
+        <text x="674" y="248">LED blanco 1 W</text><text x="674" y="266" class="m">AMC7135, 350 mA</text><text x="674" y="282" class="m">10 kΩ a masa</text>
+        <text x="44" y="372">Panel solar 6 V · 1–2 W</text><text x="44" y="388" class="m">entrada solar, 4,4–6 V</text>
+        <text x="264" y="372">Pila 18650</text><text x="264" y="388" class="m">≥ 2.500 mAh</text>
+        <text x="434" y="372">Cámara OV2640</text><text x="434" y="388" class="m">cinta FPC de la placa</text>
+        <text x="624" y="372">Antena LTE + SIM IoT</text><text x="624" y="388" class="m">LTE-M o NB-IoT</text>
+      </svg>
+    </div>
+    <div class="two">
+      <div class="panel scroll">
+        <table>
+          <thead><tr><th>Pieza</th><th class="r">Uds.</th><th class="r">€ aprox.</th></tr></thead>
+          <tbody>
+            <tr><td>LilyGO T-SIM7080G-S3 con cámara y antenas</td><td class="r">1</td><td class="r">34</td></tr>
+            <tr><td>Pila 18650 protegida, ≥ 2.500 mAh</td><td class="r">1</td><td class="r">6</td></tr>
+            <tr><td>Panel solar 6 V, 1–2 W</td><td class="r">1</td><td class="r">5</td></tr>
+            <tr><td>Sonda DS18B20 encapsulada, cable de 3 m</td><td class="r">4</td><td class="r">10</td></tr>
+            <tr><td>SHT45 en placa (aire y humedad)</td><td class="r">1</td><td class="r">9</td></tr>
+            <tr><td>MLX90614 (GY-906), temperatura del cielo</td><td class="r">1</td><td class="r">9</td></tr>
+            <tr><td>LED blanco 1 W en estrella + driver AMC7135</td><td class="r">1</td><td class="r">3</td></tr>
+            <tr><td>Resistencias, prensaestopas PG7, cable y bornas</td><td class="r">—</td><td class="r">5</td></tr>
+            <tr><td>SIM IoT prepago LTE-M / NB-IoT</td><td class="r">1</td><td class="r">10</td></tr>
+            <tr><td>Filamento PETG o ASA, tornillos M3, metacrilato</td><td class="r">—</td><td class="r">8</td></tr>
+            <tr><td>Estaca o tutor de 2,5 m</td><td class="r">1</td><td class="r">6</td></tr>
+            <tr><td><b>Total</b></td><td class="r"></td><td class="r"><b>≈ 105</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="stack">
+        <h3>Decisiones de diseño</h3>
+        <ul class="plain">
+          <li>Con la cámara puesta, a la placa solo le quedan dos pines libres. Todo cuelga de un bus 1-Wire, del I2C que ya usa el gestor de energía y de un pin para el destello.</li>
+          <li>Las DS18B20 traen ±0,5 °C de fábrica, justo donde se decide todo. Se corrigen una a una en un vaso de hielo con agua, que está a 0,0 °C.</li>
+          <li>Sin cobertura sigue sirviendo: apunta en su memoria y se descarga por su propia wifi pulsando un botón. El móvil le pone la hora.</li>
+          <li>Consumo estimado, sin medir: unos 50 mAh al día. Una pila de 3.000 mAh aguanta unas ocho semanas sin sol; el panel sobra incluso en diciembre.</li>
+        </ul>
+        <p class="small">Precios de memoria, sin IVA ni envío: compruébalos antes de pedir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="estado">
+  <div class="w stack-l">
+    <div class="col stack">
+      <p class="eyebrow">Qué hay y qué falta</p>
+      <h2>Comprobado en un PC. Todavía no en el campo</h2>
+      <p>Esto es un diseño completo con su lógica probada, no un aparato que ya funcione. Nada se ha impreso, soldado ni encendido.</p>
+    </div>
+    <div class="panel scroll">
+      <table>
+        <thead><tr><th>Parte</th><th>Estado</th><th>Qué se hizo exactamente</th></tr></thead>
+        <tbody>
+          <tr><td>Lógica del aparato</td><td><span class="st ok">Probada en PC</span></td><td>222 comprobaciones automáticas: sol, punto de rocío, resumen de la noche, pronóstico, conteo de flores, partes y la máquina de estados entera.</td></tr>
+          <tr><td>Temporada simulada</td><td><span class="st ok">Ejecutada</span></td><td>150 noches de invierno y un verano de junio a septiembre pasados por el mismo código que lleva la placa. El tiempo es inventado.</td></tr>
+          <tr><td>Informe a veinte años</td><td><span class="st part">A medias</span></td><td>Autoprueba en bucle cerrado superada. La descarga del reanálisis real no se pudo probar desde aquí.</td></tr>
+          <tr><td>Firmware de la placa</td><td><span class="st part">Sin compilar</span></td><td>Escrito y contrastado llamada a llamada con las fuentes de las librerías en las versiones fijadas. El entorno no deja descargar el compilador de ESP32.</td></tr>
+          <tr><td>Patillaje</td><td><span class="st part">Casi</span></td><td>Módem, cámara y gestor de energía copiados del repositorio del fabricante. Falta confirmar que el I2C sale al cabezal de la placa.</td></tr>
+          <tr><td>Carcasa</td><td><span class="st part">Modelada</span></td><td>Piezas en OpenSCAD exportadas a STL. No impresas; las medidas de la placa hay que comprobarlas con calibre.</td></tr>
+          <tr><td>Contar flores de verdad</td><td><span class="st no">Sin probar</span></td><td>Solo escenas sintéticas. Con pétalos reales, tallos por delante y viento habrá que afinar; por eso manda siempre la foto junto al número.</td></tr>
+          <tr><td>Cobertura en la parcela</td><td><span class="st no">Sin comprobar</span></td><td>El módem solo habla LTE-M y NB-IoT. En un fondo de vallejo puede no haber señal: se sabe con la SIM puesta.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="nuevo">
+  <div class="w stack-l">
+    <div class="col stack">
+      <p class="eyebrow">¿Nunca hecho?</p>
+      <h2>Las piezas existen. Esto junto, no lo he encontrado</h2>
+      <p>No puedo demostrar que nadie lo haya hecho. Cinco búsquedas dieron esto:</p>
+      <ul class="plain">
+        <li>Para la pitaya no aparece ningún aparato que polinice, ni sistema alguno que avise de la noche de flor. Un estudio de 2025 describe la polinización a mano como muy cara por la mano de obra nocturna. Lo más cercano es un artículo que cuenta flores y frutos en vídeo, y un proyecto de mantenimiento de la iluminación que se usa para forzar la floración.</li>
+        <li>Para la helada sí hay mucho: estaciones comerciales, redes densas de registradores y el método empírico de la FAO que Sereno usa para pronosticar. No he visto un producto que haga la proyección de un invierno a veinte años sin un técnico de por medio.</li>
+      </ul>
+      <p>Lo nuevo sería la combinación, el conteo de una flor de una sola noche hecho en el propio aparato y el pronóstico que aprende solo, todo en una estaca de unos cien euros.</p>
+      <p class="small">Fuentes: <a href="https://www.mdpi.com/2223-7747/14/19/3102">estudio de 2025 sobre polinización</a> · <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12526123/">ensayo con ‘Royal Red’ en cultivo protegido</a> · <a href="https://libmast.utm.my/Record/doaj.art-8c1fdbd67ae94b22a90c6c0b525ce304">conteo de flores en vídeo</a> · <a href="https://www.hackster.io/pramudyadickisaputra/bloomguard-predictive-maintenance-for-dragon-fruit-lighting-09c87f">BloomGuard</a> · <a href="https://www.fao.org/4/y7223e/y7223e0b.htm">manual de heladas de la FAO</a> · <a href="https://www.mssanz.org.au/modsim2017/H9/gobbett.pdf">redes de registradores, Gobbett y otros</a> · <a href="https://journals.ashs.org/downloadpdf/view/journals/hortsci/35/2/article-p199.pdf">conservación de polen, HortScience</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="negocio">
+  <div class="w stack-l">
+    <div class="col stack">
+      <p class="eyebrow">Negocio</p>
+      <h2>Tres formas de cobrarlo, las tres por validar</h2>
+      <p>Los precios son hipótesis mías. Los argumentos salen de las cifras del propio estudio.</p>
+    </div>
+    <div class="biz">
+      <article>
+        <p class="price">79–99 €</p>
+        <h3>El invierno de prueba</h3>
+        <p>Alquiler del aparato de noviembre a marzo con su informe de helada. Para quien va a plantar subtropicales y no sabe si su hondonada hiela. En esta finca esa respuesta separa la malla del invernadero: 30.600 € de diferencia.</p>
+      </article>
+      <article>
+        <p class="price">189–249 €</p>
+        <h3>El kit para quien ya cultiva</h3>
+        <p>Aparato en propiedad. Una flor sin polinizar son unos 2 € de fruta que no llega: 489 g a 4,50 € el kilo, con el 85 % de cuajado. Saber la víspera cuántas flores hay ordena las mañanas de quien tiene otro trabajo.</p>
+      </article>
+      <article>
+        <p class="price">5–9 € al mes</p>
+        <h3>El servicio</h3>
+        <p>Tarjeta de datos, avisos, calendario de kilos por semana y su envío a los compradores. El estudio valora el canal directo en 7 € el kilo frente a 4,50: el aparato pone la previsión que ese canal necesita.</p>
+      </article>
+    </div>
+    <p class="col small">Lo que no sé y habría que averiguar primero: cuántas hectáreas y cuántos productores de pitaya hay en España (la guía solo dice que la superficie creció un 205 % en tres años), y cuánta gente pagaría por medir una parcela antes de plantarla.</p>
+  </div>
+</section>
+
+<section id="pasos">
+  <div class="w stack-l">
+    <div class="col stack">
+      <p class="eyebrow">Si lo quieres este invierno</p>
+      <h2>La estaca tiene que estar clavada antes de las noches frías de enero</h2>
+      <ol class="steps">
+        <li>Pide las piezas de la tabla y mide la placa con calibre antes de imprimir la cabeza.</li>
+        <li>Compila el firmware con PlatformIO en tu ordenador. Es el primer paso que aquí no se pudo dar.</li>
+        <li>Prueba en la mesa, de uno en uno: sondas, sensor de aire, sensor de cielo, cámara y módem.</li>
+        <li>Calibra las cuatro sondas en hielo y apunta sus códigos en la configuración.</li>
+        <li>Clava la estaca en el punto más bajo de la parcela y comprueba la cobertura con la SIM puesta.</li>
+        <li>Mientras llega todo, un registrador comercial de 30 € colgado a un metro ya cumple el primer paso de la guía. Sereno añade el perfil, el aviso y la proyección.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="w small">Sereno · prototipo v0. Firmware, pruebas, simulación, modelos 3D y este documento están en la carpeta <span class="num">sereno/</span> del repositorio de la finca.</div>
+</footer>
+
+<script>
+const D = {"inv":{"noches":[["2026-11-02",6.3,4.1,5.2,0,1,null],["2026-11-03",7.3,6.5,6.9,0,0,null],["2026-11-04",7.0,6.0,6.5,0,1,null],["2026-11-05",6.7,5.2,6.0,0,1,null],["2026-11-06",3.5,3.0,3.2,0,0,null],["2026-11-07",5.1,3.6,4.4,0,1,null],["2026-11-08",5.8,5.5,5.6,0,0,null],["2026-11-09",9.3,9.2,9.2,0,0,null],["2026-11-10",11.3,10.7,11.0,0,0,null],["2026-11-11",8.7,8.3,8.5,0,0,null],["2026-11-12",6.1,5.8,5.9,0,0,null],["2026-11-13",10.4,10.2,10.3,0,0,null],["2026-11-14",8.5,7.6,8.1,0,0,null],["2026-11-15",7.1,6.7,6.9,0,0,null],["2026-11-16",8.2,7.5,7.9,0,0,null],["2026-11-17",10.2,9.9,10.1,0,0,null],["2026-11-18",6.5,5.3,6.0,0,1,null],["2026-11-19",7.5,6.4,7.0,0,1,null],["2026-11-20",5.7,5.6,5.6,0,0,null],["2026-11-21",9.5,9.4,9.5,0,0,null],["2026-11-22",11.1,11.1,11.1,0,0,null],["2026-11-23",11.8,11.7,11.8,0,0,null],["2026-11-24",10.1,8.7,9.4,0,1,null],["2026-11-25",10.4,8.9,9.6,0,0,null],["2026-11-26",10.1,9.6,9.9,0,0,null],["2026-11-27",10.5,10.3,10.4,0,0,null],["2026-11-28",9.8,8.9,9.4,0,0,null],["2026-11-29",10.8,6.9,9.0,0,1,null],["2026-11-30",8.9,7.1,8.1,0,1,7.3],["2026-12-01",6.7,5.9,6.4,0,0,5.7],["2026-12-02",4.2,2.6,3.4,0,1,3.3],["2026-12-03",5.4,5.1,5.2,0,0,5.1],["2026-12-04",9.5,9.3,9.4,0,0,8.5],["2026-12-05",9.7,9.7,9.7,0,0,8.7],["2026-12-06",6.9,6.2,6.5,0,0,5.9],["2026-12-07",5.8,2.8,4.2,0,1,5.3],["2026-12-08",6.3,4.7,5.6,0,1,5.8],["2026-12-09",4.2,3.3,3.8,0,0,3.5],["2026-12-10",5.4,5.1,5.3,0,0,5.0],["2026-12-11",7.1,5.3,6.2,0,1,6.2],["2026-12-12",6.0,4.9,5.5,0,1,5.3],["2026-12-13",3.3,2.2,2.8,0,1,2.9],["2026-12-14",4.0,2.8,3.4,0,1,3.3],["2026-12-15",5.7,5.4,5.6,0,0,5.0],["2026-12-16",9.4,9.2,9.3,0,0,7.7],["2026-12-17",9.8,9.8,9.8,0,0,9.0],["2026-12-18",6.0,6.0,5.9,0,0,5.2],["2026-12-19",6.9,6.9,6.9,0,0,6.2],["2026-12-20",7.7,7.6,7.6,0,0,6.5],["2026-12-21",8.1,8.0,7.9,0,0,7.0],["2026-12-22",3.6,3.6,3.6,0,0,3.2],["2026-12-23",7.7,6.1,6.9,0,1,7.1],["2026-12-24",8.7,7.9,8.3,0,0,7.5],["2026-12-25",6.8,6.1,6.4,0,0,5.9],["2026-12-26",9.5,9.4,9.5,0,0,7.8],["2026-12-27",10.5,9.9,10.2,0,0,9.9],["2026-12-28",11.5,9.1,10.4,0,1,10.7],["2026-12-29",9.8,8.9,9.4,0,0,8.3],["2026-12-30",4.6,2.4,3.5,0,1,4.5],["2026-12-31",5.7,2.7,4.4,0,1,5.2],["2027-01-01",8.1,5.2,6.7,0,1,7.1],["2027-01-02",7.7,7.7,7.8,0,0,7.0],["2027-01-03",6.4,6.2,6.2,0,0,5.9],["2027-01-04",9.3,9.1,9.1,0,0,8.2],["2027-01-05",9.5,9.4,9.5,0,0,7.8],["2027-01-06",10.9,10.1,10.4,0,0,9.7],["2027-01-07",6.5,5.1,5.9,0,1,6.5],["2027-01-08",5.5,5.2,5.4,0,0,4.8],["2027-01-09",4.1,3.3,3.7,0,0,3.7],["2027-01-10",1.0,-1.1,0.0,1,1,0.4],["2027-01-11",1.6,-0.9,0.5,1,1,1.2],["2027-01-12",4.7,4.7,4.6,0,0,3.7],["2027-01-13",6.2,5.7,6.0,0,0,5.3],["2027-01-14",6.4,6.4,6.4,0,0,4.8],["2027-01-15",10.0,9.9,10.1,0,0,9.2],["2027-01-16",5.4,3.6,4.4,0,1,4.7],["2027-01-17",3.3,0.6,2.0,0,1,2.6],["2027-01-18",8.5,7.1,7.8,0,1,7.0],["2027-01-19",5.6,4.9,5.2,0,0,4.3],["2027-01-20",4.6,4.4,4.5,0,0,4.4],["2027-01-21",6.5,4.4,5.6,0,1,5.5],["2027-01-22",7.1,3.5,5.4,0,1,6.4],["2027-01-23",8.3,7.4,7.9,0,0,6.8],["2027-01-24",7.9,4.1,6.1,0,1,6.6],["2027-01-25",9.8,7.8,8.9,0,1,8.9],["2027-01-26",13.4,13.1,13.2,0,0,12.3],["2027-01-27",10.7,9.8,10.2,0,1,9.2],["2027-01-28",6.2,6.0,6.0,0,0,5.5],["2027-01-29",4.0,3.2,3.6,0,0,4.0],["2027-01-30",6.5,6.4,6.4,0,0,5.6],["2027-01-31",8.7,8.8,8.7,0,0,7.6],["2027-02-01",7.6,6.1,6.9,0,1,6.5],["2027-02-02",5.4,5.0,5.2,0,0,4.6],["2027-02-03",5.9,5.1,5.5,0,0,5.6],["2027-02-04",4.3,3.8,4.1,0,0,3.6],["2027-02-05",3.8,2.7,3.3,0,1,2.9],["2027-02-06",4.6,1.4,3.1,0,1,3.2],["2027-02-07",10.8,10.1,10.5,0,0,9.5],["2027-02-08",9.6,9.0,9.2,0,0,8.7],["2027-02-09",9.2,8.1,8.7,0,1,8.0],["2027-02-10",5.9,5.2,5.6,0,0,4.7],["2027-02-11",3.7,1.7,2.8,0,1,2.4],["2027-02-12",4.8,2.9,3.9,0,1,3.8],["2027-02-13",8.0,6.5,7.3,0,0,7.0],["2027-02-14",5.3,4.2,4.8,0,0,4.1],["2027-02-15",5.8,4.4,5.1,0,1,5.3],["2027-02-16",5.5,4.1,4.8,0,1,4.3],["2027-02-17",7.0,5.7,6.4,0,1,6.5],["2027-02-18",6.7,4.3,5.6,0,1,5.9],["2027-02-19",3.1,1.2,2.2,0,1,2.5],["2027-02-20",2.6,1.4,2.1,0,1,1.8],["2027-02-21",4.9,3.2,4.0,0,1,3.9],["2027-02-22",6.2,5.2,5.7,0,0,5.3],["2027-02-23",4.7,2.4,3.6,0,1,3.5],["2027-02-24",7.5,3.6,5.7,0,1,6.3],["2027-02-25",6.5,5.4,6.1,0,1,5.6],["2027-02-26",10.5,8.4,9.5,0,1,9.0],["2027-02-27",8.5,8.4,8.5,0,0,7.7],["2027-02-28",10.8,6.9,9.0,0,1,9.1],["2027-03-01",9.8,8.3,9.0,0,1,8.3],["2027-03-02",9.3,6.8,8.2,0,1,7.6],["2027-03-03",12.8,11.6,12.2,0,1,11.8],["2027-03-04",11.2,9.0,10.2,0,1,10.4],["2027-03-05",10.8,7.8,9.4,0,1,9.2],["2027-03-06",11.5,10.8,11.1,0,0,10.5],["2027-03-07",14.1,14.0,14.1,0,0,12.7],["2027-03-08",12.9,12.9,12.8,0,0,11.8],["2027-03-09",13.0,13.0,13.1,0,0,11.7],["2027-03-10",8.9,8.2,8.6,0,0,8.1],["2027-03-11",7.2,5.6,6.4,0,1,6.1],["2027-03-12",10.4,9.1,9.8,0,1,9.3],["2027-03-13",7.7,4.1,5.9,0,1,6.3],["2027-03-14",7.8,4.3,6.2,0,1,6.2],["2027-03-15",9.1,4.9,7.1,0,1,7.6],["2027-03-16",11.0,10.0,10.4,0,1,9.2],["2027-03-17",11.1,8.3,9.8,0,1,9.6],["2027-03-18",9.8,8.2,9.1,0,1,8.3],["2027-03-19",10.7,9.6,10.2,0,1,9.9],["2027-03-20",11.8,7.8,9.9,0,1,10.7],["2027-03-21",10.7,8.1,9.5,0,1,9.6],["2027-03-22",9.3,7.8,8.6,0,1,7.9],["2027-03-23",10.5,10.5,10.5,0,0,9.0],["2027-03-24",7.7,6.8,7.2,0,1,6.9],["2027-03-25",10.5,9.2,9.9,0,1,9.6],["2027-03-26",8.1,6.4,7.4,0,1,6.8],["2027-03-27",8.3,7.1,7.8,0,1,7.6],["2027-03-28",8.9,8.4,8.8,0,0,7.4],["2027-03-29",7.4,7.4,7.4,0,0,6.2],["2027-03-30",8.5,8.2,8.4,0,0,7.5],["2027-03-31",9.7,8.9,9.3,0,0,8.2]],"res":{"noches":150,"heladas":2,"bajoDecision":2,"radiativas":71,"minimaRef":0.0,"minimaSuelo":-1.1,"horasFrio":554,"heladasRegionales":0,"sesgoMedio":-1.18,"sesgoRadiativas":-2.02,"errorPronostico":0.51,"nochesPronosticadas":63,"mensajes":153,"avisos":1,"alarmas":2,"veredicto":2},"noche":{"fecha":"2027-01-10","ocaso":1799514428,"orto":1799565737,"serie":[[1799514600,7.38,7.44,7.5,7.56,7.55,-28.0],[1799515200,6.81,6.94,6.94,7.12,7.1,-27.7],[1799515800,6.5,6.56,6.62,6.75,6.82,-29.5],[1799516400,6.19,6.25,6.38,6.56,6.59,-28.2],[1799517000,5.94,6.12,6.19,6.25,6.4,-26.9],[1799517600,5.75,5.88,6.0,6.12,6.22,-28.6],[1799518200,5.5,5.56,5.81,5.88,6.07,-28.0],[1799518800,5.31,5.56,5.62,5.81,5.92,-26.6],[1799519400,5.19,5.31,5.44,5.69,5.79,-28.2],[1799520000,5.06,5.19,5.38,5.5,5.66,-28.8],[1799520600,4.81,5.0,5.19,5.38,5.54,-27.4],[1799521200,4.62,4.88,5.12,5.25,5.43,-27.6],[1799521800,4.56,4.75,4.94,5.12,5.32,-27.3],[1799522400,4.38,4.62,4.88,5.06,5.21,-27.1],[1799523000,4.19,4.5,4.75,5.0,5.11,-28.2],[1799523600,4.19,4.44,4.56,4.88,5.01,-28.2],[1799524200,4.06,4.25,4.5,4.69,4.92,-27.3],[1799524800,3.94,4.38,4.38,4.69,4.83,-27.0],[1799525400,3.69,4.06,4.25,4.69,4.74,-27.7],[1799526000,3.75,3.94,4.12,4.44,4.65,-27.8],[1799526600,3.56,3.81,4.12,4.25,4.56,-27.5],[1799527200,3.5,3.81,4.06,4.31,4.48,-27.6],[1799527800,3.38,3.69,3.88,4.19,4.4,-28.8],[1799528400,3.25,3.62,3.75,4.19,4.32,-27.2],[1799529000,3.12,3.5,3.69,4.12,4.24,-28.4],[1799529600,3.12,3.38,3.62,3.88,4.17,-27.4],[1799530200,3.06,3.25,3.62,3.94,4.1,-28.2],[1799530800,2.88,3.31,3.5,3.88,4.02,-28.8],[1799531400,2.75,3.12,3.31,3.69,3.95,-29.4],[1799532000,2.75,3.06,3.44,3.56,3.88,-28.0],[1799532600,2.56,2.88,3.19,3.56,3.81,-28.1],[1799533200,2.44,2.88,3.12,3.5,3.74,-27.5],[1799533800,2.44,2.81,3.06,3.5,3.68,-26.3],[1799534400,2.38,2.69,2.94,3.38,3.61,-27.9],[1799535000,2.25,2.56,2.88,3.31,3.55,-27.6],[1799535600,2.19,2.62,2.88,3.19,3.48,-28.6],[1799536200,2.06,2.5,2.75,3.19,3.42,-29.9],[1799536800,2.0,2.38,2.69,3.12,3.36,-29.7],[1799537400,1.94,2.38,2.69,3.0,3.3,-28.0],[1799538000,1.88,2.25,2.5,2.94,3.24,-28.3],[1799538600,1.88,2.19,2.5,2.88,3.18,-27.0],[1799539200,1.69,2.12,2.44,2.81,3.12,-28.9],[1799539800,1.69,2.12,2.31,2.81,3.06,-30.4],[1799540400,1.5,2.0,2.31,2.62,3.0,-28.0],[1799541000,1.44,1.94,2.25,2.69,2.94,-26.4],[1799541600,1.5,1.75,2.19,2.62,2.89,-27.3],[1799542200,1.31,1.81,2.12,2.5,2.83,-26.4],[1799542800,1.31,1.56,2.0,2.44,2.78,-27.8],[1799543400,1.12,1.56,2.06,2.38,2.72,-28.0],[1799544000,1.06,1.5,2.0,2.31,2.67,-27.5],[1799544600,1.06,1.38,1.81,2.31,2.62,-28.9],[1799545200,0.94,1.31,1.88,2.12,2.56,-27.9],[1799545800,1.0,1.44,1.75,2.19,2.51,-28.7],[1799546400,0.81,1.38,1.75,2.12,2.46,-28.6],[1799547000,0.81,1.19,1.62,2.0,2.41,-28.5],[1799547600,0.69,1.25,1.69,2.06,2.36,-28.4],[1799548200,0.56,1.06,1.56,1.88,2.31,-28.0],[1799548800,0.62,1.06,1.5,1.94,2.26,-28.4],[1799549400,0.5,1.06,1.5,1.81,2.21,-27.1],[1799550000,0.5,1.0,1.38,1.81,2.16,-29.9],[1799550600,0.5,0.81,1.31,1.69,2.11,-28.2],[1799551200,0.25,0.75,1.31,1.75,2.06,-28.2],[1799551800,0.25,0.75,1.12,1.69,2.01,-28.5],[1799552400,0.25,0.69,1.06,1.69,1.97,-27.6],[1799553000,0.12,0.69,1.19,1.56,1.92,-27.4],[1799553600,0.12,0.62,0.94,1.5,1.87,-27.0],[1799554200,0.12,0.5,1.06,1.5,1.83,-27.5],[1799554800,-0.0,0.44,0.94,1.38,1.78,-28.5],[1799555400,-0.12,0.56,0.81,1.38,1.73,-26.8],[1799556000,-0.06,0.31,0.81,1.31,1.69,-26.7],[1799556600,-0.12,0.25,0.81,1.25,1.64,-26.0],[1799557200,-0.25,0.31,0.75,1.12,1.6,-26.2],[1799557800,-0.25,0.25,0.62,1.12,1.55,-28.7],[1799558400,-0.38,0.12,0.62,1.19,1.51,-29.9],[1799559000,-0.38,0.19,0.56,1.06,1.47,-27.6],[1799559600,-0.56,0.12,0.5,1.06,1.42,-29.6],[1799560200,-0.56,0.0,0.5,1.0,1.38,-28.8],[1799560800,-0.62,0.0,0.44,0.94,1.34,-27.4],[1799561400,-0.69,-0.12,0.44,0.88,1.29,-28.2],[1799562000,-0.69,-0.25,0.31,0.88,1.25,-28.7],[1799562600,-0.81,-0.19,0.31,0.88,1.21,-26.4],[1799563200,-0.88,-0.31,0.19,0.69,1.17,-28.6],[1799563800,-0.88,-0.38,0.25,0.81,1.13,-28.5],[1799564400,-0.94,-0.31,0.19,0.69,1.08,-26.6],[1799565000,-1.06,-0.44,0.06,0.62,1.04,-27.8],[1799565600,-1.0,-0.44,0.0,0.62,1.0,-25.9],[1799566200,-0.81,-0.19,0.19,0.75,1.01,-28.0],[1799566800,-0.12,0.25,0.5,0.88,1.07,-28.5],[1799567400,0.44,0.62,0.88,1.06,1.19,-28.3]],"mensajes":[{"t":1799521800,"hora":"20:10","txt":"Aviso de las 20:10. Noche serena: mínima prevista a 1 m de 0,4 °C (±0,5), hacia las 08:22. Helada posible."},{"t":1799555400,"hora":"05:30","txt":"¡Helando! −0,1 °C a ras de suelo a las 05:30."},{"t":1799568000,"hora":"09:00","txt":"¡Las nueve y helando!\nMínima de la noche: −1,1 °C a ras de suelo (08:10).\nPerfil: −1,1 · −0,4 · 0,0 · 0,6 °C (a 0,1 · 0,5 · 1 · 2 m).\nAire frío embalsado: hasta 1,7 °C más frío abajo que a 2 m.\nHelada: 200 min bajo cero a ras de suelo, 0 a 1 m.\nTemporada: 70 noches · 1 de helada · mínima a 1 m 0,0 °C · 256 horas frío.\nVeredicto provisional: invernadero obligatorio (1 m bajó de 1 °C)."}]}},"ver":{"noches":[["2027-06-06",83,4,4,160,70,319],["2027-06-07",160,4,4,160,70,319],["2027-06-08",401,10,9,360,217,568],["2027-06-09",183,7,9,360,217,568],["2027-06-10",135,4,4,160,70,319],["2027-06-11",78,1,1,40,4,155],["2027-06-12",21,1,1,40,4,155],["2027-06-27",148,1,1,40,4,155],["2027-06-28",232,4,4,160,70,319],["2027-06-29",395,12,11,440,281,664],["2027-06-30",357,14,13,520,346,758],["2027-07-01",185,5,7,280,156,471],["2027-07-02",132,2,2,80,21,212],["2027-07-03",32,2,2,80,21,212],["2027-07-16",231,7,7,280,156,471],["2027-07-17",892,21,21,840,615,1127],["2027-07-18",883,24,23,920,684,1218],["2027-07-19",476,8,8,320,186,520],["2027-07-20",292,4,5,200,97,371],["2027-07-21",222,7,10,400,249,616],["2027-07-22",62,3,3,120,44,267],["2027-08-04",246,7,11,440,281,664],["2027-08-05",690,14,13,520,346,758],["2027-08-06",697,17,19,760,547,1036],["2027-08-07",626,15,15,600,412,852],["2027-08-08",191,7,6,240,126,421],["2027-08-09",129,3,4,160,70,319],["2027-08-10",33,1,1,40,4,155],["2027-08-23",155,4,4,160,70,319],["2027-08-24",369,11,11,440,281,664],["2027-08-25",630,18,13,520,346,758],["2027-08-26",356,11,11,440,281,664],["2027-08-27",157,3,3,120,44,267],["2027-08-28",89,5,5,200,97,371],["2027-08-29",23,1,5,200,97,371],["2027-09-09",76,4,4,160,70,319],["2027-09-10",152,3,3,120,44,267],["2027-09-11",391,7,10,400,249,616],["2027-09-12",224,5,5,200,97,371],["2027-09-13",93,4,4,160,70,319],["2027-09-14",88,2,2,80,21,212],["2027-09-15",8,0,0,0,0,91]],"res":{"nochesConFlor":42,"totalVerdad":11023,"totalEstimado":11920,"dentroHorquilla":37,"floresReales":287,"floresVistas":298},"noche":{"fecha":"2027-08-07","ancho":320,"alto":240,"flores":[[208,52,6],[39,40,6],[250,62,7],[72,157,10],[146,141,9],[129,174,11],[27,97,8],[83,71,6],[227,83,7],[207,60,6],[203,44,6],[227,144,10],[94,57,6],[255,140,10],[213,118,9]],"cajas":[[33,34,45,46,1],[197,38,214,66,3],[87,51,100,63,1],[243,55,257,69,1],[77,65,89,77,1],[219,76,234,90,1],[18,89,36,105,1],[204,108,223,128,1],[244,130,261,150,1],[136,132,156,150,1],[216,133,238,154,1],[64,147,83,168,1],[117,162,140,186,1]],"reales":15,"vistas":15,"parte":"¡La una y floreciendo!\n15 flores abiertas en las 40 plantas centinela: unas 600 en la finca (entre 410 y 850).\nMañana toca pincel: 1 h 50 min.\nSi cuajan, unos 250 kg entre el 6 de septiembre y el 11 de septiembre."},"semanas":[["2027-06-28",0],["2027-07-05",325],["2027-07-12",207],["2027-07-19",0],["2027-07-26",351],["2027-08-02",314],["2027-08-09",23],["2027-08-16",1094],["2027-08-23",163],["2027-08-30",223],["2027-09-06",908],["2027-09-13",16],["2027-09-20",360],["2027-09-27",504],["2027-10-04",32],["2027-10-11",412],["2027-10-18",21],["2027-10-25",0]]},"informe":{"ref":{"n":151,"sigma":0.3973751900044794,"estimado":{"1.0":2.974975,"0.0":1.01085,"-2.0":0.128625},"mapa":{"1.0":1.05,"0.0":0.4,"-2.0":0.0},"verdad":{"1.0":3.2,"0.0":1.0,"-2.0":0.1}},"suelo":{"n":151,"sigma":0.41339678893314785,"estimado":{"1.0":6.707075,"0.0":3.03165,"-2.0":0.46615},"mapa":{"1.0":1.05,"0.0":0.4,"-2.0":0.0},"verdad":{"1.0":6.15,"0.0":3.1,"-2.0":0.55}}}};
+
+const $ = (id) => document.getElementById(id);
+const es = (v, d = 1) => (v === null || Number.isNaN(v) ? "—" : v.toFixed(d).replace(".", ",").replace("-", "−"));
+const miles = (v) => Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+const hora = (t) => new Date(t * 1000).toLocaleTimeString("es-ES", { timeZone: "Europe/Madrid", hour: "2-digit", minute: "2-digit" });
+const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+const fechaCorta = (iso) => { const [, m, d] = iso.split("-").map(Number); return d + " " + MESES[m - 1]; };
+const lin = (d0, d1, r0, r1) => (v) => r0 + ((v - d0) / (d1 - d0)) * (r1 - r0);
+
+function tip(host) {
+  const el = document.createElement("div");
+  el.className = "tip"; el.hidden = true; host.appendChild(el);
+  return {
+    show(x, y, html) { el.innerHTML = html; el.hidden = false; const w = host.clientWidth; const half = el.offsetWidth / 2; el.style.left = Math.min(Math.max(x, half + 2), w - half - 2) + "px"; el.style.top = Math.max(y, el.offsetHeight + 12) + "px"; },
+    hide() { el.hidden = true; },
+  };
+}
+function nearest(evt, svg, xs) {
+  const r = svg.getBoundingClientRect(); const px = evt.clientX - r.left; let best = 0, bd = Infinity;
+  xs.forEach((x, i) => { const dd = Math.abs(x - px); if (dd < bd) { bd = dd; best = i; } });
+  return best;
+}
+function onResize(el, fn) { let w = 0; const ro = new ResizeObserver(() => { const nw = el.clientWidth; if (nw && Math.abs(nw - w) > 1) { w = nw; fn(nw); } }); ro.observe(el); }
+
+/* ============================ la noche de helada ============================ */
+const N = D.inv.noche, S = N.serie;
+const NIV = [ ["2 m", 4, "--seq-20"], ["1 m", 3, "--seq-10"], ["0,5 m", 2, "--seq-05"], ["0,1 m", 1, "--seq-01"], ["aire libre", 5, "--ref"] ];
+const T_MIN = -2, T_MAX = 8;
+let idx = 68;
+
+(function perfil() {
+  $("noche-fecha").textContent = "Madrugada del " + fechaCorta(N.fecha) + " · hora peninsular";
+  $("perfil").innerHTML = NIV.map(([lab, col, tok], i) =>
+    `<div class="row"><span class="lab">${lab}</span><div class="track"><span class="zero" style="left:${((0 - T_MIN) / (T_MAX - T_MIN)) * 100}%"></span><span class="dot" id="pd${i}" style="background:var(${tok})"></span></div><span class="val num" id="pv${i}"></span></div>`).join("");
+  $("perfil-escala").innerHTML = [-2, 0, 2, 4, 6, 8].map((v) => `<span style="left:${((v - T_MIN) / (T_MAX - T_MIN)) * 100}%">${v}</span>`).join("");
+  $("noche-rango").max = S.length - 1;
+})();
+
+let dibujarCursor = () => {};
+function ponerNoche(i) {
+  idx = Math.max(0, Math.min(S.length - 1, i));
+  const r = S[idx];
+  $("noche-rango").value = idx;
+  $("noche-hora").textContent = hora(r[0]);
+  NIV.forEach(([, col], k) => {
+    const v = r[col];
+    $("pd" + k).style.left = Math.max(0, Math.min(100, ((v - T_MIN) / (T_MAX - T_MIN)) * 100)) + "%";
+    $("pv" + k).textContent = es(v) + " °C";
+  });
+  const inv = r[4] - r[1], sereno = r[6] <= -18, hiela = Math.min(r[1], r[2], r[3], r[4]) < 0;
+  $("noche-chips").innerHTML =
+    `<span class="chip ${sereno ? "on-lantern" : ""}"><i></i>${sereno ? "Cielo sereno" : r[6] >= -8 ? "Cielo cubierto" : "Cielo con velo"}</span>` +
+    `<span class="chip ${inv >= 1 ? "on-frost" : ""}"><i></i>${inv >= 1 ? "Aire frío embalsado: " + es(inv) + " °C" : "Sin embalse todavía"}</span>` +
+    `<span class="chip ${hiela ? "on-crit" : ""}"><i></i>${hiela ? "Helando abajo" : "Sin helada"}</span>`;
+  const ya = N.mensajes.filter((m) => m.t <= r[0]);
+  $("noche-feed").innerHTML = ya.length
+    ? ya.map((m) => `<div class="msg cante"><span class="t">${m.hora}</span>${m.txt.replace(/</g, "&lt;")}</div>`).join("")
+    : `<div class="empty">Todavía no ha dicho nada. A las dos horas del ocaso decide si avisa de helada; si una sonda cruza el cero, da la alarma; al amanecer canta el parte.</div>`;
+  dibujarCursor();
+}
+$("noche-rango").addEventListener("input", (e) => ponerNoche(+e.target.value));
+let reloj = null;
+$("noche-play").addEventListener("click", () => {
+  if (reloj) { clearInterval(reloj); reloj = null; $("noche-play").textContent = "Reproducir"; return; }
+  if (idx >= S.length - 1) ponerNoche(0);
+  $("noche-play").textContent = "Parar";
+  reloj = setInterval(() => { if (idx >= S.length - 1) { clearInterval(reloj); reloj = null; $("noche-play").textContent = "Reproducir"; } else ponerNoche(idx + 1); }, 110);
+});
+
+onResize($("g-noche"), (W) => {
+  const host = $("g-noche"); const H = W < 520 ? 230 : 280, m = { l: 30, r: 12, t: 10, b: 26 };
+  const x = lin(S[0][0], S[S.length - 1][0], m.l, W - m.r), y = lin(T_MIN, T_MAX, H - m.b, m.t);
+  let g = "";
+  for (let v = T_MIN; v <= T_MAX; v += 2) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(${v === 0 ? "--muted" : "--grid"})" stroke-width="1"/><text x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${String(v).replace("-", "−")}</text>`;
+  const paso = W < 520 ? 4 : 2;
+  for (let t = Math.ceil(S[0][0] / 3600) * 3600; t <= S[S.length - 1][0]; t += 3600) {
+    const h = +hora(t).slice(0, 2); if (h % paso) continue;
+    g += `<text x="${x(t)}" y="${H - 7}" text-anchor="middle">${hora(t)}</text>`;
+  }
+  const path = (col) => S.map((r, i) => (i ? "L" : "M") + x(r[0]).toFixed(1) + " " + y(r[col]).toFixed(1)).join("");
+  [5, 4, 3, 2, 1].forEach((col) => { const tok = NIV.find((n) => n[1] === col)[2]; g += `<path d="${path(col)}" fill="none" stroke="var(${tok})" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`; });
+  N.mensajes.forEach((mm) => { g += `<circle cx="${x(mm.t)}" cy="${H - m.b}" r="4.5" fill="var(--lantern-fill)" stroke="var(--panel)" stroke-width="2"><title>${mm.hora}: mensaje</title></circle>`; });
+  g += `<g id="cur"></g><rect id="zona" x="${m.l}" y="${m.t}" width="${W - m.l - m.r}" height="${H - m.t - m.b}" fill="transparent" style="cursor:crosshair"/>`;
+  host.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Temperatura a cuatro alturas y aire libre durante la noche de helada">${g}</svg>`;
+  const svg = host.querySelector("svg"), xs = S.map((r) => x(r[0]));
+  dibujarCursor = () => {
+    const r = S[idx]; let c = `<line x1="${x(r[0])}" x2="${x(r[0])}" y1="${m.t}" y2="${H - m.b}" stroke="var(--ink-2)" stroke-width="1"/>`;
+    NIV.forEach(([, col, tok]) => { c += `<circle cx="${x(r[0])}" cy="${y(r[col])}" r="4" fill="var(${tok})" stroke="var(--panel)" stroke-width="2"/>`; });
+    svg.querySelector("#cur").innerHTML = c;
+  };
+  dibujarCursor();
+  const mover = (e) => ponerNoche(nearest(e, svg, xs));
+  svg.querySelector("#zona").addEventListener("pointermove", mover);
+  svg.querySelector("#zona").addEventListener("pointerdown", mover);
+});
+ponerNoche(idx);
+
+/* ================================ la temporada ================================ */
+(function temporada() {
+  const R = D.inv.res, NS = D.inv.noches;
+  $("k-heladas").textContent = R.heladas; $("k-mapa").textContent = R.heladasRegionales;
+  $("k-sesgo").textContent = es(-R.sesgoRadiativas) + " °C"; $("k-pron").textContent = "±" + es(R.errorPronostico) + " °C";
+  $("k-pron-n").textContent = R.nochesPronosticadas; $("k-frio").textContent = miles(R.horasFrio);
+  const host = $("g-temporada"); const t = tip(host);
+  onResize(host, (W) => {
+    const H = W < 520 ? 240 : 300, m = { l: 30, r: 14, t: 14, b: 26 };
+    const x = lin(0, NS.length - 1, m.l, W - m.r), y = lin(-2, 18, H - m.b, m.t);
+    let g = "";
+    for (let v = 0; v <= 16; v += 4) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(${v === 0 ? "--muted" : "--grid"})" stroke-width="1"/><text x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+    let mesPrevio = "";
+    NS.forEach((n, i) => { const mes = n[0].slice(5, 7); if (mes !== mesPrevio) { mesPrevio = mes; g += `<text x="${x(i)}" y="${H - 7}" text-anchor="start">${MESES[+mes - 1]}</text><line x1="${x(i)}" x2="${x(i)}" y1="${H - m.b}" y2="${H - m.b + 4}" stroke="var(--muted)"/>`; } });
+    const path = (col) => NS.map((n, i) => (i ? "L" : "M") + x(i).toFixed(1) + " " + y(n[col]).toFixed(1)).join("");
+    g += `<path d="${path(1)}" fill="none" stroke="var(--ref)" stroke-width="2" stroke-linejoin="round"/>`;
+    g += `<path d="${path(2)}" fill="none" stroke="var(--frost)" stroke-width="2" stroke-linejoin="round"/>`;
+    let etiquetada = false;
+    NS.forEach((n, i) => { if (!n[4]) return; g += `<circle cx="${x(i)}" cy="${y(n[2])}" r="4.5" fill="var(--frost)" stroke="var(--panel)" stroke-width="2"/>`;
+      if (!etiquetada) { etiquetada = true; g += `<text class="strong" x="${x(i) - 10}" y="${y(n[2]) + 4}" text-anchor="end">${fechaCorta(n[0])} · ${es(n[2])} °C</text>`; } });
+    g += `<text x="${W - m.r}" y="${y(0) - 6}" text-anchor="end">0 °C</text>`;
+    g += `<line id="cruz" y1="${m.t}" y2="${H - m.b}" stroke="var(--ink-2)" stroke-width="1" visibility="hidden"/><rect id="zona" x="${m.l}" y="${m.t}" width="${W - m.l - m.r}" height="${H - m.t - m.b}" fill="transparent"/>`;
+    host.querySelector("svg")?.remove();
+    host.insertAdjacentHTML("afterbegin", `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Mínima nocturna en la hondonada y según el mapa, de noviembre a marzo">${g}</svg>`);
+    const svg = host.querySelector("svg"), xs = NS.map((_, i) => x(i)), cruz = svg.querySelector("#cruz");
+    const mover = (e) => { const i = nearest(e, svg, xs), n = NS[i]; cruz.setAttribute("x1", xs[i]); cruz.setAttribute("x2", xs[i]); cruz.setAttribute("visibility", "visible");
+      t.show(xs[i], y(Math.max(n[1], n[2])), `<b>${fechaCorta(n[0])}</b>${n[5] ? " · noche serena" : ""}<br>Hondonada, 0,1 m: <b>${es(n[2])} °C</b><br>A 1 m: ${es(n[3])} °C<br>El mapa: ${es(n[1])} °C`); };
+    const z = svg.querySelector("#zona"); z.addEventListener("pointermove", mover); z.addEventListener("pointerdown", mover);
+    z.addEventListener("pointerleave", () => { t.hide(); cruz.setAttribute("visibility", "hidden"); });
+  });
+  $("t-temporada").addEventListener("toggle", (e) => { const c = e.target.querySelector(".scroll"); if (c.childElementCount) return;
+    c.innerHTML = `<table><thead><tr><th>Noche</th><th class="r">Mapa</th><th class="r">0,1 m</th><th class="r">1 m</th><th>Serena</th></tr></thead><tbody>${NS.map((n) => `<tr><td>${fechaCorta(n[0])}</td><td class="r">${es(n[1])}</td><td class="r">${es(n[2])}</td><td class="r">${es(n[3])}</td><td>${n[5] ? "sí" : ""}</td></tr>`).join("")}</tbody></table>`; });
+  const I = D.informe.suelo, filas = [["1.0", "Por debajo de 1 °C"], ["0.0", "De helada, bajo 0 °C"], ["-2.0", "Bajo −2 °C, letal para la pitaya"]];
+  $("t-informe").innerHTML = filas.map(([k, lab]) => `<tr><td>${lab}</td><td class="r">${es(I.mapa[k])}</td><td class="r"><b>${es(I.estimado[k])}</b></td><td class="r">${es(I.verdad[k])}</td></tr>`).join("");
+})();
+
+/* ================================== el verano ================================== */
+(function verano() {
+  const V = D.ver, F = V.noche, NS = V.noches;
+  $("flor-parte").textContent = F.parte;
+  $("foto-pie").textContent = `${F.reales} flores pintadas · ${F.vistas} contadas`;
+  $("k-horq").textContent = `${V.res.dentroHorquilla} de ${V.res.nochesConFlor} noches`;
+
+  // --- la foto sintética
+  const cv = $("foto"), c = cv.getContext("2d"), k = cv.width / F.ancho; let cajas = true;
+  let s = 7; const rnd = () => { s = (s * 16807) % 2147483647; return s / 2147483647; };
+  function pintar() {
+    s = 7; c.fillStyle = "#06080d"; c.fillRect(0, 0, cv.width, cv.height);
+    const luz = c.createRadialGradient(cv.width / 2, cv.height * 0.55, 20, cv.width / 2, cv.height * 0.55, cv.width * 0.62);
+    luz.addColorStop(0, "rgba(120,130,150,0.20)"); luz.addColorStop(1, "rgba(0,0,0,0)"); c.fillStyle = luz; c.fillRect(0, 0, cv.width, cv.height);
+    c.lineCap = "round";
+    for (let i = 0; i < 26; i++) { const x = rnd() * cv.width, y0 = 40 + rnd() * 120, len = 120 + rnd() * 220; c.strokeStyle = `rgba(${30 + rnd() * 25},${70 + rnd() * 40},${52 + rnd() * 20},0.75)`; c.lineWidth = 8 + rnd() * 9; c.beginPath(); c.moveTo(x, y0); c.quadraticCurveTo(x + (rnd() - 0.5) * 60, y0 + len / 2, x + (rnd() - 0.5) * 40, y0 + len); c.stroke(); }
+    c.fillStyle = "#c7c9cc"; c.fillRect(58 * k, 20 * k, 6 * k, 220 * k); c.fillStyle = "#a9acb1"; c.fillRect(262 * k, 20 * k, 4 * k, 220 * k);
+    c.strokeStyle = "#9da0a5"; c.lineWidth = 2 * k; c.beginPath(); for (let x = 0; x <= F.ancho; x += 4) { const y = 208 + 6 * Math.sin(x / 50); x ? c.lineTo(x * k, y * k) : c.moveTo(x * k, y * k); } c.stroke();
+    F.flores.forEach(([x, y, r]) => { const lob = 6 + (rnd() < 0.5 ? 0 : 1), fase = rnd() * 6.283; c.beginPath();
+      for (let a = 0; a <= 6.3; a += 0.12) { const rr = r * (1 + 0.16 * Math.cos(lob * a + fase)) * k; const px = x * k + rr * Math.cos(a), py = y * k + rr * Math.sin(a); a ? c.lineTo(px, py) : c.moveTo(px, py); }
+      c.closePath(); c.fillStyle = "#f3efe2"; c.fill(); c.beginPath(); c.arc(x * k, y * k, r * k * 0.28, 0, 6.3); c.fillStyle = "#e7d58a"; c.fill(); });
+    if (cajas) { c.lineWidth = 2; c.font = "500 13px ui-monospace, monospace"; F.cajas.forEach(([x0, y0, x1, y1, n]) => { c.strokeStyle = "#f6c15a"; c.strokeRect(x0 * k - 3, y0 * k - 3, (x1 - x0 + 1) * k + 6, (y1 - y0 + 1) * k + 6); if (n > 1) { c.fillStyle = "#f6c15a"; c.fillText("×" + n, x1 * k + 8, y0 * k + 10); } }); }
+  }
+  pintar();
+  $("foto-cajas").addEventListener("click", (e) => { cajas = !cajas; e.target.textContent = cajas ? "Ocultar lo que cuenta" : "Ver lo que cuenta"; e.target.setAttribute("aria-pressed", cajas); pintar(); });
+
+  // --- flores noche a noche
+  const dia = (iso) => Math.round((Date.parse(iso + "T00:00:00Z") - Date.parse("2027-06-01T00:00:00Z")) / 864e5);
+  const host = $("g-flor"); const t = tip(host);
+  onResize(host, (W) => {
+    const H = W < 520 ? 240 : 300, m = { l: 40, r: 12, t: 14, b: 26 };
+    const x = lin(0, 112, m.l + 6, W - m.r - 6), y = lin(0, 1300, H - m.b, m.t);
+    let g = "";
+    for (let v = 0; v <= 1200; v += 400) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(${v === 0 ? "--muted" : "--grid"})" stroke-width="1"/><text x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${miles(v)}</text>`;
+    [["jun", 0], ["jul", 30], ["ago", 61], ["sep", 92]].forEach(([lab, d]) => { g += `<text x="${x(d)}" y="${H - 7}">${lab}</text><line x1="${x(d)}" x2="${x(d)}" y1="${H - m.b}" y2="${H - m.b + 4}" stroke="var(--muted)"/>`; });
+    NS.forEach((n) => { const px = x(dia(n[0]));
+      g += `<line x1="${px}" x2="${px}" y1="${y(n[5])}" y2="${y(n[6])}" stroke="var(--pitaya)" stroke-opacity="0.45" stroke-width="3" stroke-linecap="round"/>`;
+      g += `<line x1="${px - 5}" x2="${px + 5}" y1="${y(n[1])}" y2="${y(n[1])}" stroke="var(--ink)" stroke-width="2"/>`;
+      g += `<circle cx="${px}" cy="${y(n[4])}" r="4" fill="var(--pitaya)" stroke="var(--panel)" stroke-width="2"/>`; });
+    g += `<rect id="zona" x="${m.l}" y="${m.t}" width="${W - m.l - m.r}" height="${H - m.t - m.b}" fill="transparent"/>`;
+    host.querySelector("svg")?.remove();
+    host.insertAdjacentHTML("afterbegin", `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Flores abiertas en la finca cada noche: estimación con horquilla y valor real simulado">${g}</svg>`);
+    const svg = host.querySelector("svg"), xs = NS.map((n) => x(dia(n[0])));
+    const mover = (e) => { const i = nearest(e, svg, xs), n = NS[i]; t.show(xs[i], y(n[6]), `<b>${fechaCorta(n[0])}</b><br>En la foto: ${n[3]} flores (había ${n[2]})<br>Estimación: <b>${miles(n[4])}</b> (${miles(n[5])}–${miles(n[6])})<br>Real: ${miles(n[1])}`); };
+    const z = svg.querySelector("#zona"); z.addEventListener("pointermove", mover); z.addEventListener("pointerdown", mover); z.addEventListener("pointerleave", () => t.hide());
+  });
+  $("t-flor").addEventListener("toggle", (e) => { const cc = e.target.querySelector(".scroll"); if (cc.childElementCount) return;
+    cc.innerHTML = `<table><thead><tr><th>Noche</th><th class="r">En la foto</th><th class="r">Estimación</th><th class="r">Horquilla</th><th class="r">Real</th></tr></thead><tbody>${NS.map((n) => `<tr><td>${fechaCorta(n[0])}</td><td class="r">${n[3]}</td><td class="r">${miles(n[4])}</td><td class="r">${miles(n[5])}–${miles(n[6])}</td><td class="r">${miles(n[1])}</td></tr>`).join("")}</tbody></table>`; });
+
+  // --- kilos por semana
+  const SEM = V.semanas, hostK = $("g-kilos"); const tk = tip(hostK);
+  onResize(hostK, (W) => {
+    const H = 240, m = { l: 40, r: 8, t: 22, b: 26 }, paso = (W - m.l - m.r) / SEM.length, ancho = Math.min(24, paso - 4);
+    const maximo = Math.max(...SEM.map((w) => w[1])), tope = Math.ceil(maximo / 200) * 200 || 200;
+    const y = lin(0, tope, H - m.b, m.t); let g = "";
+    for (let v = 0; v <= tope; v += 200) g += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(${v === 0 ? "--muted" : "--grid"})" stroke-width="1"/><text x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+    let mesPrevio = "";
+    SEM.forEach((w, i) => { const cx = m.l + paso * (i + 0.5), top = y(w[1]), h = H - m.b - top, mes = w[0].slice(5, 7);
+      if (mes !== mesPrevio) { mesPrevio = mes; if (+w[0].slice(8, 10) <= 7) g += `<text x="${cx - ancho / 2}" y="${H - 7}">${MESES[+mes - 1]}</text>`; }
+      if (h > 0.5) { const r = Math.min(4, h); g += `<path d="M${cx - ancho / 2} ${H - m.b} V${top + r} q0 ${-r} ${r} ${-r} H${cx + ancho / 2 - r} q${r} 0 ${r} ${r} V${H - m.b} Z" fill="var(--pitaya)"/>`; }
+      if (w[1] === maximo) g += `<text class="strong" x="${cx}" y="${top - 6}" text-anchor="middle">${miles(w[1])} kg</text>`;
+      g += `<rect data-i="${i}" x="${cx - paso / 2}" y="${m.t}" width="${paso}" height="${H - m.t - m.b}" fill="transparent"/>`; });
+    hostK.querySelector("svg")?.remove();
+    hostK.insertAdjacentHTML("afterbegin", `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Kilos de fruta que maduran cada semana">${g}</svg>`);
+    hostK.querySelectorAll("rect[data-i]").forEach((r) => { const i = +r.dataset.i, w = SEM[i]; const cx = m.l + paso * (i + 0.5);
+      const ver = () => tk.show(cx, y(w[1]), `<b>Semana del ${fechaCorta(w[0])}</b><br>${miles(w[1])} kg`);
+      r.addEventListener("pointermove", ver); r.addEventListener("pointerdown", ver); r.addEventListener("pointerleave", () => tk.hide()); });
+  });
+})();
+</script>
+
+</body>
+</html>
