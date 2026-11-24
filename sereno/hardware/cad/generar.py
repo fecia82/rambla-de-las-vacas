@@ -34,12 +34,12 @@ PIEZAS = ["farol_cuerpo", "farol_tejado", "anillo_cielo", "pagoda"]
 # cara frontal quede iluminada al mirar desde la izquierda se dibuja el modelo
 # reflejado en X y después se voltea la imagen (la geometría sale correcta).
 VISTAS = {
-    "conjunto": dict(pieza="conjunto", camara=(70, -30, 1150, 80, 0, 325, 6350),
+    "conjunto": dict(pieza="conjunto", camara=(70, -30, 1185, 80, 0, 325, 6450),
                      orto=True, espejo=True),
-    "cabeza": dict(pieza="cabeza", camara=(0, 0, 105, 73, 0, 325, 760), espejo=True),
-    "despiece": dict(pieza="despiece", camara=(0, 0, 215, 73, 0, 325, 1500), espejo=True),
+    "cabeza": dict(pieza="cabeza", camara=(0, 0, 100, 75, 0, 322, 760), espejo=True),
+    "despiece": dict(pieza="despiece", camara=(0, 0, 208, 75, 0, 322, 1330), espejo=True),
     "cabeza_corte": dict(pieza="cabeza_corte", camara=(0, 8, 105, 90, 0, 90, 640), orto=True),
-    "pagoda": dict(pieza="pagoda_montada", camara=(32, 0, 36, 74, 0, 325, 400), espejo=True),
+    "pagoda": dict(pieza="pagoda_montada", camara=(38, 0, 34, 63, 0, 60, 400)),
     "pagoda_corte": dict(pieza="pagoda_corte", camara=(32, 0, 36, 84, 0, 0, 420), orto=True),
 }
 

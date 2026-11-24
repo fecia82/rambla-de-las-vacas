@@ -1,5 +1,5 @@
 // =====================================================================
-//  SERENO — piezas imprimibles del chuzo de vela nocturna
+//  SERENO — piezas imprimibles del chuzo de vigilancia nocturna
 // ---------------------------------------------------------------------
 //  Un chuzo (poste Ø25–50 mm, ~2,3 m sobre el suelo, NO se imprime) lleva:
 //    · 4 sondas de temperatura a 0,10 / 0,50 / 1,00 / 2,00 m, cada una
@@ -14,6 +14,7 @@
 //    conjunto · cabeza · despiece · cabeza_corte · pagoda_montada · pagoda_corte
 //
 //  Exportar:  openscad -o ../stl/pagoda.stl -D 'pieza="pagoda"' sereno.scad
+//  Todo de una vez (STL + imágenes + comprobaciones):  python3 generar.py
 //
 //  Unidades: mm.  Boquilla 0,4 · PETG o ASA · sin soportes.
 //  NADA de esto se ha impreso todavía: comprobar medidas antes de imprimir.
@@ -95,7 +96,7 @@ led_x = 8.5;
 // Lado del asiento plano para la PCB "estrella" de 20 mm
 led_asiento = 26;
 // Resalte del asiento hacia el interior
-led_resalte = 3;
+led_resalte = 3.5;
 // Separación entre los dos tornillos M3 de la estrella
 led_torn_sep = 19;
 
@@ -283,7 +284,6 @@ silla_alto = cuerpo_alto - faldon - 2;
 silla_v_fondo = (silla_v_ancho/2)/tan(silla_ang/2);
 brida_sep = 0.4;                                   // piel extra entre la pared y el paso de brida
 silla_vertice = brida_sep + brida_grosor + silla_alma;      // del dorso del cuerpo al vértice de la V
-silla_fondo = silla_vertice + silla_v_fondo;
 brida_z = [22, silla_alto - 22];
 // eje del chuzo respecto al centro del cuerpo (chuzo redondo apoyado en la V)
 function y_estaca(d) = cuerpo_lado/2 + silla_vertice + (d/2)/sin(silla_ang/2);
@@ -303,7 +303,7 @@ asiento_n = (tej_boca - int_x)/2;                  // lo que estrecha el cono de
 z_desvan = z_asiento + asiento_n + 1.2;            // suelo del desván
 y_techo = tej_largo/2 - tej_b;                     // pared interior alta
 z_techo = z_tej(y_techo) - techo_min;              // techo interior en la pared alta
-chim_y = tej_largo/2 - chim_d/2 - 0.5;
+chim_y = tej_largo/2 - chim_d/2 + 1.0;             // el fuste queda enrasado con la pared alta
 z_chim = z_cumbrera + chim_sobre;                  // boca de la chimenea
 z_cuello = z_chim - cuello_h;                      // hombro donde apoya el anillo
 z_goteron = z_cuello - goteron_h - (goteron_d - chim_d)/2;
@@ -327,7 +327,6 @@ r_n = r_a + nervio_radial;
 psilla_x = pag_R + brazo_largo;                    // dorso de la silla
 psilla_v_fondo = (psilla_v_ancho/2)/tan(silla_ang/2);
 psilla_vertice = pared + pbrida[1] + silla_alma;
-psilla_fondo = psilla_vertice + psilla_v_fondo;
 function x_estaca_pag(d) = psilla_x + psilla_vertice + (d/2)/sin(silla_ang/2);
 pag_z_sensor = pag_alto - (tapa_grosor + jaula_alto/2);   // centro de la jaula, ya montada
 
@@ -335,7 +334,9 @@ pag_z_sensor = pag_alto - (tapa_grosor + jaula_alto/2);   // centro de la jaula,
 assert(int_x >= placa_ancho + 2*holgura + 1, "La placa no cabe a lo ancho: aumenta cuerpo_lado");
 assert(placa_y_frente - y_int_frente >= led_resalte + 12, "Falta fondo delante de la placa para LED y cámara");
 assert(pared_frontal - vent_fondo >= pared - eps, "La pared tras el cristal queda por debajo de la pared mínima");
-assert(z_goteron > z_tej(chim_y + chim_d/2), "El goterón de la chimenea queda enterrado en el tejado: sube chim_sobre");
+assert(z_goteron > z_cumbrera, "El goterón de la chimenea queda enterrado en el tejado: sube chim_sobre");
+assert(chim_y + cielo_d/2 < y_techo, "El taladro del sensor muerde la pared alta del tejado");
+assert(tej_largo/2 - chim_y > cuello_d/2 + 0.4, "El cuello de la chimenea se sale por detrás");
 assert(tej_largo >= tej_base + 8, "El tejado no vuela sobre el cuerpo: aumenta tej_largo");
 assert(tapa_grosor > lama_v, "tapa_grosor debe superar el grosor vertical de la lama");
 
@@ -592,13 +593,17 @@ module paso_cable_panel() {
         cylinder(d = panel_cable_d, h = 34, $fn = fn_fino);
 }
 
-// Chimenea del sensor de cielo: fuste, goterón a 45° y cuello para el anillo
+// Chimenea del sensor de cielo: fuste, goterón a 45° y cuello para el anillo.
+// Se recorta a paño con la pared alta del tejado (sin voladizo por detrás).
 module chimenea_maciza() {
-    translate([0, chim_y, 0]) rotate_extrude(convexity = 4) polygon([
-        [0, z_chim0], [chim_d/2, z_chim0], [chim_d/2, z_goteron],
-        [goteron_d/2, z_cuello - goteron_h], [goteron_d/2, z_cuello - 0.5],
-        [goteron_d/2 - 0.5, z_cuello], [cuello_d/2, z_cuello], [cuello_d/2, z_chim],
-        [0, z_chim]]);
+    intersection() {
+        translate([0, chim_y, 0]) rotate_extrude(convexity = 4) polygon([
+            [0, z_chim0], [chim_d/2, z_chim0], [chim_d/2, z_goteron],
+            [goteron_d/2, z_cuello - goteron_h], [goteron_d/2, z_cuello - 0.5],
+            [goteron_d/2 - 0.5, z_cuello], [cuello_d/2, z_cuello], [cuello_d/2, z_chim],
+            [0, z_chim]]);
+        translate([-G/2, tej_largo/2 - G, 0]) cube(G);
+    }
 }
 
 // Taladro de la cápsula TO-39 (entra desde el desván) y labio de retención
@@ -743,14 +748,17 @@ module pinta(c, corte = false) {
     } else color(c) render(convexity = 12) children();
 }
 
-// Pagoda montada cortada por el plano Y = 0 (se mira desde -Y)
+// Pagoda montada y cortada, vista desde -Y. El plano de corte pasa rozando el
+// nervio y el alma del brazo (sin cortarlos a lo largo) para que la sección
+// enseñe las láminas finas: tapa, lamas, jaula, embudo y collarín.
 module pagoda_corte() {
+    yc = -(nervio_grosor/2 + 0.4);
     color(col_pagoda) render(convexity = 16) difference() {
         pagoda_montada();
-        translate([-G/2, -G, -G/2]) cube(G);
+        translate([-G/2, yc - G, -G/2]) cube(G);
     }
-    color(col_tejado) translate([0, -0.2, 0]) rotate([-90, 0, 0]) linear_extrude(0.2)
-        projection(cut = true) rotate([90, 0, 0]) pagoda_montada();
+    color(col_tejado) translate([0, yc - 0.2, 0]) rotate([-90, 0, 0]) linear_extrude(0.2)
+        projection(cut = true) rotate([90, 0, 0]) translate([0, -yc, 0]) pagoda_montada();
 }
 
 // Rótulo encarado a la cámara
@@ -772,8 +780,8 @@ module cabeza(e = 0, corte = false, con_estaca = true) {
         translate([-panel[0]/2, panel_s, -panel_rebaje + e*38]) cube(panel);
     pinta(col_anillo, corte) translate([0, 0, zt]) rotate([0, 0, giro])
         translate([0, chim_y, z_cuello + anillo_h + e*30]) rotate([180, 0, 0]) anillo_cielo();
-    if (e > 0) color([1, 1, 1, 0.55]) translate([0, 0, zt]) rotate([0, 0, giro])
-        translate([0, chim_y, z_chim + e*14]) cylinder(d = 28, h = 0.3);
+    if (e > 0) color([0.55, 0.80, 0.90, 0.6]) translate([0, 0, zt]) rotate([0, 0, giro])
+        translate([0, chim_y, z_chim + e*14]) cylinder(d = 28, h = 0.4);
 
     // placa (envolvente sin verificar)
     pinta(col_placa, corte)
@@ -786,7 +794,7 @@ module cabeza(e = 0, corte = false, con_estaca = true) {
 
     // cristal de metacrilato de la ventana
     color([0.62, 0.82, 0.95, 0.35])
-        translate([-(vent_ancho - 0.6)/2, -cuerpo_lado/2 + vent_fondo - 1.5 - e*40,
+        translate([-(vent_ancho - 0.6)/2, -cuerpo_lado/2 + vent_fondo - 1.55 - e*40,
                    vent_z - (vent_alto - 0.6)/2])
             cube([(vent_ancho - 0.6)/(corte ? 2 : 1), 1.5, vent_alto - 0.6]);
 }
